@@ -2,9 +2,9 @@
 gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: — Teemajärjestelmä
-status: phase_complete
-stopped_at: "Completed 06-02-PLAN.md"
-last_updated: "2026-06-22T16:05:00.000Z"
+status: "Phase 06 valmis — seuraava: Phase 07 (oletusteman rakenne)"
+stopped_at: Phase 7 context gathered
+last_updated: "2026-07-02T17:15:40.333Z"
 last_activity: 2026-06-22 -- Phase 06 Plan 02 completed
 progress:
   total_phases: 4
@@ -75,6 +75,6 @@ Progress: [██████░░░░] 60% (v1.1 scope)
 
 ## Session Continuity
 
-Last session: 2026-06-22T16:05:00.000Z
-Stopped at: Completed 06-02-PLAN.md (Phase 06 valmis)
-Resume file: .planning/phases/07-oletusteman-rakenne/07-01-PLAN.md
+Last session: 2026-07-02T17:15:40.301Z
+Stopped at: Phase 7 context gathered
+Resume file: .planning/phases/07-oletusteman-rakenne/07-CONTEXT.md
