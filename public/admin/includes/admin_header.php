@@ -191,6 +191,15 @@ $_adminTheme = $GLOBALS['color_theme'];
     .photo-limit-fill { height: 100%; border-radius: 3px; background: var(--color-gold, #c9a84c); }
     .photo-limit-fill.full { background: var(--color-danger, #8a3030); }
 
+    /* ── PHOTO PICKER (näyttelytulos ↔ kuva) ───── */
+    .photo-pick-grid { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .photo-pick-thumb { width: 60px; height: 60px; border-radius: 6px; border: 2px solid var(--color-border, #e0d5c5); overflow: hidden; cursor: pointer; background: var(--color-parchment, #f5ede0); transition: all 0.15s; display: flex; align-items: center; justify-content: center; }
+    .photo-pick-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .photo-pick-thumb:hover { border-color: var(--color-accent, #a0633a); }
+    .photo-pick-thumb.selected { border-color: var(--color-gold, #c9a84c); box-shadow: 0 0 0 2px rgba(201,168,76,0.35); }
+    .photo-pick-none { font-size: 0.6rem; color: var(--color-text-muted, #6b5e52); text-align: center; padding: 2px; line-height: 1.2; }
+    .sr-photo-thumb { width: 28px; height: 28px; border-radius: 4px; object-fit: cover; vertical-align: middle; border: 1px solid var(--color-border, #e0d5c5); }
+
     /* ── SLIDE-IN PANEL (008-B) ────────────────── */
     .admin-slide-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.3); z-index: 500; display: none; }
     .admin-slide-overlay.open { display: block; }
@@ -294,6 +303,8 @@ $_adminTheme = $GLOBALS['color_theme'];
          href="<?= e(SITE_URL) ?>/admin/kasvatus_all.php">🌱 Kasvatus</a>
       <a class="admin-nav-item <?= in_array($_activePage, ['kilpailut_all','competitions']) ? 'active' : '' ?>"
          href="<?= e(SITE_URL) ?>/admin/kilpailut_all.php">🏆 Kilpailut</a>
+      <a class="admin-nav-item <?= in_array($_activePage, ['showrecords_all','showrecords']) ? 'active' : '' ?>"
+         href="<?= e(SITE_URL) ?>/admin/showrecords_all.php">🎀 Näyttelyt</a>
       <div class="admin-nav-section">Media</div>
       <a class="admin-nav-item <?= in_array($_activePage, ['kuvat_all','photos','photo_delete']) ? 'active' : '' ?>"
          href="<?= e(SITE_URL) ?>/admin/kuvat_all.php">📷 Kuvat</a>

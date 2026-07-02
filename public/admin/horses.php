@@ -64,6 +64,7 @@ require __DIR__ . '/includes/admin_header.php';
       <a href="<?= e(SITE_URL) ?>/admin/photos.php?horse_id=<?= (int)$horse['id'] ?>" class="btn-sm btn-photos">📷 Kuvat</a>
       <a href="<?= e(SITE_URL) ?>/admin/foals.php?horse_id=<?= (int)$horse['id'] ?>" class="btn-sm">🌱 Kasvatus</a>
       <a href="<?= e(SITE_URL) ?>/admin/competitions.php?horse_id=<?= (int)$horse['id'] ?>" class="btn-sm">🏆 Kilpailut</a>
+      <a href="<?= e(SITE_URL) ?>/admin/showrecords.php?horse_id=<?= (int)$horse['id'] ?>" class="btn-sm">🎀 Näyttelyt</a>
       <form method="post" action="<?= e(SITE_URL) ?>/admin/horse_delete.php" style="display:inline">
         <input type="hidden" name="csrf_token" value="<?= e(generate_csrf_token()) ?>">
         <input type="hidden" name="id" value="<?= (int)$horse['id'] ?>">

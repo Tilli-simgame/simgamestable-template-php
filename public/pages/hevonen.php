@@ -86,6 +86,19 @@ $stmtComp = $db->prepare(
 $stmtComp->execute([':id' => $id]);
 $competitions = $stmtComp->fetchAll();
 
+// Hae näyttelytulokset
+$stmtShow = $db->prepare(
+    'SELECT s.show_date, s.discipline, s.country, s.organizer, s.organizer_url,
+            s.class, s.placement, s.points, s.review, s.notes,
+            jc.nickname AS judge_nickname, jc.stable_name AS judge_stable_name, jc.email AS judge_email,
+            p.filename AS photo_filename, p.title AS photo_title, p.original_name AS photo_original_name
+     FROM showrecords s LEFT JOIN contacts jc ON jc.id = s.judge_contact_id
+     LEFT JOIN horse_photos p ON p.id = s.photo_id
+     WHERE s.horse_id = :id ORDER BY s.show_date DESC'
+);
+$stmtShow->execute([':id' => $id]);
+$showrecords = $stmtShow->fetchAll();
+
 // Hae kuvat
 $stmtPhotos = $db->prepare(
     'SELECT filename, original_name, title, caption FROM horse_photos
@@ -465,6 +478,56 @@ if ($contactRows): ?>
             <div class="comp-cell" data-label="Tulos"><?= e($comp['placement'] ?? '—') ?></div>
             <div class="comp-cell" data-label="Pisteet"><?= $comp['points'] !== null ? e((string)$comp['points']) : '—' ?></div>
             <div class="comp-cell" data-label="Huom"><?= e($comp['notes'] ?? '') ?></div>
+          </div>
+        <?php endforeach; ?>
+      </div>
+    <?php endif; ?>
+  </section>
+
+  <!-- Näyttelytulokset — koko leveys -->
+  <section class="profile-fullwidth">
+    <h2>Näyttelytulokset</h2>
+    <?php if (empty($showrecords)): ?>
+      <p style="color:var(--color-text-muted);font-family:var(--font-sans);font-size:var(--text-sm);">Ei näyttelytuloksia.</p>
+    <?php else: ?>
+      <div class="comp-list">
+        <div class="comp-header">
+          <div>PVM</div>
+          <div>Laji</div>
+          <div>Maa</div>
+          <div>Järjestäjä</div>
+          <div>Luokka</div>
+          <div>Tulos</div>
+          <div>Pisteet</div>
+          <div>Tuomari</div>
+          <div>Arvostelu</div>
+        </div>
+        <?php foreach ($showrecords as $s):
+          $judgeLabel = trim(($s['judge_nickname'] ?? '') . ' ' . ($s['judge_stable_name'] ?? ''));
+          $judgeHtml  = $judgeLabel !== '' && !empty($s['judge_email'])
+              ? '<a href="mailto:' . e($s['judge_email']) . '">' . e($judgeLabel) . '</a>'
+              : e($judgeLabel);
+        ?>
+          <div class="comp-row">
+            <div class="comp-cell" data-label="PVM"><?= e(formatDate($s['show_date'])) ?></div>
+            <div class="comp-cell" data-label="Laji"><?= e($s['discipline'] ?? '—') ?></div>
+            <div class="comp-cell" data-label="Maa"><?= e($s['country'] ?? '—') ?></div>
+            <div class="comp-cell" data-label="Järjestäjä">
+              <?php if (!empty($s['photo_filename'])): ?>
+                <img src="<?= e(UPLOADS_URL . $s['photo_filename']) ?>" alt="<?= e($s['photo_title'] ?? $s['photo_original_name'] ?? '') ?>"
+                     style="width:28px;height:28px;object-fit:cover;border-radius:4px;border:1px solid var(--color-border-warm);vertical-align:middle;margin-right:.35rem;">
+              <?php endif; ?>
+              <?php if (!empty($s['organizer_url'])): ?>
+                <a href="<?= e($s['organizer_url']) ?>" target="_blank" rel="noopener"><?= e($s['organizer'] ?? '—') ?></a>
+              <?php else: ?>
+                <?= e($s['organizer'] ?? '—') ?>
+              <?php endif; ?>
+            </div>
+            <div class="comp-cell" data-label="Luokka"><?= e($s['class'] ?? '—') ?></div>
+            <div class="comp-cell" data-label="Tulos"><?= e($s['placement'] ?? '—') ?></div>
+            <div class="comp-cell" data-label="Pisteet"><?= $s['points'] !== null ? e((string)$s['points']) : '—' ?></div>
+            <div class="comp-cell" data-label="Tuomari"><?= $judgeLabel !== '' ? $judgeHtml : '—' ?></div>
+            <div class="comp-cell" data-label="Arvostelu"><?= $s['review'] ? nl2br(e($s['review'])) : '—' ?></div>
           </div>
         <?php endforeach; ?>
       </div>
