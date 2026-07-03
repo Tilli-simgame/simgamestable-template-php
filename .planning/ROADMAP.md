@@ -217,6 +217,6 @@ Plans:
 | 4. Tietoturva & Viimeistely | 2/2 | Complete | 2026-06-18 |
 | 5. Blogi | 0/0 | Complete | 2026-06-18 |
 | 6. Teema-infrastruktuuri | 2/2 | Complete | 2026-06-22 |
-| 7. Oletusteman rakenne | 4/4 | Complete   | 2026-07-03 |
+| 7. Oletusteman rakenne | 4/4 | Complete    | 2026-07-03 |
 | 8. Sivukontrollerien migraatio | 0/? | Not started | - |
 | 9. Admin-teemavalinta & Altervista-verifiointi | 0/? | Not started | - |
