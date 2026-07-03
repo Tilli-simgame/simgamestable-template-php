@@ -162,7 +162,7 @@ Plans:
   3. `public/themes/default/assets/css/style.css` palvelee teeman tyylit; `public/assets/css/style.css` pysyy muuttumattomana (admin käyttää sitä)
   4. `public/themes/default/theme.json` on olemassa ja sisältää nimen ja version
 
-**Plans**: 4 plans
+**Plans**: 3/4 plans executed
 
 Plans:
 **Wave 1**
@@ -171,8 +171,8 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 07-02-PLAN.md — 4 sivupohjaa: index, hevoset, kasvatus, yhteystiedot (THEME-06)
-- [ ] 07-03-PLAN.md — sivupohja: hevonen (yksittäisen hevosen profiili) (THEME-06)
+- [x] 07-02-PLAN.md — 4 sivupohjaa: index, hevoset, kasvatus, yhteystiedot (THEME-06)
+- [x] 07-03-PLAN.md — sivupohja: hevonen (yksittäisen hevosen profiili) (THEME-06)
 - [ ] 07-04-PLAN.md — 2 sivupohjaa: ajankohtaista (blogilistaus), postaus (THEME-06)
 
 **UI hint**: yes
@@ -217,6 +217,6 @@ Plans:
 | 4. Tietoturva & Viimeistely | 2/2 | Complete | 2026-06-18 |
 | 5. Blogi | 0/0 | Complete | 2026-06-18 |
 | 6. Teema-infrastruktuuri | 2/2 | Complete | 2026-06-22 |
-| 7. Oletusteman rakenne | 1/4 | In Progress|  |
+| 7. Oletusteman rakenne | 3/4 | In Progress|  |
 | 8. Sivukontrollerien migraatio | 0/? | Not started | - |
 | 9. Admin-teemavalinta & Altervista-verifiointi | 0/? | Not started | - |

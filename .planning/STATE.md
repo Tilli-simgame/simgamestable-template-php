@@ -2,15 +2,18 @@
 gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: — Teemajärjestelmä
+current_phase: 07
+current_phase_name: oletusteman-rakenne
 status: executing
 stopped_at: Completed 07-01-PLAN.md
-last_updated: "2026-07-03T07:54:27.053Z"
-last_activity: 2026-07-03 -- Phase 07 execution started
+last_updated: "2026-07-03T15:20:16.260Z"
+last_activity: 2026-07-03
+last_activity_desc: Phase 07 execution started
 progress:
   total_phases: 4
   completed_phases: 1
   total_plans: 6
-  completed_plans: 3
+  completed_plans: 5
   percent: 25
 ---
 
@@ -26,7 +29,7 @@ See: .planning/PROJECT.md (updated 2026-06-22)
 ## Current Position
 
 Phase: 07 (oletusteman-rakenne) — EXECUTING
-Plan: 2 of 4
+Plan: 3 of 4
 Status: Ready to execute
 Last activity: 2026-07-03 -- Phase 07 execution started
 
@@ -68,6 +71,7 @@ Progress: [██████░░░░] 60% (v1.1 scope)
 - v1.1 Plan 01: theme.json vain name+version — description/author/preview ovat V2-05 laajennuksia
 - v1.1 Plan 02: resolveThemePath() käyttää str_starts_with + string|false union type (PHP 8.0+); Altervista-yhteensopivuus varmistetaan Phase 9:ssä
 - v1.1 Plan 02: realpath()-fallback shimissä — shim ei kuole vaikka themes/-hakemisto puuttuu käynnistyksessä
+- [Phase ?]: v1.1 Plan 07-03: pedigreeHorseLink() ja pedigreeCell() säilytetty hevonen.php-sivupohjan sisällä (ei helpers.php:ssä) — PHP ei salli funktioiden kaksoismäärittelyä
 
 ### Blockers/Concerns
 
@@ -75,7 +79,7 @@ Progress: [██████░░░░] 60% (v1.1 scope)
 
 ## Session Continuity
 
-Last session: 2026-07-03T07:54:27.035Z
+Last session: 2026-07-03T15:17:53.360Z
 Stopped at: Completed 07-01-PLAN.md
 Resume file: None
 
@@ -84,3 +88,4 @@ Resume file: None
 | Phase | Plan | Duration | Notes |
 |-------|------|----------|-------|
 | Phase 07 P01 | 10min | 2 tasks | 4 files |
+| Phase 07 P03 | 12min | 1 tasks | 1 files |
