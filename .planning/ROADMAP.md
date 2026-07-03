@@ -167,7 +167,7 @@ Plans:
 Plans:
 **Wave 1**
 
-- [ ] 07-01-PLAN.md — teeman includet (header/footer/nav) + style.css + theme.json (THEME-05, THEME-07)
+- [x] 07-01-PLAN.md — teeman includet (header/footer/nav) + style.css + theme.json (THEME-05, THEME-07)
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
@@ -217,6 +217,6 @@ Plans:
 | 4. Tietoturva & Viimeistely | 2/2 | Complete | 2026-06-18 |
 | 5. Blogi | 0/0 | Complete | 2026-06-18 |
 | 6. Teema-infrastruktuuri | 2/2 | Complete | 2026-06-22 |
-| 7. Oletusteman rakenne | 0/4 | Not started | - |
+| 7. Oletusteman rakenne | 1/4 | In Progress|  |
 | 8. Sivukontrollerien migraatio | 0/? | Not started | - |
 | 9. Admin-teemavalinta & Altervista-verifiointi | 0/? | Not started | - |

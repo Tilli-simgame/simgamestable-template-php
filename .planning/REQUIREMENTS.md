@@ -93,9 +93,9 @@
 
 ### Oletustema
 
-- [ ] **THEME-05**: Oletustema sisältää `public/themes/default/includes/` — header.php, footer.php, nav.php nykyisen ilmeen mukaan
+- [x] **THEME-05**: Oletustema sisältää `public/themes/default/includes/` — header.php, footer.php, nav.php nykyisen ilmeen mukaan
 - [ ] **THEME-06**: Oletustema sisältää `public/themes/default/pages/` — kaikki 7 julkista sivupohjaa (index, hevoset, hevonen, kasvatus, yhteystiedot, blogi, postaus)
-- [ ] **THEME-07**: Oletustema sisältää `public/themes/default/assets/css/style.css` nykyisten tyylien mukaan
+- [x] **THEME-07**: Oletustema sisältää `public/themes/default/assets/css/style.css` nykyisten tyylien mukaan
 
 ### Sivukontrollerien migraatio
 
