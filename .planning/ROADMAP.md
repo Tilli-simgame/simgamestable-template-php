@@ -16,7 +16,7 @@ Projekti rakentaa PHP/MySQL-pohjaisen virtuaalitallin kokonaan uudelleen: ensin 
 - [x] **Phase 4: Tietoturva & Viimeistely** - OWASP, CSRF, XSS ja Altervista-deployment
 - [x] **Phase 5: Blogi** - Postausten hallinta adminissa, julkinen postauslista ja yksittäinen postaussivu arkistosidebarilla (completed 2026-06-18)
 - [ ] **Phase 6: Teema-infrastruktuuri** - theme.php-shim, DB-migraatio, resolveThemePath()-helper ja julkinen/admin-eristys
-- [ ] **Phase 7: Oletusteman rakenne** - public/themes/default/-rakenne: includes, sivupohjat, CSS ja theme.json
+- [x] **Phase 7: Oletusteman rakenne** - public/themes/default/-rakenne: includes, sivupohjat, CSS ja theme.json (completed 2026-07-03)
 - [ ] **Phase 8: Sivukontrollerien migraatio** - Kaikki 7 julkista sivukontrolleria muuttuvat data-only-kontrollereiksi
 - [ ] **Phase 9: Admin-teemavalinta & Altervista-verifiointi** - Admin voi valita teeman; järjestelmä toimii tuotannossa
 
@@ -162,7 +162,7 @@ Plans:
   3. `public/themes/default/assets/css/style.css` palvelee teeman tyylit; `public/assets/css/style.css` pysyy muuttumattomana (admin käyttää sitä)
   4. `public/themes/default/theme.json` on olemassa ja sisältää nimen ja version
 
-**Plans**: 3/4 plans executed
+**Plans**: 4/4 plans complete
 
 Plans:
 **Wave 1**
@@ -173,7 +173,7 @@ Plans:
 
 - [x] 07-02-PLAN.md — 4 sivupohjaa: index, hevoset, kasvatus, yhteystiedot (THEME-06)
 - [x] 07-03-PLAN.md — sivupohja: hevonen (yksittäisen hevosen profiili) (THEME-06)
-- [ ] 07-04-PLAN.md — 2 sivupohjaa: ajankohtaista (blogilistaus), postaus (THEME-06)
+- [x] 07-04-PLAN.md — 2 sivupohjaa: ajankohtaista (blogilistaus), postaus (THEME-06)
 
 **UI hint**: yes
 
@@ -217,6 +217,6 @@ Plans:
 | 4. Tietoturva & Viimeistely | 2/2 | Complete | 2026-06-18 |
 | 5. Blogi | 0/0 | Complete | 2026-06-18 |
 | 6. Teema-infrastruktuuri | 2/2 | Complete | 2026-06-22 |
-| 7. Oletusteman rakenne | 3/4 | In Progress|  |
+| 7. Oletusteman rakenne | 4/4 | Complete   | 2026-07-03 |
 | 8. Sivukontrollerien migraatio | 0/? | Not started | - |
 | 9. Admin-teemavalinta & Altervista-verifiointi | 0/? | Not started | - |
