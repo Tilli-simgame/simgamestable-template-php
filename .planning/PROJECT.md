@@ -13,8 +13,8 @@ Hevosomistaja voi hallita koko tallinsa hevostietoja (profiilit, sukutaulut, kis
 **Goal:** Tallinpitäjä voi vaihtaa sivuston julkisen puolen ulkoasun admin-paneelista valitsemalla asennetun teeman; teemat ovat tiedostopohjaisia ja sijaitsevat `public/themes/`-kansiossa.
 
 **Target features:**
-- Teemakansiorakenne `public/themes/` (header, footer, nav, sivupohjat, CSS, blogi-sivut)
-- Nykyinen oletus-ilme siirretään `public/themes/default/`-rakenteeseen
+- Teemakansiorakenne `public/themes/` (header, footer, nav, sivupohjat, CSS, blogi-sivut) — ✓ valmis (Phase 7)
+- Nykyinen oletus-ilme siirretään `public/themes/default/`-rakenteeseen — ✓ valmis (Phase 7)
 - Admin-paneeliin teeman valintanäkymä (listaa asennetut teemat, tallentaa valinnan)
 - PHP lataa sivupohjat aktiivisesta teemasta
 
@@ -91,4 +91,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-06-22 — milestone v1.1 Teemajärjestelmä started*
+*Last updated: 2026-07-03 — Phase 7 (Oletusteman rakenne) complete*
