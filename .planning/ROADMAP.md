@@ -188,7 +188,11 @@ Plans:
   2. Molemmat blogi-sivut (blogi.php, postaus.php) latautuvat oikein data-only-mallin mukaisesti
   3. Teeman vaihtaminen (manuaalisesti DB:ssä) vaihtaa sivuston ulkoasun — kontrolleri ei tarvitse muutoksia
 
-**Plans**: TBD
+**Plans**: 4 plans
+- [ ] 08-01-PLAN.md — data-only migration: index.php, hevoset.php, kasvatus.php (THEME-08)
+- [ ] 08-02-PLAN.md — data-only migration: yhteystiedot.php, ajankohtaista.php, postaus.php + unified 404 (THEME-08, THEME-09)
+- [ ] 08-03-PLAN.md — data-only migration: hevonen.php (heavy: strip helpers, unify 404) (THEME-08)
+- [ ] 08-04-PLAN.md — temporary test theme: prove DB theme-switch changes appearance with zero controller edits, then delete (D-06/D-07)
 **UI hint**: no
 
 ### Phase 9: Admin-teemavalinta & Altervista-verifiointi
