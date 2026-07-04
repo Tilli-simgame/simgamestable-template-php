@@ -99,8 +99,8 @@
 
 ### Sivukontrollerien migraatio
 
-- [ ] **THEME-08**: Kaikki 5 julkista sivukontrolleria (index.php, hevoset.php, hevonen.php, kasvatus.php, yhteystiedot.php) muuttuvat data-only-kontrollereiksi jotka käyttävät `resolveThemePath()`
-- [ ] **THEME-09**: Blogi-sivukontrollerit (blogi.php, postaus.php) muuttuvat data-only-kontrollereiksi jotka käyttävät `resolveThemePath()`
+- [x] **THEME-08**: Kaikki 5 julkista sivukontrolleria (index.php, hevoset.php, hevonen.php, kasvatus.php, yhteystiedot.php) muuttuvat data-only-kontrollereiksi jotka käyttävät `resolveThemePath()`
+- [x] **THEME-09**: Blogi-sivukontrollerit (blogi.php, postaus.php) muuttuvat data-only-kontrollereiksi jotka käyttävät `resolveThemePath()`
 
 ### Admin-teemavalinta
 

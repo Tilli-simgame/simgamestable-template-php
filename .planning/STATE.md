@@ -6,14 +6,14 @@ current_phase: 08
 current_phase_name: Sivukontrollerien migraatio
 status: executing
 stopped_at: Phase 08 Plan 01 (index/hevoset/kasvatus) complete
-last_updated: "2026-07-04T07:44:04.161Z"
+last_updated: "2026-07-04T08:01:51.868Z"
 last_activity: 2026-07-04
 last_activity_desc: Phase 08 execution started
 progress:
   total_phases: 4
   completed_phases: 2
   total_plans: 10
-  completed_plans: 7
+  completed_plans: 8
   percent: 50
 ---
 
@@ -29,7 +29,7 @@ See: .planning/PROJECT.md (updated 2026-06-22)
 ## Current Position
 
 Phase: 08 (Sivukontrollerien migraatio) — EXECUTING
-Plan: 2 of 4
+Plan: 3 of 4
 Status: Ready to execute
 Last activity: 2026-07-04 — Phase 08 execution started
 
@@ -75,6 +75,7 @@ Progress: [██████░░░░] 60% (v1.1 scope)
 - [Phase ?]: v1.1 Plan 07-04: MONTHS_FI presentaatio-lookup kopioitu sivupohjaan molemmissa (ajankohtaista, postaus) - sama periaate kuin genderFi Plan 07-02:ssa
 - [Phase 08]: v1.1 Plan 08-01: index.php:n realpath()-pohjainen Malli B -koukku yhtenäistettiin resolveThemePath()-muotoon (D-02), sama rakenne kuin hevonen.php:ssa
 - [Phase 08]: v1.1 Plan 08-01: aktiivinen teema (oma-talli) ei sisällä juuritason hevoset.php/kasvatus.php-tiedostoja, joten Malli A putoaa oikein default-teeman pages/-templateihin ilman kontrollerimuutoksia
+- [Phase ?]: postaus.php keeps its dynamic $page_title (template does not self-set it); both postaus.php 404 branches unified to silent http_response_code(404); exit;
 
 ### Blockers/Concerns
 
@@ -82,7 +83,7 @@ Progress: [██████░░░░] 60% (v1.1 scope)
 
 ## Session Continuity
 
-Last session: 2026-07-04T07:44:04.142Z
+Last session: 2026-07-04T07:57:52.102Z
 Stopped at: Phase 08 Plan 01 (index/hevoset/kasvatus) complete
 Resume file: .planning/phases/08-sivukontrollerien-migraatio/08-02-PLAN.md
 
@@ -94,3 +95,4 @@ Resume file: .planning/phases/08-sivukontrollerien-migraatio/08-02-PLAN.md
 | Phase 07 P03 | 12min | 1 tasks | 1 files |
 | Phase 07 P04 | 10min | 2 tasks | 2 files |
 | Phase 08 P01 | 20min | 3 tasks | 3 files |
+| Phase 08 P02 | 15min | 3 tasks | 3 files |

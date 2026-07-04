@@ -188,11 +188,11 @@ Plans:
   2. Molemmat blogi-sivut (blogi.php, postaus.php) latautuvat oikein data-only-mallin mukaisesti
   3. Teeman vaihtaminen (manuaalisesti DB:ssä) vaihtaa sivuston ulkoasun — kontrolleri ei tarvitse muutoksia
 
-**Plans**: 1/4 plans executed
+**Plans**: 2/4 plans executed
 **Wave 1**
 
 - [x] 08-01-PLAN.md — data-only migration: index.php, hevoset.php, kasvatus.php (THEME-08)
-- [ ] 08-02-PLAN.md — data-only migration: yhteystiedot.php, ajankohtaista.php, postaus.php + unified 404 (THEME-08, THEME-09)
+- [x] 08-02-PLAN.md — data-only migration: yhteystiedot.php, ajankohtaista.php, postaus.php + unified 404 (THEME-08, THEME-09)
 - [ ] 08-03-PLAN.md — data-only migration: hevonen.php (heavy: strip helpers, unify 404) (THEME-08)
 
 **Wave 2** *(blocked on Wave 1 completion)*
@@ -234,5 +234,5 @@ Plans:
 | 5. Blogi | 0/0 | Complete | 2026-06-18 |
 | 6. Teema-infrastruktuuri | 2/2 | Complete | 2026-06-22 |
 | 7. Oletusteman rakenne | 4/4 | Complete    | 2026-07-03 |
-| 8. Sivukontrollerien migraatio | 1/4 | In Progress|  |
+| 8. Sivukontrollerien migraatio | 2/4 | In Progress|  |
 | 9. Admin-teemavalinta & Altervista-verifiointi | 0/? | Not started | - |
