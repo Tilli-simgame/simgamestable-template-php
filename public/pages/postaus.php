@@ -66,4 +66,9 @@ foreach ($archiveRows as $row) {
     $archive[$row['yr']][$row['mo']] = (int)$row['cnt'];
 }
 
-require resolveThemePath('pages/postaus.php');
+$_themePage = resolveThemePath('pages/postaus.php');
+if ($_themePage === false) {
+    http_response_code(404);
+    exit;
+}
+require $_themePage;

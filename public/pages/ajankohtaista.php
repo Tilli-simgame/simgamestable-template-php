@@ -53,4 +53,9 @@ foreach ($stmtArchive->fetchAll() as $row) {
     $archive[$row['yr']][$row['mo']] = (int)$row['cnt'];
 }
 
-require resolveThemePath('pages/ajankohtaista.php');
+$_themePage = resolveThemePath('pages/ajankohtaista.php');
+if ($_themePage === false) {
+    http_response_code(404);
+    exit;
+}
+require $_themePage;

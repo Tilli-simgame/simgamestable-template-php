@@ -24,4 +24,9 @@ $vrl_id      = $s['owner_vrl_id']    ?? '';
 $email       = $s['owner_email']     ?? '';
 $forum_url   = $s['owner_forum_url'] ?? '';
 
-require resolveThemePath('pages/yhteystiedot.php');
+$_themePage = resolveThemePath('pages/yhteystiedot.php');
+if ($_themePage === false) {
+    http_response_code(404);
+    exit;
+}
+require $_themePage;
