@@ -5,15 +5,15 @@ milestone_name: — Teemajärjestelmä
 current_phase: 08
 current_phase_name: Sivukontrollerien migraatio
 status: executing
-stopped_at: Phase 08 Plan 01 (index/hevoset/kasvatus) complete
-last_updated: "2026-07-04T08:01:51.868Z"
+stopped_at: Completed 08-03-PLAN.md
+last_updated: "2026-07-04T08:24:07.362Z"
 last_activity: 2026-07-04
 last_activity_desc: Phase 08 execution started
 progress:
   total_phases: 4
   completed_phases: 2
   total_plans: 10
-  completed_plans: 8
+  completed_plans: 9
   percent: 50
 ---
 
@@ -29,7 +29,7 @@ See: .planning/PROJECT.md (updated 2026-06-22)
 ## Current Position
 
 Phase: 08 (Sivukontrollerien migraatio) — EXECUTING
-Plan: 3 of 4
+Plan: 4 of 4
 Status: Ready to execute
 Last activity: 2026-07-04 — Phase 08 execution started
 
@@ -76,6 +76,7 @@ Progress: [██████░░░░] 60% (v1.1 scope)
 - [Phase 08]: v1.1 Plan 08-01: index.php:n realpath()-pohjainen Malli B -koukku yhtenäistettiin resolveThemePath()-muotoon (D-02), sama rakenne kuin hevonen.php:ssa
 - [Phase 08]: v1.1 Plan 08-01: aktiivinen teema (oma-talli) ei sisällä juuritason hevoset.php/kasvatus.php-tiedostoja, joten Malli A putoaa oikein default-teeman pages/-templateihin ilman kontrollerimuutoksia
 - [Phase ?]: postaus.php keeps its dynamic $page_title (template does not self-set it); both postaus.php 404 branches unified to silent http_response_code(404); exit;
+- [Phase 08]: [Phase 08]: v1.1 Plan 08-03: hevonen.php's dynamic $page_title kept (template does not self-set it, like postaus.php in 08-02); $genderFi/pedigreeHorseLink()/pedigreeCell()/$heroPhoto/$heroStyle removed from controller (template-owned; PHP forbids function redeclaration)
 
 ### Blockers/Concerns
 
@@ -83,9 +84,9 @@ Progress: [██████░░░░] 60% (v1.1 scope)
 
 ## Session Continuity
 
-Last session: 2026-07-04T07:57:52.102Z
-Stopped at: Phase 08 Plan 01 (index/hevoset/kasvatus) complete
-Resume file: .planning/phases/08-sivukontrollerien-migraatio/08-02-PLAN.md
+Last session: 2026-07-04T08:24:07.330Z
+Stopped at: Completed 08-03-PLAN.md
+Resume file: None
 
 ## Performance Metrics
 
@@ -96,3 +97,4 @@ Resume file: .planning/phases/08-sivukontrollerien-migraatio/08-02-PLAN.md
 | Phase 07 P04 | 10min | 2 tasks | 2 files |
 | Phase 08 P01 | 20min | 3 tasks | 3 files |
 | Phase 08 P02 | 15min | 3 tasks | 3 files |
+| Phase 08 P03 | 12min | 1 tasks | 1 files |
