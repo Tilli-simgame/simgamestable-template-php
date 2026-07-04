@@ -5,8 +5,8 @@ milestone_name: — Teemajärjestelmä
 current_phase: 8
 current_phase_name: Sivukontrollerien migraatio
 status: executing
-stopped_at: Phase 8 context gathered
-last_updated: "2026-07-04T06:21:41.247Z"
+stopped_at: Phase 08 UI-SPEC approved
+last_updated: "2026-07-04T06:49:06.771Z"
 last_activity: 2026-07-03
 last_activity_desc: Phase 07 complete, transitioned to Phase 8
 progress:
@@ -80,9 +80,9 @@ Progress: [██████░░░░] 60% (v1.1 scope)
 
 ## Session Continuity
 
-Last session: 2026-07-04T06:21:41.218Z
-Stopped at: Phase 8 context gathered
-Resume file: .planning/phases/08-sivukontrollerien-migraatio/08-CONTEXT.md
+Last session: 2026-07-04T06:49:06.741Z
+Stopped at: Phase 08 UI-SPEC approved
+Resume file: .planning/phases/08-sivukontrollerien-migraatio/08-UI-SPEC.md
 
 ## Performance Metrics
 
