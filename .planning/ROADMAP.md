@@ -17,7 +17,7 @@ Projekti rakentaa PHP/MySQL-pohjaisen virtuaalitallin kokonaan uudelleen: ensin 
 - [x] **Phase 5: Blogi** - Postausten hallinta adminissa, julkinen postauslista ja yksittäinen postaussivu arkistosidebarilla (completed 2026-06-18)
 - [ ] **Phase 6: Teema-infrastruktuuri** - theme.php-shim, DB-migraatio, resolveThemePath()-helper ja julkinen/admin-eristys
 - [x] **Phase 7: Oletusteman rakenne** - public/themes/default/-rakenne: includes, sivupohjat, CSS ja theme.json (completed 2026-07-03)
-- [ ] **Phase 8: Sivukontrollerien migraatio** - Kaikki 7 julkista sivukontrolleria muuttuvat data-only-kontrollereiksi
+- [x] **Phase 8: Sivukontrollerien migraatio** - Kaikki 7 julkista sivukontrolleria muuttuvat data-only-kontrollereiksi (completed 2026-07-04)
 - [ ] **Phase 9: Admin-teemavalinta & Altervista-verifiointi** - Admin voi valita teeman; järjestelmä toimii tuotannossa
 
 ## Phase Details
@@ -197,7 +197,7 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 08-04-PLAN.md — temporary test theme: prove DB theme-switch changes appearance with zero controller edits, then delete (D-06/D-07)
+- [x] 08-04-PLAN.md — temporary test theme: prove DB theme-switch changes appearance with zero controller edits, then delete (D-06/D-07)
 
 **Cross-cutting constraints:**
 
@@ -234,5 +234,5 @@ Plans:
 | 5. Blogi | 0/0 | Complete | 2026-06-18 |
 | 6. Teema-infrastruktuuri | 2/2 | Complete | 2026-06-22 |
 | 7. Oletusteman rakenne | 4/4 | Complete    | 2026-07-03 |
-| 8. Sivukontrollerien migraatio | 3/4 | In Progress|  |
+| 8. Sivukontrollerien migraatio | 4/4 | Complete    | 2026-07-04 |
 | 9. Admin-teemavalinta & Altervista-verifiointi | 0/? | Not started | - |
