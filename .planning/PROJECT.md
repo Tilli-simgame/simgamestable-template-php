@@ -16,7 +16,7 @@ Hevosomistaja voi hallita koko tallinsa hevostietoja (profiilit, sukutaulut, kis
 - Teemakansiorakenne `public/themes/` (header, footer, nav, sivupohjat, CSS, blogi-sivut) — ✓ valmis (Phase 7)
 - Nykyinen oletus-ilme siirretään `public/themes/default/`-rakenteeseen — ✓ valmis (Phase 7)
 - Admin-paneeliin teeman valintanäkymä (listaa asennetut teemat, tallentaa valinnan)
-- PHP lataa sivupohjat aktiivisesta teemasta
+- PHP lataa sivupohjat aktiivisesta teemasta — ✓ valmis (Phase 8): kaikki 7 julkista sivukontrolleria ovat data-only ja delegoivat renderöinnin resolveThemePath()-kutsulla; teeman vaihto DB:ssä todistettu muuttavan ulkoasua ilman kontrollerimuutoksia
 
 ## Requirements
 
@@ -91,4 +91,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-07-03 — Phase 7 (Oletusteman rakenne) complete*
+*Last updated: 2026-07-04 — Phase 8 (Sivukontrollerien migraatio) complete*
