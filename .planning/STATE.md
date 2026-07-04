@@ -2,18 +2,18 @@
 gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: — Teemajärjestelmä
-current_phase: 8
+current_phase: 08
 current_phase_name: Sivukontrollerien migraatio
 status: executing
-stopped_at: Phase 08 UI-SPEC approved
-last_updated: "2026-07-04T06:49:06.771Z"
-last_activity: 2026-07-03
-last_activity_desc: Phase 07 complete, transitioned to Phase 8
+stopped_at: Phase 08 Plan 01 (index/hevoset/kasvatus) complete
+last_updated: "2026-07-04T07:44:04.161Z"
+last_activity: 2026-07-04
+last_activity_desc: Phase 08 execution started
 progress:
   total_phases: 4
   completed_phases: 2
-  total_plans: 6
-  completed_plans: 6
+  total_plans: 10
+  completed_plans: 7
   percent: 50
 ---
 
@@ -24,14 +24,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-22)
 
 **Core value:** Hevosomistaja voi hallita koko tallinsa hevostietoja yhdestä turvallisesta admin-paneelista, ja kaikki tieto näkyy automaattisesti julkisella sivustolla.
-**Current focus:** Phase 07 — oletusteman-rakenne
+**Current focus:** Phase 08 — Sivukontrollerien migraatio
 
 ## Current Position
 
-Phase: 8 — Sivukontrollerien migraatio
-Plan: Not started
+Phase: 08 (Sivukontrollerien migraatio) — EXECUTING
+Plan: 2 of 4
 Status: Ready to execute
-Last activity: 2026-07-03 — Phase 07 complete, transitioned to Phase 8
+Last activity: 2026-07-04 — Phase 08 execution started
 
 Progress: [██████░░░░] 60% (v1.1 scope)
 
@@ -73,6 +73,8 @@ Progress: [██████░░░░] 60% (v1.1 scope)
 - v1.1 Plan 02: realpath()-fallback shimissä — shim ei kuole vaikka themes/-hakemisto puuttuu käynnistyksessä
 - [Phase ?]: v1.1 Plan 07-03: pedigreeHorseLink() ja pedigreeCell() säilytetty hevonen.php-sivupohjan sisällä (ei helpers.php:ssä) — PHP ei salli funktioiden kaksoismäärittelyä
 - [Phase ?]: v1.1 Plan 07-04: MONTHS_FI presentaatio-lookup kopioitu sivupohjaan molemmissa (ajankohtaista, postaus) - sama periaate kuin genderFi Plan 07-02:ssa
+- [Phase 08]: v1.1 Plan 08-01: index.php:n realpath()-pohjainen Malli B -koukku yhtenäistettiin resolveThemePath()-muotoon (D-02), sama rakenne kuin hevonen.php:ssa
+- [Phase 08]: v1.1 Plan 08-01: aktiivinen teema (oma-talli) ei sisällä juuritason hevoset.php/kasvatus.php-tiedostoja, joten Malli A putoaa oikein default-teeman pages/-templateihin ilman kontrollerimuutoksia
 
 ### Blockers/Concerns
 
@@ -80,9 +82,9 @@ Progress: [██████░░░░] 60% (v1.1 scope)
 
 ## Session Continuity
 
-Last session: 2026-07-04T06:49:06.741Z
-Stopped at: Phase 08 UI-SPEC approved
-Resume file: .planning/phases/08-sivukontrollerien-migraatio/08-UI-SPEC.md
+Last session: 2026-07-04T07:44:04.142Z
+Stopped at: Phase 08 Plan 01 (index/hevoset/kasvatus) complete
+Resume file: .planning/phases/08-sivukontrollerien-migraatio/08-02-PLAN.md
 
 ## Performance Metrics
 
@@ -91,3 +93,4 @@ Resume file: .planning/phases/08-sivukontrollerien-migraatio/08-UI-SPEC.md
 | Phase 07 P01 | 10min | 2 tasks | 4 files |
 | Phase 07 P03 | 12min | 1 tasks | 1 files |
 | Phase 07 P04 | 10min | 2 tasks | 2 files |
+| Phase 08 P01 | 20min | 3 tasks | 3 files |

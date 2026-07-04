@@ -115,6 +115,14 @@ None - plan executed exactly as written. All 3 tasks matched their `<action>` bl
 
 None - no external service configuration required.
 
+## Requirements Note
+
+`THEME-08` ("Kaikki 5 julkista sivukontrolleria... data-only") spans this plan plus 08-02 (which finishes `yhteystiedot.php`, the 5th and last base page) — `hevonen.php` (08-03) is a 6th controller also tagged THEME-08 in its own plan. REQUIREMENTS.md's THEME-08 checkbox was deliberately left unchecked after this plan; it is fully satisfied only once 08-02 and 08-03 land. Do not mark THEME-08 complete until the last contributing plan in this phase finishes.
+
 ## Next Phase Readiness
 - Plans 08-02/08-03/08-04 can proceed with the remaining 4 controllers (`hevonen.php`, `yhteystiedot.php`, `ajankohtaista.php`, `postaus.php`) using the identical Model B hook + Malli A delegation pattern now proven working in `index.php`, `hevoset.php`, `kasvatus.php`.
 - No blockers. The dev environment's active theme remains `oma-talli` as it was before this plan started (verification-only theme switch was reverted).
+
+## Self-Check: PASSED
+
+All 3 modified files and the SUMMARY.md confirmed present on disk. All 4 commit hashes (`a0886e3`, `f2b98a1`, `2b1dc69`, `3330f06`) confirmed present in `git log --oneline --all`.
