@@ -43,53 +43,70 @@ See `.planning/milestones/v1.1-ROADMAP.md` for full phase details.
 ## Phase Details
 
 ### Phase 10: Roolit ja autentikaation perusta
+
 **Goal**: Kolme roolia (admin/mod/author) tallentuu `admin_users`-tauluun ja tunnistetaan sessiossa jokaisella suojatulla admin-sivulla; kaikki kirjautuneet käyttäjät voivat vaihtaa oman salasanansa.
 **Depends on**: Olemassa oleva admin-autentikaatio (v1.0 Phase 3 — `requireLogin()`/`public/src/includes/helpers.php`)
 **Requirements**: ROLE-01, ROLE-02, ROLE-03, ROLE-04, AUTH-06
 **Success Criteria** (what must be TRUE):
+
   1. Käyttäjän rooli (admin/mod/author) luetaan `admin_users`-taulusta ja tallentuu sessioon kirjautumisen yhteydessä.
   2. Kun mod- tai author-käyttäjä avaa suoralla osoitteella admin-sivun, joka ei kuulu hänen roolilleen, hän ohjautuu "Ei käyttöoikeutta" -näkymään sivun sisällön sijaan.
   3. Admin-navigaatio näyttää kullekin roolille vain sen omat valikkokohdat (esim. author ei näe käyttäjähallinta- eikä teema-asetuslinkkejä).
   4. Kirjautunut käyttäjä (mikä tahansa rooli) voi vaihtaa oman salasanansa antamalla nykyisen salasanan sekä uuden kahdesti, ja kirjautuminen onnistuu heti uudella salasanalla.
+
 **Plans**: 3 plans
+**Wave 1**
+
 - [ ] 10-01-PLAN.md — Rooli-infrastruktuuri: migrate_roles.sql + helpers.php (requireRole/currentRole/isAdmin) + login.php (rooli + is_active) + ei-oikeutta.php (Wave 1)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
 - [ ] 10-02-PLAN.md — Sivukohtainen roolisuojaus: 27 admin-sivun gate-swapit + 4 sekatiedoston inline delete-alagate (Wave 2)
 - [ ] 10-03-PLAN.md — Navigaation roolinäkyvyys (admin_header.php) + salasananvaihto (change_password.php) (Wave 2)
 
 ### Phase 11: Käyttäjähallinta
+
 **Goal**: Admin voi hallita kaikkia käyttäjätunnuksia turvallisesti — talli ei voi koskaan jäädä ilman toimivaa admin-tiliä.
 **Depends on**: Phase 10 (tarvitsee `requireRole('admin')`-suojauksen ja rooli-sessiomekanismin)
 **Requirements**: USER-01, USER-02, USER-03, USER-04, USER-05, USER-06, USER-07
 **Success Criteria** (what must be TRUE):
+
   1. Admin voi luoda uuden käyttäjätunnuksen (käyttäjänimi, salasana, rooli), ja uusi käyttäjä pystyy kirjautumaan sisään heti annetulla roolilla.
   2. Admin voi muokata olemassa olevan käyttäjän roolia ja käyttäjänimeä, ja muutos vaikuttaa käyttäjän oikeuksiin viimeistään seuraavalla pyynnöllä.
   3. Admin voi deaktivoida käyttäjän — deaktivoitu tunnus ei pysty kirjautumaan, mutta käyttäjän aiemmin luoma sisältö (esim. postausten tekijätieto) säilyy näkyvissä ennallaan.
   4. Admin voi poistaa käyttäjätunnuksen pysyvästi tai nollata toisen käyttäjän salasanan ilman että tarvitsee tietää vanhaa salasanaa.
   5. Järjestelmä estää viimeisen admin-tunnuksen poiston/deaktivoinnin sekä adminin oman tunnuksen poiston/deaktivoinnin — yritys näyttää virheilmoituksen eikä toimintoa suoriteta.
+
 **Plans**: TBD
 
 ### Phase 12: Sisältötyyppien roolirajaus
+
 **Goal**: Mod voi ylläpitää tallin sisältöä (hevoset, varsat, kilpailut, näyttelyt, postaukset) omalla roolillaan; author voi ylläpitää vain omia postauksiaan ja linkittää niihin olemassa olevia hevosia; kumpikaan ei pääse käyttäjähallintaan eikä teema-asetuksiin.
 **Depends on**: Phase 10, Phase 11 (roolimekanismin ja oikeiden mod/author-tunnusten tulee olla olemassa ennen sisältörajauksen testaamista)
 **Requirements**: MOD-01, MOD-02, MOD-03, MOD-04, MOD-05, MOD-07, AUTHOR-01, AUTHOR-02, AUTHOR-04, AUTHOR-05
 **Success Criteria** (what must be TRUE):
+
   1. Mod-käyttäjä voi luoda ja muokata hevosen (mukaan lukien kuvat), varsamerkinnän, kilpailun ja näyttelytuloksen admin-paneelissa.
   2. Mod-käyttäjä voi luoda ja muokata postauksen.
   3. Author-käyttäjä voi luoda uuden postauksen ja muokata vain omia postauksiaan — yritys muokata toisen käyttäjän postausta suoralla osoitteella ohjautuu "Ei käyttöoikeutta" -näkymään.
   4. Author-käyttäjä voi valita olemassa olevia hevosia listalta ja linkittää ne omaan postaukseensa, muttei pysty muokkaamaan itse hevostietoja.
   5. Mod- ja author-käyttäjät eivät näe eivätkä pääse käyttäjähallinta- tai teema-asetussivuille edes suoralla osoitteella.
+
 **Plans**: TBD
 
 ### Phase 13: Poisto-hyväksyntätyönkulku
+
 **Goal**: Modin poistopyynnöt (hevoset, varsat, kilpailut, näyttelyt, postaukset) eivät toteudu heti vaan odottavat admin-hyväksyntää yhdessä näkymässä; author saa poistaa omat postauksensa heti ilman hyväksyntää.
 **Depends on**: Phase 12 (poisto-oikeus riippuu jo rajatusta sisältöoikeudesta ja tunnetusta roolista)
 **Requirements**: MOD-06, AUTHOR-03, DEL-01, DEL-02, DEL-03, DEL-04, DEL-05
 **Success Criteria** (what must be TRUE):
+
   1. Kun mod pyytää hevosen, varsan, kilpailun, näyttelytuloksen tai postauksen poistoa, sisältö ei katoa heti vaan siirtyy "odottaa hyväksyntää" -tilaan eikä näy enää julkisella sivustolla.
   2. Admin näkee yhdestä näkymästä kaikki odottavat poistopyynnöt kaikista viidestä sisältötyypistä, ja admin-etusivulla näkyy odottavien pyyntöjen määrä laskurina.
   3. Admin voi hyväksyä poistopyynnön (sisältö pysyy pehmeästi poistettuna) tai hylätä sen (sisältö palautuu normaalisti näkyväksi sekä adminissa että julkisella sivustolla).
   4. Author-käyttäjä voi poistaa oman postauksensa välittömästi ilman admin-hyväksyntää.
   5. Sama sisältö ei voi olla useamman kertaan poistojonossa samanaikaisesti — toistuva poistopyyntö samaan sisältöön ei luo uutta odottavaa riviä.
+
 **Plans**: TBD
 
 ## Progress
