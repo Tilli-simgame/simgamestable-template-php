@@ -594,17 +594,19 @@ Skipped — this phase has no external tool/service dependencies beyond the alre
 
 **If this table is empty:** N/A — three assumptions logged above, all low-risk and clearly scoped to page-role-assignment judgment calls rather than security-critical architecture.
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Should `contact_delete.php` and `photo_delete.php` be admin-only or admin+mod?**
    - What we know: D-02 explicitly restricts delete on the 5 milestone content types (horses/foals/competitions/showrecords/posts) to admin-only until Phase 13. Contacts and photos are not among those 5 types.
    - What's unclear: CONTEXT.md doesn't explicitly address these two files (only the named 5-type deletes).
    - Recommendation: default to admin+mod (per Assumptions A2/A3) since both are outside the Phase-13 approval-workflow scope entirely and MOD-01 already grants mod photo management; confirm with a quick user check during planning if the planner wants this locked rather than assumed.
+   - **(RESOLVED)** — Resolved in `10-02-PLAN.md`'s `<assumptions>` block: both `contact_delete.php` and `photo_delete.php` are explicitly locked to `admin+mod` (per A2/A3) as a research-recommendation-based assumption, not a user-locked decision. The plan documents the one-line tightening path to admin-only if the operator prefers it.
 
 2. **How should ROLE-03/ROLE-04 be manually verified in Phase 10 given no real mod/author account exists yet?**
    - What we know: Phase 11 (not yet built) is what actually creates mod/author accounts via a UI.
    - What's unclear: the phase's own acceptance testing needs *some* non-admin session to verify redirect/nav behavior.
    - Recommendation: the plan should include an explicit manual step — temporarily flip the existing `admin` account's `role` column value via phpMyAdmin (`UPDATE admin_users SET role='mod' WHERE username='admin';`), test mod-scoped behavior, then revert to `'admin'` before finishing the phase. Document this clearly in the plan's verification section so it isn't mistaken for a real multi-account test (that comes in Phase 11).
+   - **(RESOLVED)** — Resolved via the role-flip-and-revert manual test procedure now documented in the `<verification>` section of all three plans (`10-01`, `10-02`, `10-03`): `UPDATE admin_users SET role='mod'/'author'` on the existing admin account, log out/in, verify access + nav behavior per role, then `UPDATE ... SET role='admin'` to revert before phase completion.
 
 ## Sources
 

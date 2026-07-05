@@ -1,0 +1,1 @@
+{"content":"MySQL: ALTER TABLE tbl ADD COLUMN col ENUM('a','b','c') NOT NULL DEFAULT 'a'; adds a new ENUM column to an existing table with an explicit default; DEFAULT value must be one of the listed ENUM values.","source":"web","provider":"websearch","confidence":"MEDIUM","fetched_at":"2026-07-05T12:12:50.856Z","ttl":86400000,"kind":"web"}
