@@ -51,7 +51,10 @@ See `.planning/milestones/v1.1-ROADMAP.md` for full phase details.
   2. Kun mod- tai author-käyttäjä avaa suoralla osoitteella admin-sivun, joka ei kuulu hänen roolilleen, hän ohjautuu "Ei käyttöoikeutta" -näkymään sivun sisällön sijaan.
   3. Admin-navigaatio näyttää kullekin roolille vain sen omat valikkokohdat (esim. author ei näe käyttäjähallinta- eikä teema-asetuslinkkejä).
   4. Kirjautunut käyttäjä (mikä tahansa rooli) voi vaihtaa oman salasanansa antamalla nykyisen salasanan sekä uuden kahdesti, ja kirjautuminen onnistuu heti uudella salasanalla.
-**Plans**: TBD
+**Plans**: 3 plans
+- [ ] 10-01-PLAN.md — Rooli-infrastruktuuri: migrate_roles.sql + helpers.php (requireRole/currentRole/isAdmin) + login.php (rooli + is_active) + ei-oikeutta.php (Wave 1)
+- [ ] 10-02-PLAN.md — Sivukohtainen roolisuojaus: 27 admin-sivun gate-swapit + 4 sekatiedoston inline delete-alagate (Wave 2)
+- [ ] 10-03-PLAN.md — Navigaation roolinäkyvyys (admin_header.php) + salasananvaihto (change_password.php) (Wave 2)
 
 ### Phase 11: Käyttäjähallinta
 **Goal**: Admin voi hallita kaikkia käyttäjätunnuksia turvallisesti — talli ei voi koskaan jäädä ilman toimivaa admin-tiliä.
