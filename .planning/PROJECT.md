@@ -15,8 +15,11 @@ Hevosomistaja voi hallita koko tallinsa hevostietoja (profiilit, sukutaulut, kis
 **Target features:**
 - Teemakansiorakenne `public/themes/` (header, footer, nav, sivupohjat, CSS, blogi-sivut) — ✓ valmis (Phase 7)
 - Nykyinen oletus-ilme siirretään `public/themes/default/`-rakenteeseen — ✓ valmis (Phase 7)
-- Admin-paneeliin teeman valintanäkymä (listaa asennetut teemat, tallentaa valinnan)
+- Admin-paneeliin teeman valintanäkymä (listaa asennetut teemat, tallentaa valinnan) — ✓ valmis (Phase 9): todettu jo olemassa olevaksi (`settings.php`, committoitu ennen GSD-seurantaa), muodollisesti verifioitu THEME-10/THEME-11-vaatimuksia vasten
 - PHP lataa sivupohjat aktiivisesta teemasta — ✓ valmis (Phase 8): kaikki 7 julkista sivukontrolleria ovat data-only ja delegoivat renderöinnin resolveThemePath()-kutsulla; teeman vaihto DB:ssä todistettu muuttavan ulkoasua ilman kontrollerimuutoksia
+- Teeman page-templatejen suora HTTP-pääsy estetty + koko teemajärjestelmä varmistettu Altervista-tuotannossa — ✓ valmis (Phase 9): `public/themes/default/pages/.htaccess` lisätty (THEME-12 koodiosuus), tuotantoverifiointi (CSS MIME, sivujen renderöinti /demotalli-02/-polulla, kansiosuojaus, suora template-esto) vahvistettu manuaalisesti käyttäjän toimesta
+
+**Milestone v1.1 valmis** — kaikki tavoitefeaturet toteutettu (Phase 7, 8, 9). Tunnettu, tarkoituksellisesti rajattu puute: `oma-talli`-teemalla ei ole vielä vastaavaa `pages/.htaccess`-suojausta (D-06, Phase 9 CONTEXT) — teema on keskeneräinen eikä kuulunut tämän milestonen verifiointiin.
 
 ## Requirements
 
@@ -91,4 +94,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-07-04 — Phase 8 (Sivukontrollerien migraatio) complete*
+*Last updated: 2026-07-05 — Phase 9 (Admin-teemavalinta & Altervista-verifiointi) complete — v1.1 milestone target features all delivered*
