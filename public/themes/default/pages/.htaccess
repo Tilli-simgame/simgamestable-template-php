@@ -1,0 +1,5 @@
+# Tietoturva: estä suora HTTP-pääsy teeman page-templateihin
+# Templatet odottavat kontrollerin (esim. theme-page.php) asettamia muuttujia
+<FilesMatch "\.php$">
+    Deny from all
+</FilesMatch>
