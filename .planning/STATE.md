@@ -2,12 +2,12 @@
 gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: — Teemajärjestelmä
-current_phase: 09
-status: verifying
+current_phase: 1
+status: Awaiting next milestone
 stopped_at: Phase 9 complete — v1.1 milestone target features all delivered
-last_updated: "2026-07-05T09:40:28.895Z"
+last_updated: "2026-07-05T09:43:42.886Z"
 last_activity: 2026-07-05
-last_activity_desc: Phase 09 complete
+last_activity_desc: Milestone v1.1 completed and archived
 progress:
   total_phases: 4
   completed_phases: 4
@@ -21,19 +21,17 @@ current_phase_name: Admin-teemavalinta & Altervista-verifiointi
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-06-22)
+See: .planning/PROJECT.md (updated 2026-07-05)
 
 **Core value:** Hevosomistaja voi hallita koko tallinsa hevostietoja yhdestä turvallisesta admin-paneelista, ja kaikki tieto näkyy automaattisesti julkisella sivustolla.
-**Current focus:** Phase 09 — Admin-teemavalinta & Altervista-verifiointi
+**Current focus:** Awaiting next milestone (v1.1 shipped 2026-07-05)
 
 ## Current Position
 
-Phase: 09
-Plan: Not started
-Status: Phase complete — ready for verification
-Last activity: 2026-07-05 — Phase 09 complete
-
-Progress: [██████░░░░] 60% (v1.1 scope)
+Phase: Milestone v1.1 complete
+Plan: —
+Status: Awaiting next milestone
+Last activity: 2026-07-05 — Milestone v1.1 completed and archived
 
 ## Workflow Status
 
@@ -45,9 +43,9 @@ Progress: [██████░░░░] 60% (v1.1 scope)
 | Phase 4 — Tietoturva & Deploy | Complete | 2026-06-17 | 2026-06-18 |
 | Phase 5 — Blogi | Complete | 2026-06-18 | 2026-06-18 |
 | Phase 6 — Teema-infrastruktuuri | Complete | 2026-06-22 | 2026-06-22 |
-| Phase 7 — Oletusteman rakenne | Not started | — | — |
-| Phase 8 — Sivukontrollerien migraatio | Not started | — | — |
-| Phase 9 — Admin-teemavalinta & Altervista | Not started | — | — |
+| Phase 7 — Oletusteman rakenne | Complete | 2026-06-22 | 2026-07-03 |
+| Phase 8 — Sivukontrollerien migraatio | Complete | 2026-07-03 | 2026-07-04 |
+| Phase 9 — Admin-teemavalinta & Altervista | Complete | 2026-07-04 | 2026-07-05 |
 
 ## Configuration
 
@@ -60,29 +58,19 @@ Progress: [██████░░░░] 60% (v1.1 scope)
 
 ## Accumulated Context
 
-### Decisions
-
-- Admin-paneeli: kirjautuminen bcrypt+CSRF, pehmeä poisto hevosille, kuvat finfo_file() MIME-tarkistuksella
-- CI/CD: SamKirkland/FTP-Deploy-Action@v4 deployaa public/ Altervistaan push main -triggerillä
-- v1.1: resolveThemePath() käyttää preg_match + realpath + prefix-check (path-traversal-suojaus)
-- v1.1: admin-paneeli ei koskaan lataa theme.php-shimmiä
-- v1.1: public/assets/css/style.css pysyy muuttumattomana — admin_header.php riippuu siitä
-- v1.1 Plan 01: INSERT IGNORE (ei ON DUPLICATE KEY UPDATE) migraatioissa — yhdenmukaisuus migrate_*.sql-tiedostojen kanssa
-- v1.1 Plan 01: theme.json vain name+version — description/author/preview ovat V2-05 laajennuksia
-- v1.1 Plan 02: resolveThemePath() käyttää str_starts_with + string|false union type (PHP 8.0+); Altervista-yhteensopivuus varmistetaan Phase 9:ssä
-- v1.1 Plan 02: realpath()-fallback shimissä — shim ei kuole vaikka themes/-hakemisto puuttuu käynnistyksessä
-- [Phase ?]: v1.1 Plan 07-03: pedigreeHorseLink() ja pedigreeCell() säilytetty hevonen.php-sivupohjan sisällä (ei helpers.php:ssä) — PHP ei salli funktioiden kaksoismäärittelyä
-- [Phase ?]: v1.1 Plan 07-04: MONTHS_FI presentaatio-lookup kopioitu sivupohjaan molemmissa (ajankohtaista, postaus) - sama periaate kuin genderFi Plan 07-02:ssa
-- [Phase 08]: v1.1 Plan 08-01: index.php:n realpath()-pohjainen Malli B -koukku yhtenäistettiin resolveThemePath()-muotoon (D-02), sama rakenne kuin hevonen.php:ssa
-- [Phase 08]: v1.1 Plan 08-01: aktiivinen teema (oma-talli) ei sisällä juuritason hevoset.php/kasvatus.php-tiedostoja, joten Malli A putoaa oikein default-teeman pages/-templateihin ilman kontrollerimuutoksia
-- [Phase ?]: postaus.php keeps its dynamic $page_title (template does not self-set it); both postaus.php 404 branches unified to silent http_response_code(404); exit;
-- [Phase 08]: [Phase 08]: v1.1 Plan 08-03: hevonen.php's dynamic $page_title kept (template does not self-set it, like postaus.php in 08-02); $genderFi/pedigreeHorseLink()/pedigreeCell()/$heroPhoto/$heroStyle removed from controller (template-owned; PHP forbids function redeclaration)
-- [Phase ?]: v1.1 Plan 09-01: Deny from all on themes/{theme}/pages/*.php is safe — root .htaccess never routes to that path and require_once bypasses Apache HTTP access control
-- [Phase ?]: v1.1 Plan 09-01: settings.php accepted as-is (D-05) — THEME-10/THEME-11 verified satisfied by pre-existing glob()+theme.json listing and CSRF+allowlist validation, no modification made
+Full decision log archived in `.planning/milestones/v1.1-ROADMAP.md` and `.planning/PROJECT.md` Key Decisions table. Cleared for next milestone.
 
 ### Blockers/Concerns
 
-- Altervistan CSS MIME-tyyppi subdirektoreille `public/themes/*/assets/css/` — ei voi varmistaa ennen FTP-deploymenttia (Phase 9)
+None open. Altervista CSS MIME-tyyppi -epäilys (Phase 9) ratkaistu tuotantoverifioinnilla 2026-07-05.
+
+## Deferred Items
+
+Items acknowledged and deferred at milestone close on 2026-07-05:
+
+| Category | Item | Status |
+|----------|------|--------|
+| verification_gap | Phase 06 (06-VERIFICATION.md) | human_needed — 2/5 success criteria (path-traversal runtime rejection, `active_theme` DB row) never re-confirmed into the verification file. Superseded in practice by Phase 9's production verification, which exercised the same `resolveThemePath()` + DB-backed theme resolution live on Altervista. |
 
 ## Session Continuity
 
@@ -102,3 +90,7 @@ Resume file: None
 | Phase 08 P03 | 12min | 1 tasks | 1 files |
 | Phase 08 P04 | 15min | 3 tasks | 0 files |
 | Phase 09 P01 | 5min | 2 tasks | 1 files |
+
+## Operator Next Steps
+
+- Start the next milestone with /gsd-new-milestone

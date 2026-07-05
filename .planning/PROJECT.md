@@ -8,18 +8,31 @@ Virtuaalitalli on PHP- ja MySQL-pohjainen tallinhallintajärjestelmä, joka korv
 
 Hevosomistaja voi hallita koko tallinsa hevostietoja (profiilit, sukutaulut, kisahistoria, kuvat ja kasvatus) yhdestä turvallisesta admin-paneelista, ja kaikki tieto näkyy automaattisesti julkisella sivustolla.
 
-## Current Milestone: v1.1 Teemajärjestelmä
+## Current State
+
+**Shipped:** v1.1 Teemajärjestelmä (2026-07-05)
+
+Sivusto on täysin toimiva PHP/MySQL-pohjainen virtuaalitalli Altervista-tuotannossa (`/demotalli-02/`). Julkinen puoli (etusivu, hevoslistaus, hevosprofiili, kasvatus, yhteystiedot, blogi) ja admin-paneeli (autentikaatio, hevosten/kuvien/kilpailujen/kasvatuksen CRUD, tietoturva) ovat kaikki tuotannossa. v1.1 lisäsi tiedostopohjaisen teemajärjestelmän: julkiset sivukontrollerit ovat data-only ja lataavat HTML:n aktiivisesta teemasta `resolveThemePath()`:n kautta; admin voi vaihtaa teeman `settings.php`:sta yhdellä klikkauksella; teemanvaihto on todistettu toimivaksi tuotannossa ilman kontrollerimuutoksia.
+
+**Tunnettu, tarkoituksellisesti rajattu puute:** `oma-talli`-teemalla ei ole vielä `pages/.htaccess`-suojausta kuten `default`-teemalla (D-06, Phase 9) — teema on keskeneräinen eikä kuulunut v1.1-milestonen verifiointiin.
+
+<details>
+<summary>Archived: v1.1 Teemajärjestelmä goal (Phases 6-9)</summary>
 
 **Goal:** Tallinpitäjä voi vaihtaa sivuston julkisen puolen ulkoasun admin-paneelista valitsemalla asennetun teeman; teemat ovat tiedostopohjaisia ja sijaitsevat `public/themes/`-kansiossa.
 
-**Target features:**
-- Teemakansiorakenne `public/themes/` (header, footer, nav, sivupohjat, CSS, blogi-sivut) — ✓ valmis (Phase 7)
-- Nykyinen oletus-ilme siirretään `public/themes/default/`-rakenteeseen — ✓ valmis (Phase 7)
-- Admin-paneeliin teeman valintanäkymä (listaa asennetut teemat, tallentaa valinnan) — ✓ valmis (Phase 9): todettu jo olemassa olevaksi (`settings.php`, committoitu ennen GSD-seurantaa), muodollisesti verifioitu THEME-10/THEME-11-vaatimuksia vasten
-- PHP lataa sivupohjat aktiivisesta teemasta — ✓ valmis (Phase 8): kaikki 7 julkista sivukontrolleria ovat data-only ja delegoivat renderöinnin resolveThemePath()-kutsulla; teeman vaihto DB:ssä todistettu muuttavan ulkoasua ilman kontrollerimuutoksia
-- Teeman page-templatejen suora HTTP-pääsy estetty + koko teemajärjestelmä varmistettu Altervista-tuotannossa — ✓ valmis (Phase 9): `public/themes/default/pages/.htaccess` lisätty (THEME-12 koodiosuus), tuotantoverifiointi (CSS MIME, sivujen renderöinti /demotalli-02/-polulla, kansiosuojaus, suora template-esto) vahvistettu manuaalisesti käyttäjän toimesta
+**Target features (all shipped):**
+- Teemakansiorakenne `public/themes/` (header, footer, nav, sivupohjat, CSS, blogi-sivut) — Phase 7
+- Nykyinen oletus-ilme siirretty `public/themes/default/`-rakenteeseen — Phase 7
+- Admin-paneelin teeman valintanäkymä (listaa asennetut teemat, tallentaa valinnan) — Phase 9
+- PHP lataa sivupohjat aktiivisesta teemasta — Phase 8
+- Teeman page-templatejen suora HTTP-pääsy estetty + koko teemajärjestelmä varmistettu Altervista-tuotannossa — Phase 9
 
-**Milestone v1.1 valmis** — kaikki tavoitefeaturet toteutettu (Phase 7, 8, 9). Tunnettu, tarkoituksellisesti rajattu puute: `oma-talli`-teemalla ei ole vielä vastaavaa `pages/.htaccess`-suojausta (D-06, Phase 9 CONTEXT) — teema on keskeneräinen eikä kuulunut tämän milestonen verifiointiin.
+</details>
+
+## Next Milestone Goals
+
+Ei vielä määritelty. Käynnistä `/gsd-new-milestone` seuraavan version vaatimusten määrittelyyn.
 
 ## Requirements
 
@@ -27,30 +40,25 @@ Hevosomistaja voi hallita koko tallinsa hevostietoja (profiilit, sukutaulut, kis
 
 <!-- Shipped and confirmed valuable. -->
 
-(None yet — ship to validate)
+- ✓ Julkinen etusivu, hevoslistaus, hevosprofiili (sukutaulu 3 sukupolvea + kisakalenteri + kuvagalleria), kasvatus-sivu, yhteystiedot-sivu — v1.0
+- ✓ Session-pohjainen admin-paneeli (kirjautuminen, hevosten CRUD, kuvagallerian hallinta, kisakalenterin hallinta, kasvatustietojen hallinta) — v1.0
+- ✓ OWASP Top 10 -tietoturva (PDO prepared statements, CSRF-suojaus, XSS-esto, input-validointi, turvalliset session-asetukset) — v1.0
+- ✓ Blogi (postausten hallinta adminissa, julkinen postauslista + yksittäinen postaussivu arkistosidebarilla) — v1.0 (Phase 5)
+- ✓ Tiedostopohjainen teemajärjestelmä: `resolveThemePath()` path-traversal-suojauksella, `public/themes/default/`-rakenne, data-only-sivukontrollerit, admin-teemavalinta, Altervista-tuotantoverifiointi — v1.1
 
 ### Active
 
 <!-- Current scope. Building toward these. -->
 
-- [ ] Julkinen etusivu (tallin esittely)
-- [ ] Hevoslistaus-sivu (kaikki tallin hevoset)
-- [ ] Hevosen profiilisivu (kattavat tiedot + sukutaulu 3 sukupolvea + kisakalenteri + kuvagalleria)
-- [ ] Kasvatus-sivu (menneet ja tulevat varsomiset)
-- [ ] Yhteystiedot-sivu
-- [ ] Session-pohjainen admin-paneeli (yksi admin-käyttäjä)
-- [ ] Hevosten CRUD admin-paneelissa
-- [ ] Kuvagallerian hallinta (lataus palvelimelle, max 5 kuvaa per hevonen)
-- [ ] Kisakalenterin hallinta admin-paneelissa
-- [ ] OWASP Top 10 -tietoturva (PDO prepared statements, CSRF-suojaus, XSS-esto, input-validointi)
+(Tyhjä — odottaa seuraavan milestonen vaatimusmäärittelyä)
 
 ### Out of Scope
 
-- Useampi admin-käyttäjä — yksi omistaja riittää MVP:hen
+- Useampi admin-käyttäjä — yksi omistaja riittää MVP:hen (ks. V2-01 mahdollinen laajennus)
 - Rekisteröityminen/kirjautuminen julkiselle sivustolle — sivusto on vain esittelysivu
 - Maksujärjestelmä — ei kaupallinen toiminto
-- Uutiset/blogi — toteutettu Phase 5:ssa (v1.0)
 - Varausjärjestelmä — ei pyydetty
+- Teeman esikatselukuva ja toinen valmis teema — siirretty v2-laajennuksiin (V2-05, V2-06)
 
 ## Context
 
@@ -58,6 +66,8 @@ Hevosomistaja voi hallita koko tallinsa hevostietoja (profiilit, sukutaulut, kis
 - Hosting: Altervista (ilmainen), PHP 8.2.31, MySQL-tietokanta käytettävissä
 - Omistajalla on teknistä taustaa PHP:stä ja HTML/CSS:stä
 - Tietoturva on erityinen painopiste: OWASP Top 10 2025, SQL-injektiot, XSS, CSRF
+- v1.1 jälkeen: julkinen puoli on täysin teema-ajettu (data-only-kontrollerit + `resolveThemePath()`); admin-puoli pysyy tarkoituksella teemajärjestelmän ulkopuolella (ei koskaan lataa `theme.php`-shimmiä)
+- Toinen teema (`oma-talli`) on olemassa hakemistorakenteessa mutta on keskeneräinen (ei `pages/.htaccess`-suojausta)
 
 ## Constraints
 
@@ -66,15 +76,24 @@ Hevosomistaja voi hallita koko tallinsa hevostietoja (profiilit, sukutaulut, kis
 - **Kuvat**: Max 5 kuvaa per hevonen, file upload palvelimelle
 - **Admin**: Yksi admin-käyttäjä, session-pohjainen autentikaatio
 - **Tech stack**: PHP (PDO), MySQL, HTML5, CSS3 — ei ulkoisia framework-riippuvuuksia
+- **Teemat**: Tiedostopohjaisia (`public/themes/{teema}/`), ei tietokantapohjaista teemaeditoria
 
 ## Key Decisions
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| PHP PDO tietokantayhteydelle | Parempi tietoturva ja joustavuus kuin MySQLi; yhtenäinen API | — Pending |
-| Session-pohjainen admin-auth | Yksinkertaisin turvallinen ratkaisu yhdelle omistajalle | — Pending |
-| PHP includes sivupohjien pilkkomiseen | Jatkaa olemassa olevaa arkkitehtuurikuviota | — Pending |
-| Kuvien tallennus palvelimelle | File upload → palvelinhakemisto; URL tallennetaan tietokantaan | — Pending |
+| PHP PDO tietokantayhteydelle | Parempi tietoturva ja joustavuus kuin MySQLi; yhtenäinen API | ✓ Good |
+| Session-pohjainen admin-auth | Yksinkertaisin turvallinen ratkaisu yhdelle omistajalle | ✓ Good |
+| PHP includes sivupohjien pilkkomiseen | Jatkaa olemassa olevaa arkkitehtuurikuviota | ✓ Good |
+| Kuvien tallennus palvelimelle | File upload → palvelinhakemisto; URL tallennetaan tietokantaan | ✓ Good |
+| resolveThemePath(): preg_match + realpath + prefix-check | Path-traversal-suojaus teemapoluille | ✓ Good |
+| Admin-paneeli ei koskaan lataa theme.php-shimmiä | Selkeä eristys julkisen teemajärjestelmän ja adminin välillä | ✓ Good |
+| public/assets/css/style.css pysyy muuttumattomana | admin_header.php riippuu siitä; teemat eivät koske admin-CSS:ää | ✓ Good |
+| INSERT IGNORE (ei ON DUPLICATE KEY UPDATE) migraatioissa | Yhdenmukaisuus muiden migrate_*.sql-tiedostojen kanssa | ✓ Good |
+| theme.json vain name+version | description/author/preview siirretty V2-05-laajennukseen | ✓ Good |
+| Sivukontrollerit data-only + resolveThemePath()-delegointi | Teeman vaihto ei vaadi kontrollerimuutoksia (todistettu Phase 08-04) | ✓ Good |
+| Deny from all themes/{teema}/pages/*.php:lle | Root .htaccess ei koskaan routita polkuun; require_once ohittaa Apache-eston joka tapauksessa turvallisesti | ✓ Good |
+| oma-talli-teeman .htaccess-suojaus jätetty ulkopuolelle | Teema keskeneräinen, ei kuulunut v1.1-scopeen | — Pending (tunnettu puute) |
 
 ## Evolution
 
@@ -94,4 +113,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-07-05 — Phase 9 (Admin-teemavalinta & Altervista-verifiointi) complete — v1.1 milestone target features all delivered*
+*Last updated: 2026-07-05 after v1.1 milestone*
