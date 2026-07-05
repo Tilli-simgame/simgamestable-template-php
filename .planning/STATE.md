@@ -2,9 +2,13 @@
 gsd_state_version: 1.0
 milestone: v1.2
 milestone_name: Käyttäjäroolit
+current_phase: 10
+current_phase_name: Roolit ja autentikaation perusta
 status: planning
-last_updated: "2026-07-05T10:45:00.000Z"
+stopped_at: Phase 10 context gathered
+last_updated: "2026-07-05T12:03:02.276Z"
 last_activity: 2026-07-05
+last_activity_desc: v1.2 ROADMAP.md created (Phases 10-13)
 progress:
   total_phases: 4
   completed_phases: 0
@@ -76,6 +80,7 @@ None yet.
 None open. Altervista CSS MIME-tyyppi -epäilys (Phase 9, v1.1) ratkaistu tuotantoverifioinnilla 2026-07-05.
 
 Research flags deeper attention needed during phase planning (not blockers, just planning inputs):
+
 - Phase 13: `pending_deletions` polymorphic queue-table shape (entity_type/status columns, approve/reject transaction sequencing) has no single canonical source — MEDIUM confidence, needs a focused pass during planning.
 - Phase 12: posts ownership/IDOR-prevention has zero existing precedent in this codebase — needs explicit negative-test scoping during planning.
 - Phase 12: legacy `posts.author_id` backfill decision (backfill to existing admin vs. leave NULL) not resolved by research — must be decided at phase-12 planning.
@@ -91,13 +96,14 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-07-05T10:45:00.000Z
-Stopped at: v1.2 ROADMAP.md, STATE.md, and REQUIREMENTS.md traceability created — all 29 requirements mapped to Phases 10-13
-Resume file: None
+Last session: 2026-07-05T12:03:02.256Z
+Stopped at: Phase 10 context gathered
+Resume file: .planning/phases/10-roolit-ja-autentikaation-perusta/10-CONTEXT.md
 
 ## Performance Metrics
 
 **Velocity:**
+
 - Total plans completed: 27 (v1.0 + v1.1)
 - v1.2 plans: none yet planned
 
