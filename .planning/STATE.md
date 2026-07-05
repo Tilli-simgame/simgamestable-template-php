@@ -2,18 +2,18 @@
 gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: — Teemajärjestelmä
-current_phase: 9
+current_phase: 09
 current_phase_name: Admin-teemavalinta & Altervista-verifiointi
 status: executing
-stopped_at: Phase 9 context gathered
-last_updated: "2026-07-04T16:33:59.492Z"
-last_activity: 2026-07-04
-last_activity_desc: Phase 08 complete, transitioned to Phase 9
+stopped_at: Completed 09-01-PLAN.md
+last_updated: "2026-07-05T07:30:25.553Z"
+last_activity: 2026-07-05
+last_activity_desc: Phase 09 execution started
 progress:
   total_phases: 4
   completed_phases: 3
-  total_plans: 10
-  completed_plans: 10
+  total_plans: 12
+  completed_plans: 11
   percent: 75
 ---
 
@@ -24,14 +24,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-22)
 
 **Core value:** Hevosomistaja voi hallita koko tallinsa hevostietoja yhdestä turvallisesta admin-paneelista, ja kaikki tieto näkyy automaattisesti julkisella sivustolla.
-**Current focus:** Phase 08 — Sivukontrollerien migraatio
+**Current focus:** Phase 09 — Admin-teemavalinta & Altervista-verifiointi
 
 ## Current Position
 
-Phase: 9 — Admin-teemavalinta & Altervista-verifiointi
-Plan: Not started
+Phase: 09 (Admin-teemavalinta & Altervista-verifiointi) — EXECUTING
+Plan: 2 of 2
 Status: Ready to execute
-Last activity: 2026-07-04 — Phase 08 complete, transitioned to Phase 9
+Last activity: 2026-07-05 — Phase 09 execution started
 
 Progress: [██████░░░░] 60% (v1.1 scope)
 
@@ -77,6 +77,8 @@ Progress: [██████░░░░] 60% (v1.1 scope)
 - [Phase 08]: v1.1 Plan 08-01: aktiivinen teema (oma-talli) ei sisällä juuritason hevoset.php/kasvatus.php-tiedostoja, joten Malli A putoaa oikein default-teeman pages/-templateihin ilman kontrollerimuutoksia
 - [Phase ?]: postaus.php keeps its dynamic $page_title (template does not self-set it); both postaus.php 404 branches unified to silent http_response_code(404); exit;
 - [Phase 08]: [Phase 08]: v1.1 Plan 08-03: hevonen.php's dynamic $page_title kept (template does not self-set it, like postaus.php in 08-02); $genderFi/pedigreeHorseLink()/pedigreeCell()/$heroPhoto/$heroStyle removed from controller (template-owned; PHP forbids function redeclaration)
+- [Phase ?]: v1.1 Plan 09-01: Deny from all on themes/{theme}/pages/*.php is safe — root .htaccess never routes to that path and require_once bypasses Apache HTTP access control
+- [Phase ?]: v1.1 Plan 09-01: settings.php accepted as-is (D-05) — THEME-10/THEME-11 verified satisfied by pre-existing glob()+theme.json listing and CSRF+allowlist validation, no modification made
 
 ### Blockers/Concerns
 
@@ -84,9 +86,9 @@ Progress: [██████░░░░] 60% (v1.1 scope)
 
 ## Session Continuity
 
-Last session: 2026-07-04T16:10:38.102Z
-Stopped at: Phase 9 context gathered
-Resume file: .planning/phases/09-admin-teemavalinta-altervista-verifiointi/09-CONTEXT.md
+Last session: 2026-07-05T07:30:25.533Z
+Stopped at: Completed 09-01-PLAN.md
+Resume file: None
 
 ## Performance Metrics
 
@@ -99,3 +101,4 @@ Resume file: .planning/phases/09-admin-teemavalinta-altervista-verifiointi/09-CO
 | Phase 08 P02 | 15min | 3 tasks | 3 files |
 | Phase 08 P03 | 12min | 1 tasks | 1 files |
 | Phase 08 P04 | 15min | 3 tasks | 0 files |
+| Phase 09 P01 | 5min | 2 tasks | 1 files |

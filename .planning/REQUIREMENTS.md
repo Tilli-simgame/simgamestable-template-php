@@ -104,9 +104,9 @@
 
 ### Admin-teemavalinta
 
-- [ ] **THEME-10**: Admin voi nähdä kaikki asennetut teemat listana `settings.php`:ssä (`glob()`-löydös, `theme.json`-nimi näytettynä)
-- [ ] **THEME-11**: Admin voi valita aktiivisen teeman ja tallentaa valinnan (allowlist-validoitu POST + CSRF-suojaus)
-- [ ] **THEME-12**: Tallinpitäjä voi varmistaa että teemajärjestelmä toimii Altervistassa (CSS MIME-tyypit, URL-polut, `public/themes/`-kansion suojaus)
+- [x] **THEME-10**: Admin voi nähdä kaikki asennetut teemat listana `settings.php`:ssä (`glob()`-löydös, `theme.json`-nimi näytettynä)
+- [x] **THEME-11**: Admin voi valita aktiivisen teeman ja tallentaa valinnan (allowlist-validoitu POST + CSRF-suojaus)
+- [x] **THEME-12**: Tallinpitäjä voi varmistaa että teemajärjestelmä toimii Altervistassa (CSS MIME-tyypit, URL-polut, `public/themes/`-kansion suojaus)
 
 ## v2 Requirements
 

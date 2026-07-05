@@ -220,12 +220,12 @@ Plans:
   4. `public/themes/`-kansio on suojattu suoralta selailuulta Altervistassa
   5. Teeman CSS latautuu oikealla MIME-tyypillä (`text/css`) Altervistassa — testattu FTP-deploymentilla
 
-**Plans**: 2 plans
+**Plans**: 1/2 plans executed
 
 Plans:
 **Wave 1**
 
-- [ ] 09-01-PLAN.md — pages/.htaccess deny direct HTTP access to theme templates + read-only verify settings.php satisfies THEME-10/THEME-11 (THEME-10, THEME-11, THEME-12)
+- [x] 09-01-PLAN.md — pages/.htaccess deny direct HTTP access to theme templates + read-only verify settings.php satisfies THEME-10/THEME-11 (THEME-10, THEME-11, THEME-12)
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
@@ -245,4 +245,4 @@ Plans:
 | 6. Teema-infrastruktuuri | 2/2 | Complete | 2026-06-22 |
 | 7. Oletusteman rakenne | 4/4 | Complete    | 2026-07-03 |
 | 8. Sivukontrollerien migraatio | 4/4 | Complete    | 2026-07-04 |
-| 9. Admin-teemavalinta & Altervista-verifiointi | 0/2 | Not started | - |
+| 9. Admin-teemavalinta & Altervista-verifiointi | 1/2 | In Progress|  |
