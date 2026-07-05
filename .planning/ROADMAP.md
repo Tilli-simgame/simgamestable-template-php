@@ -245,4 +245,4 @@ Plans:
 | 6. Teema-infrastruktuuri | 2/2 | Complete | 2026-06-22 |
 | 7. Oletusteman rakenne | 4/4 | Complete    | 2026-07-03 |
 | 8. Sivukontrollerien migraatio | 4/4 | Complete    | 2026-07-04 |
-| 9. Admin-teemavalinta & Altervista-verifiointi | 2/2 | Complete   | 2026-07-05 |
+| 9. Admin-teemavalinta & Altervista-verifiointi | 2/2 | Complete    | 2026-07-05 |
