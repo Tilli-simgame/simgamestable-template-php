@@ -30,9 +30,21 @@ Sivusto on täysin toimiva PHP/MySQL-pohjainen virtuaalitalli Altervista-tuotann
 
 </details>
 
+## Current Milestone: v1.2 Käyttäjäroolit
+
+**Goal:** Adminin lisäksi tallilla voi olla mod- ja author-käyttäjiä rajatuin oikeuksin; kaikki käyttäjät voivat vaihtaa oman salasanansa; vain admin voi luoda uusia tunnuksia.
+
+**Target features:**
+- `admin_users.role`-sarake (admin / mod / author) ja rooliperusteinen pääsynhallinta admin-paneelissa
+- **admin**: kaikki oikeudet — hevoset/varsat/kisat/näyttelyt/postaukset (luo/muokkaa/poista suoraan), täysi käyttäjähallinta (luo/muokkaa roolia+nimeä/poista/nollaa salasana), teemavalinta/asetukset
+- **mod**: voi luoda/muokata hevosia (+kuvat), varsoja, kisoja, näyttelyitä (showrecords), postauksia. Poisto vaatii admin-hyväksynnän (pending-deletion-tila → admin hyväksyy/hylkää). Ei pääsyä käyttäjähallintaan eikä teema-asetuksiin.
+- **author**: voi luoda/muokata/poistaa VAIN omia postauksiaan (`posts.author_id`, välitön poisto). Voi linkittää olemassa olevia hevosia postaukseen (read-only valinta postausten post_horses-linkitykseen). Ei pääsyä muualle.
+- Kaikki roolit voivat vaihtaa oman salasanansa admin-paneelista
+- Pending-deletion-mekanismi hevosille, varsoille, kisoille, näyttelyille ja postauksille (uusi status/taulu, admin-hyväksyntänäkymä)
+
 ## Next Milestone Goals
 
-Ei vielä määritelty. Käynnistä `/gsd-new-milestone` seuraavan version vaatimusten määrittelyyn.
+Ei vielä määritelty seuraavaksi milestoneksi v1.2:n jälkeen.
 
 ## Requirements
 
@@ -50,11 +62,14 @@ Ei vielä määritelty. Käynnistä `/gsd-new-milestone` seuraavan version vaati
 
 <!-- Current scope. Building toward these. -->
 
-(Tyhjä — odottaa seuraavan milestonen vaatimusmäärittelyä)
+- [ ] Rooliperusteinen pääsynhallinta (admin/mod/author) admin-paneelissa
+- [ ] Käyttäjähallinta: admin voi luoda/muokata/poistaa käyttäjiä ja nollata salasanoja
+- [ ] Kaikki käyttäjät voivat vaihtaa oman salasanansa
+- [ ] Mod-roolin rajattu CRUD hevosille/varsoille/kisoille/näyttelyille/postauksille poisto-hyväksyntäkiertoineen
+- [ ] Author-roolin rajattu CRUD vain omiin postauksiin + hevoslinkitys (read-only valinta)
 
 ### Out of Scope
 
-- Useampi admin-käyttäjä — yksi omistaja riittää MVP:hen (ks. V2-01 mahdollinen laajennus)
 - Rekisteröityminen/kirjautuminen julkiselle sivustolle — sivusto on vain esittelysivu
 - Maksujärjestelmä — ei kaupallinen toiminto
 - Varausjärjestelmä — ei pyydetty
@@ -74,7 +89,7 @@ Ei vielä määritelty. Käynnistä `/gsd-new-milestone` seuraavan version vaati
 - **Hosting**: Altervista — ei shell-access, FTP/cPanel-hallinta, PHP 8.2.31, MySQL
 - **Tietoturva**: Kaiken input täytyy olla validoitu ja sanitoitu; PDO prepared statements pakollisia
 - **Kuvat**: Max 5 kuvaa per hevonen, file upload palvelimelle
-- **Admin**: Yksi admin-käyttäjä, session-pohjainen autentikaatio
+- **Admin**: Session-pohjainen autentikaatio; useampi käyttäjä rooleilla (admin/mod/author) v1.2:sta alkaen — vain admin luo tunnuksia
 - **Tech stack**: PHP (PDO), MySQL, HTML5, CSS3 — ei ulkoisia framework-riippuvuuksia
 - **Teemat**: Tiedostopohjaisia (`public/themes/{teema}/`), ei tietokantapohjaista teemaeditoria
 
@@ -113,4 +128,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-07-05 after v1.1 milestone*
+*Last updated: 2026-07-05 — v1.2 Käyttäjäroolit milestone started*

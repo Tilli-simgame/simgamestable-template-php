@@ -1,20 +1,16 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.1
-milestone_name: — Teemajärjestelmä
-current_phase: 1
-status: Awaiting next milestone
-stopped_at: Phase 9 complete — v1.1 milestone target features all delivered
-last_updated: "2026-07-05T09:43:42.886Z"
+milestone: v1.2
+milestone_name: Käyttäjäroolit
+status: planning
+last_updated: "2026-07-05T10:27:51.972Z"
 last_activity: 2026-07-05
-last_activity_desc: Milestone v1.1 completed and archived
 progress:
-  total_phases: 4
-  completed_phases: 4
-  total_plans: 12
-  completed_plans: 12
-  percent: 100
-current_phase_name: Admin-teemavalinta & Altervista-verifiointi
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
@@ -24,14 +20,14 @@ current_phase_name: Admin-teemavalinta & Altervista-verifiointi
 See: .planning/PROJECT.md (updated 2026-07-05)
 
 **Core value:** Hevosomistaja voi hallita koko tallinsa hevostietoja yhdestä turvallisesta admin-paneelista, ja kaikki tieto näkyy automaattisesti julkisella sivustolla.
-**Current focus:** Awaiting next milestone (v1.1 shipped 2026-07-05)
+**Current focus:** v1.2 Käyttäjäroolit — defining requirements
 
 ## Current Position
 
-Phase: Milestone v1.1 complete
+Phase: Not started (defining requirements)
 Plan: —
-Status: Awaiting next milestone
-Last activity: 2026-07-05 — Milestone v1.1 completed and archived
+Status: Defining requirements
+Last activity: 2026-07-05 — Milestone v1.2 started
 
 ## Workflow Status
 
@@ -93,4 +89,4 @@ Resume file: None
 
 ## Operator Next Steps
 
-- Start the next milestone with /gsd-new-milestone
+- Define v1.2 requirements, then create the roadmap (in progress via /gsd-new-milestone)
