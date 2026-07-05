@@ -78,19 +78,44 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| ROLE-01–ROLE-04 | TBD | Pending |
-| AUTH-06 | TBD | Pending |
-| USER-01–USER-07 | TBD | Pending |
-| MOD-01–MOD-07 | TBD | Pending |
-| DEL-01–DEL-05 | TBD | Pending |
-| AUTHOR-01–AUTHOR-05 | TBD | Pending |
+| ROLE-01 | Phase 10 — Roolit ja autentikaation perusta | Mapped |
+| ROLE-02 | Phase 10 — Roolit ja autentikaation perusta | Mapped |
+| ROLE-03 | Phase 10 — Roolit ja autentikaation perusta | Mapped |
+| ROLE-04 | Phase 10 — Roolit ja autentikaation perusta | Mapped |
+| AUTH-06 | Phase 10 — Roolit ja autentikaation perusta | Mapped |
+| USER-01 | Phase 11 — Käyttäjähallinta | Mapped |
+| USER-02 | Phase 11 — Käyttäjähallinta | Mapped |
+| USER-03 | Phase 11 — Käyttäjähallinta | Mapped |
+| USER-04 | Phase 11 — Käyttäjähallinta | Mapped |
+| USER-05 | Phase 11 — Käyttäjähallinta | Mapped |
+| USER-06 | Phase 11 — Käyttäjähallinta | Mapped |
+| USER-07 | Phase 11 — Käyttäjähallinta | Mapped |
+| MOD-01 | Phase 12 — Sisältötyyppien roolirajaus | Mapped |
+| MOD-02 | Phase 12 — Sisältötyyppien roolirajaus | Mapped |
+| MOD-03 | Phase 12 — Sisältötyyppien roolirajaus | Mapped |
+| MOD-04 | Phase 12 — Sisältötyyppien roolirajaus | Mapped |
+| MOD-05 | Phase 12 — Sisältötyyppien roolirajaus | Mapped |
+| MOD-06 | Phase 13 — Poisto-hyväksyntätyönkulku | Mapped |
+| MOD-07 | Phase 12 — Sisältötyyppien roolirajaus | Mapped |
+| DEL-01 | Phase 13 — Poisto-hyväksyntätyönkulku | Mapped |
+| DEL-02 | Phase 13 — Poisto-hyväksyntätyönkulku | Mapped |
+| DEL-03 | Phase 13 — Poisto-hyväksyntätyönkulku | Mapped |
+| DEL-04 | Phase 13 — Poisto-hyväksyntätyönkulku | Mapped |
+| DEL-05 | Phase 13 — Poisto-hyväksyntätyönkulku | Mapped |
+| AUTHOR-01 | Phase 12 — Sisältötyyppien roolirajaus | Mapped |
+| AUTHOR-02 | Phase 12 — Sisältötyyppien roolirajaus | Mapped |
+| AUTHOR-03 | Phase 13 — Poisto-hyväksyntätyönkulku | Mapped |
+| AUTHOR-04 | Phase 12 — Sisältötyyppien roolirajaus | Mapped |
+| AUTHOR-05 | Phase 12 — Sisältötyyppien roolirajaus | Mapped |
 
 **Coverage:**
 
 - v1.2 requirements: 29 total
-- Mapped to phases: 0 (filled by roadmapper)
-- Unmapped: 29 ⚠️ (pending roadmap creation)
+- Mapped to phases: 29
+- Unmapped: 0 ✓
+
+**Note:** `MOD-06` and `AUTHOR-03` are grouped with the delete-approval workflow (Phase 13) rather than the content-gating phase (Phase 12), because both depend on the soft-delete/`pending_deletions` schema introduced there — mod (pending approval), admin (direct soft-delete), and author-on-own-posts (immediate soft-delete) delete branches are implemented as one coherent unit of work in `post_delete.php` and equivalent handlers.
 
 ---
 *Requirements defined: 2026-07-05*
-*Last updated: 2026-07-05 after v1.2 requirements definition*
+*Last updated: 2026-07-05 — traceability mapped to Phases 10-13 during roadmap creation*
