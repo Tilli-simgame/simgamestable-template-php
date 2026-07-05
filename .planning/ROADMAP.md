@@ -18,7 +18,7 @@ Projekti rakentaa PHP/MySQL-pohjaisen virtuaalitallin kokonaan uudelleen: ensin 
 - [ ] **Phase 6: Teema-infrastruktuuri** - theme.php-shim, DB-migraatio, resolveThemePath()-helper ja julkinen/admin-eristys
 - [x] **Phase 7: Oletusteman rakenne** - public/themes/default/-rakenne: includes, sivupohjat, CSS ja theme.json (completed 2026-07-03)
 - [x] **Phase 8: Sivukontrollerien migraatio** - Kaikki 7 julkista sivukontrolleria muuttuvat data-only-kontrollereiksi (completed 2026-07-04)
-- [ ] **Phase 9: Admin-teemavalinta & Altervista-verifiointi** - Admin voi valita teeman; järjestelmä toimii tuotannossa
+- [x] **Phase 9: Admin-teemavalinta & Altervista-verifiointi** - Admin voi valita teeman; järjestelmä toimii tuotannossa (completed 2026-07-05)
 
 ## Phase Details
 
@@ -220,7 +220,7 @@ Plans:
   4. `public/themes/`-kansio on suojattu suoralta selailuulta Altervistassa
   5. Teeman CSS latautuu oikealla MIME-tyypillä (`text/css`) Altervistassa — testattu FTP-deploymentilla
 
-**Plans**: 1/2 plans executed
+**Plans**: 2/2 plans complete
 
 Plans:
 **Wave 1**
@@ -229,7 +229,7 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 09-02-PLAN.md — Altervista production verification checkpoint: CSS MIME, URL paths, themes/ protection, template-access denial (THEME-12)
+- [x] 09-02-PLAN.md — Altervista production verification checkpoint: CSS MIME, URL paths, themes/ protection, template-access denial (THEME-12)
 
 **UI hint**: yes
 
@@ -245,4 +245,4 @@ Plans:
 | 6. Teema-infrastruktuuri | 2/2 | Complete | 2026-06-22 |
 | 7. Oletusteman rakenne | 4/4 | Complete    | 2026-07-03 |
 | 8. Sivukontrollerien migraatio | 4/4 | Complete    | 2026-07-04 |
-| 9. Admin-teemavalinta & Altervista-verifiointi | 1/2 | In Progress|  |
+| 9. Admin-teemavalinta & Altervista-verifiointi | 2/2 | Complete   | 2026-07-05 |
