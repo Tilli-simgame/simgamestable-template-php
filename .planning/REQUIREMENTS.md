@@ -1,0 +1,96 @@
+# Requirements: Virtuaalitalli — v1.2 Käyttäjäroolit
+
+**Defined:** 2026-07-05
+**Core Value:** Hevosomistaja voi hallita koko tallinsa hevostietoja yhdestä turvallisesta admin-paneelista, ja kaikki tieto näkyy automaattisesti julkisella sivustolla.
+
+## v1.2 Requirements — Käyttäjäroolit
+
+### Roolit & pääsynhallinta
+
+- [ ] **ROLE-01**: Järjestelmässä on kolme roolia (admin, mod, author) tallennettuna `admin_users`-tauluun
+- [ ] **ROLE-02**: Käyttäjän rooli tallennetaan sessioon kirjautumisen yhteydessä ja tarkistetaan palvelinpuolella jokaisella suojatulla admin-sivulla
+- [ ] **ROLE-03**: Käyttäjä joka yrittää avata roolinsa ulkopuolisen admin-sivun ohjataan "Ei käyttöoikeutta" -näkymään
+- [ ] **ROLE-04**: Admin-navigaatio näyttää vain käyttäjän roolille sallitut valikkokohdat
+
+### Käyttäjähallinta
+
+- [ ] **USER-01**: Admin voi luoda uuden käyttäjätunnuksen (käyttäjänimi, salasana, rooli)
+- [ ] **USER-02**: Admin voi muokata olemassa olevan käyttäjän roolia ja käyttäjänimeä
+- [ ] **USER-03**: Admin voi deaktivoida käyttäjätunnuksen ilman että käyttäjän aiempi sisältö (esim. postausten tekijätieto) katoaa
+- [ ] **USER-04**: Admin voi poistaa käyttäjätunnuksen pysyvästi
+- [ ] **USER-05**: Admin voi nollata toisen käyttäjän salasanan ilman että tarvitsee tietää vanhaa salasanaa
+- [ ] **USER-06**: Järjestelmä estää viimeisen admin-tunnuksen poistamisen tai deaktivoinnin
+- [ ] **USER-07**: Admin ei voi poistaa tai deaktivoida omaa tunnustaan
+
+### Salasanan vaihto
+
+- [ ] **AUTH-06**: Kirjautunut käyttäjä (mikä tahansa rooli) voi vaihtaa oman salasanansa antamalla nykyisen salasanan sekä uuden salasanan kahdesti
+
+### Mod-rajattu sisällönhallinta
+
+- [ ] **MOD-01**: Mod-rooli voi luoda ja muokata hevosia sekä niiden kuvia
+- [ ] **MOD-02**: Mod-rooli voi luoda ja muokata varsamerkintöjä
+- [ ] **MOD-03**: Mod-rooli voi luoda ja muokata kilpailuja
+- [ ] **MOD-04**: Mod-rooli voi luoda ja muokata näyttelytuloksia (showrecords)
+- [ ] **MOD-05**: Mod-rooli voi luoda ja muokata postauksia
+- [ ] **MOD-06**: Mod-roolin poistopyyntö hevosesta/varsasta/kilpailusta/näyttelytuloksesta/postauksesta ei poista sisältöä heti, vaan asettaa sen odottamaan admin-hyväksyntää
+- [ ] **MOD-07**: Mod-roolilla ei ole pääsyä käyttäjähallintaan eikä teema-asetuksiin
+
+### Poisto-hyväksyntätyönkulku
+
+- [ ] **DEL-01**: Admin näkee yhden näkymän kaikista odottavista poistopyynnöistä (hevoset, varsat, kilpailut, näyttelyt, postaukset)
+- [ ] **DEL-02**: Admin voi hyväksyä poistopyynnön, jolloin sisältö poistuu (pehmeästi) näkyvistä
+- [ ] **DEL-03**: Admin voi hylätä poistopyynnön, jolloin sisältö palautuu normaalisti näkyväksi
+- [ ] **DEL-04**: Admin-etusivulla näkyy laskuri odottavien poistopyyntöjen määrästä
+- [ ] **DEL-05**: Sama sisältö ei voi olla useamman kertaan poistojonossa samanaikaisesti
+
+### Author-rajattu sisällönhallinta
+
+- [ ] **AUTHOR-01**: Author-rooli voi luoda uuden postauksen
+- [ ] **AUTHOR-02**: Author-rooli voi muokata vain omia postauksiaan
+- [ ] **AUTHOR-03**: Author-rooli voi poistaa vain omia postauksiaan välittömästi (ilman hyväksyntää)
+- [ ] **AUTHOR-04**: Author-rooli voi linkittää olemassa olevia hevosia postaukseensa valitsemalla ne listalta (ei muokkausoikeutta hevostietoihin)
+- [ ] **AUTHOR-05**: Author-roolilla ei ole pääsyä muihin admin-toimintoihin (hevoset, varsat, kilpailut, näyttelyt, käyttäjähallinta, teema-asetukset)
+
+## v2 Requirements
+
+Siirretty tulevaisuuteen tutkimuksen perusteella (ks. `.planning/research/FEATURES.md`):
+
+### Käyttäjähallinnan laajennukset
+
+- **USER-V2-01**: Hylkäämisen syy-kenttä (admin voi kirjoittaa lyhyen selityksen kun hylkää mod-poistopyynnön)
+
+## Out of Scope
+
+| Feature | Reason |
+|---------|--------|
+| Granulaarinen oikeusmatriisi (per-toiminto, per-resurssi) | 3 kiinteää roolia riittää 2-4 käyttäjän tallille; ei tarvetta mukautettaville rooleille |
+| Moniportainen hyväksyntäketju (useampi admin hyväksyy) | Ratkaisee ongelman jota ei ole yhden admin-tunnuksen järjestelmässä |
+| Yleiskäyttöinen audit-loki / aktiviteettivirta | pending_deletions-taulun requested_by/resolved_by/timestamp-kentät riittävät tarpeeseen |
+| Itserekisteröityminen / kutsulinkit | Vain admin luo tunnuksia — vahvistettu vaatimus |
+| Roolikohtainen UI-teemoitus / eri dashboard-layoutit rooleittain | Sama admin-layout piilottaa navigaation kohdat roolin mukaan riittää |
+| Aikarajatut/vanhenevat poistopyynnöt (auto-approve/reject) | Vaatisi cron-ajastuksen, ei saatavilla Altervistan ilmaistasolla |
+| Salasanan vahvuusmittari / breach-tarkistus (esim. haveibeenpwned) | Suhteeton 2-4 hengen sisäiselle työkalulle; bcrypt+CSRF+PDO jo kattaa OWASP-painopisteen |
+
+## Traceability
+
+Which phases cover which requirements. Updated during roadmap creation.
+
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| ROLE-01–ROLE-04 | TBD | Pending |
+| AUTH-06 | TBD | Pending |
+| USER-01–USER-07 | TBD | Pending |
+| MOD-01–MOD-07 | TBD | Pending |
+| DEL-01–DEL-05 | TBD | Pending |
+| AUTHOR-01–AUTHOR-05 | TBD | Pending |
+
+**Coverage:**
+
+- v1.2 requirements: 29 total
+- Mapped to phases: 0 (filled by roadmapper)
+- Unmapped: 29 ⚠️ (pending roadmap creation)
+
+---
+*Requirements defined: 2026-07-05*
+*Last updated: 2026-07-05 after v1.2 requirements definition*
