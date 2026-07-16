@@ -54,10 +54,10 @@ See `.planning/milestones/v1.1-ROADMAP.md` for full phase details.
   3. Admin-navigaatio näyttää kullekin roolille vain sen omat valikkokohdat (esim. author ei näe käyttäjähallinta- eikä teema-asetuslinkkejä).
   4. Kirjautunut käyttäjä (mikä tahansa rooli) voi vaihtaa oman salasanansa antamalla nykyisen salasanan sekä uuden kahdesti, ja kirjautuminen onnistuu heti uudella salasanalla.
 
-**Plans**: 3 plans
+**Plans**: 1/3 plans executed
 **Wave 1**
 
-- [ ] 10-01-PLAN.md — Rooli-infrastruktuuri: migrate_roles.sql + helpers.php (requireRole/currentRole/isAdmin) + login.php (rooli + is_active) + ei-oikeutta.php (Wave 1)
+- [x] 10-01-PLAN.md — Rooli-infrastruktuuri: migrate_roles.sql + helpers.php (requireRole/currentRole/isAdmin) + login.php (rooli + is_active) + ei-oikeutta.php (Wave 1)
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
@@ -122,7 +122,7 @@ See `.planning/milestones/v1.1-ROADMAP.md` for full phase details.
 | 7. Oletusteman rakenne | v1.1 | 4/4 | Complete | 2026-07-03 |
 | 8. Sivukontrollerien migraatio | v1.1 | 4/4 | Complete | 2026-07-04 |
 | 9. Admin-teemavalinta & Altervista-verifiointi | v1.1 | 2/2 | Complete | 2026-07-05 |
-| 10. Roolit ja autentikaation perusta | v1.2 | 0/TBD | Not started | - |
+| 10. Roolit ja autentikaation perusta | v1.2 | 1/3 | In Progress|  |
 | 11. Käyttäjähallinta | v1.2 | 0/TBD | Not started | - |
 | 12. Sisältötyyppien roolirajaus | v1.2 | 0/TBD | Not started | - |
 | 13. Poisto-hyväksyntätyönkulku | v1.2 | 0/TBD | Not started | - |

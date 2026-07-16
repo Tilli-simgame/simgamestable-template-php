@@ -3,17 +3,17 @@ gsd_state_version: 1.0
 milestone: v1.2
 milestone_name: Käyttäjäroolit
 current_phase: 10
-current_phase_name: Roolit ja autentikaation perusta
-status: planning
-stopped_at: Phase 10 context gathered
-last_updated: "2026-07-05T12:03:02.276Z"
-last_activity: 2026-07-05
-last_activity_desc: v1.2 ROADMAP.md created (Phases 10-13)
+current_phase_name: roolit-ja-autentikaation-perusta
+status: executing
+stopped_at: Completed 10-01-PLAN.md
+last_updated: "2026-07-16T08:16:28.183Z"
+last_activity: 2026-07-16
+last_activity_desc: Phase 10 execution started
 progress:
   total_phases: 4
   completed_phases: 0
-  total_plans: 0
-  completed_plans: 0
+  total_plans: 3
+  completed_plans: 1
   percent: 0
 ---
 
@@ -24,14 +24,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-07-05)
 
 **Core value:** Hevosomistaja voi hallita koko tallinsa hevostietoja yhdestä turvallisesta admin-paneelista, ja kaikki tieto näkyy automaattisesti julkisella sivustolla.
-**Current focus:** v1.2 Käyttäjäroolit — Phase 10 (Roolit ja autentikaation perusta) ready to plan
+**Current focus:** Phase 10 — roolit-ja-autentikaation-perusta
 
 ## Current Position
 
-Phase: 10 of 13 (Roolit ja autentikaation perusta)
-Plan: — (not yet planned)
-Status: Roadmap created — ready for `/gsd-plan-phase 10`
-Last activity: 2026-07-05 — v1.2 ROADMAP.md created (Phases 10-13)
+Phase: 10 (roolit-ja-autentikaation-perusta) — EXECUTING
+Plan: 2 of 3
+Status: Ready to execute
+Last activity: 2026-07-16 — Phase 10 execution started
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -71,6 +71,9 @@ Progress: [░░░░░░░░░░] 0%
 
 Full decision log in `.planning/PROJECT.md` Key Decisions table.
 
+- [Phase 10-01]: ei-oikeutta.php sulkeutuu require admin_footer.php -kutsulla eika kovakoodatulla </div></div></body></html>-lohkolla, koska se on kaikkien nykyisten admin-sivujen tosiasiallinen konventio — PATTERNS.md:n esimerkkilohko oli talta osin vanhentunut - grep-verifiointi osoitti kaikkien 21 admin-sivun kayttavan admin_footer.php-includea
+- [Phase 10-01]: role-sarakkeen DEFAULT on author seka migraatiossa etta schema.sql:ssa (D-06 turvallisin fallback), admin-tunnus nostetaan eksplisiittisella UPDATE-lauseella
+
 ### Pending Todos
 
 None yet.
@@ -96,9 +99,9 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-07-05T12:03:02.256Z
-Stopped at: Phase 10 context gathered
-Resume file: .planning/phases/10-roolit-ja-autentikaation-perusta/10-CONTEXT.md
+Last session: 2026-07-16T08:16:28.154Z
+Stopped at: Completed 10-01-PLAN.md
+Resume file: None
 
 ## Performance Metrics
 
@@ -119,6 +122,7 @@ Resume file: .planning/phases/10-roolit-ja-autentikaation-perusta/10-CONTEXT.md
 | Phase 08 P03 | 12min | 1 tasks | 1 files |
 | Phase 08 P04 | 15min | 3 tasks | 0 files |
 | Phase 09 P01 | 5min | 2 tasks | 1 files |
+| Phase 10 P01 | 5min | 3 tasks | 5 files |
 
 ## Operator Next Steps
 
