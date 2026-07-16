@@ -2,13 +2,13 @@
 gsd_state_version: 1.0
 milestone: v1.2
 milestone_name: Käyttäjäroolit
-current_phase: 10
-current_phase_name: roolit-ja-autentikaation-perusta
-status: verifying
-stopped_at: Completed 10-01-PLAN.md
-last_updated: "2026-07-16T08:30:39.296Z"
+current_phase: 11
+current_phase_name: Käyttäjähallinta
+status: planning
+stopped_at: Phase 10 complete, ready to plan Phase 11
+last_updated: "2026-07-16T09:15:00.000Z"
 last_activity: 2026-07-16
-last_activity_desc: Phase 10 execution started
+last_activity_desc: Phase 10 complete, transitioned to Phase 11
 progress:
   total_phases: 4
   completed_phases: 1
@@ -24,14 +24,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-07-05)
 
 **Core value:** Hevosomistaja voi hallita koko tallinsa hevostietoja yhdestä turvallisesta admin-paneelista, ja kaikki tieto näkyy automaattisesti julkisella sivustolla.
-**Current focus:** Phase 10 — roolit-ja-autentikaation-perusta
+**Current focus:** Phase 11 — Käyttäjähallinta
 
 ## Current Position
 
-Phase: 10 (roolit-ja-autentikaation-perusta) — EXECUTING
-Plan: 3 of 3
+Phase: 11 — Käyttäjähallinta
+Plan: Not started
 Status: Phase complete — ready for verification
-Last activity: 2026-07-16 — Phase 10 execution started
+Last activity: 2026-07-16 — Phase 10 complete, transitioned to Phase 11
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -48,7 +48,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 7 — Oletusteman rakenne | Complete | 2026-06-22 | 2026-07-03 |
 | Phase 8 — Sivukontrollerien migraatio | Complete | 2026-07-03 | 2026-07-04 |
 | Phase 9 — Admin-teemavalinta & Altervista | Complete | 2026-07-04 | 2026-07-05 |
-| Phase 10 — Roolit ja autentikaation perusta | Not started | - | - |
+| Phase 10 — Roolit ja autentikaation perusta | Complete | 2026-07-16 | 2026-07-16 |
 | Phase 11 — Käyttäjähallinta | Not started | - | - |
 | Phase 12 — Sisältötyyppien roolirajaus | Not started | - | - |
 | Phase 13 — Poisto-hyväksyntätyönkulku | Not started | - | - |
@@ -101,8 +101,8 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-07-16T08:30:08.589Z
-Stopped at: Completed 10-01-PLAN.md
+Last session: 2026-07-16
+Stopped at: Phase 10 complete, ready to plan Phase 11
 Resume file: None
 
 ## Performance Metrics
@@ -130,4 +130,4 @@ Resume file: None
 
 ## Operator Next Steps
 
-- `/gsd-plan-phase 10` — plan Roolit ja autentikaation perusta (ROLE-01–04, AUTH-06)
+- `/gsd-discuss-phase 11` — gather context for Käyttäjähallinta before planning
