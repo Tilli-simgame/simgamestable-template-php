@@ -20,7 +20,7 @@
 - [x] **USER-04**: Admin voi poistaa käyttäjätunnuksen pysyvästi
 - [x] **USER-05**: Admin voi nollata toisen käyttäjän salasanan ilman että tarvitsee tietää vanhaa salasanaa
 - [ ] **USER-06**: Järjestelmä estää viimeisen admin-tunnuksen poistamisen tai deaktivoinnin
-- [ ] **USER-07**: Admin ei voi poistaa tai deaktivoida omaa tunnustaan
+- [x] **USER-07**: Admin ei voi poistaa tai deaktivoida omaa tunnustaan
 
 ### Salasanan vaihto
 
