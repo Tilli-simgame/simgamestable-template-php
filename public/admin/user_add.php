@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $f['username'] = sanitize($_POST['username'] ?? '');
         $f['role']     = sanitize($_POST['role'] ?? '');
 
-        $val = validate_string($f['username'], 1, 255);
+        $val = validate_string($f['username'], 1, 50);
         if (!$val['valid']) {
             $errors[] = $val['error'];
         }
@@ -38,12 +38,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'INSERT INTO admin_users (username, password, role, is_active)
                  VALUES (:username, :hash, :role, 1)'
             );
-            $stmt->execute([
-                ':username' => $f['username'],
-                ':hash'     => $hash,
-                ':role'     => $f['role'],
-            ]);
-            $success = true;
+            try {
+                $stmt->execute([
+                    ':username' => $f['username'],
+                    ':hash'     => $hash,
+                    ':role'     => $f['role'],
+                ]);
+                $success = true;
+            } catch (PDOException $e) {
+                if ($e->getCode() === '23000') {
+                    $errors[] = 'Käyttäjänimi on jo käytössä.';
+                } else {
+                    error_log($e->getMessage());
+                    $errors[] = 'Käyttäjän tallennus epäonnistui.';
+                }
+            }
         }
     }
 }

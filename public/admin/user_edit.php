@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $f['username'] = sanitize($_POST['username'] ?? '');
         $f['role']     = sanitize($_POST['role'] ?? '');
 
-        $val = validate_string($f['username'], 1, 255);
+        $val = validate_string($f['username'], 1, 50);
         if (!$val['valid']) {
             $errors[] = $val['error'];
         }
@@ -44,12 +44,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (empty($errors)) {
             $stmt = $db->prepare('UPDATE admin_users SET username = :username, role = :role WHERE id = :id');
-            $stmt->execute([
-                ':username' => $f['username'],
-                ':role'     => $f['role'],
-                ':id'       => $id,
-            ]);
-            redirect(SITE_URL . '/admin/users.php?updated=1');
+            try {
+                $stmt->execute([
+                    ':username' => $f['username'],
+                    ':role'     => $f['role'],
+                    ':id'       => $id,
+                ]);
+                redirect(SITE_URL . '/admin/users.php?updated=1');
+            } catch (PDOException $e) {
+                if ($e->getCode() === '23000') {
+                    $errors[] = 'Käyttäjänimi on jo käytössä.';
+                } else {
+                    error_log($e->getMessage());
+                    $errors[] = 'Käyttäjän tallennus epäonnistui.';
+                }
+            }
         }
     }
 }
