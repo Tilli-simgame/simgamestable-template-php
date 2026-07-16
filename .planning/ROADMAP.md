@@ -77,7 +77,7 @@ See `.planning/milestones/v1.1-ROADMAP.md` for full phase details.
   4. Admin voi poistaa käyttäjätunnuksen pysyvästi tai nollata toisen käyttäjän salasanan ilman että tarvitsee tietää vanhaa salasanaa.
   5. Järjestelmä estää viimeisen admin-tunnuksen poiston/deaktivoinnin sekä adminin oman tunnuksen poiston/deaktivoinnin — yritys näyttää virheilmoituksen eikä toimintoa suoriteta.
 
-**Plans**: 3/3 plans complete
+**Plans**: 3/3 plans complete + 1 gap-closure plan (11-04) pending
 
 **Wave 1**
 
@@ -87,6 +87,10 @@ See `.planning/milestones/v1.1-ROADMAP.md` for full phase details.
 
 - [x] 11-02-PLAN.md — Käyttäjän luonti (user_add.php, generoitu salasana kertanäyttönä) + muokkaus (user_edit.php, oman roolin suoja D-05) (Wave 2)
 - [x] 11-03-PLAN.md — Salasanan nollaus + tila-toggle + pysyvä poisto, last-admin- ja self-lockout-guardein (Wave 2)
+
+**Gap closure** *(from 11-VERIFICATION.md — 2 rakenteellista aukkoa)*
+
+- [ ] 11-04-PLAN.md — CR-01: requireRole() re-validoi session admin_users-taulusta (USER-02/SC2 seuraavan pyynnön oikeuksien voimaantulo) + CR-02: username-validointi VARCHAR(50):een + try/catch INSERT/UPDATE-kaatumissuoja (USER-01/USER-02) (Wave 1)
 
 ### Phase 12: Sisältötyyppien roolirajaus
 
