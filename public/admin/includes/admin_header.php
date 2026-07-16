@@ -287,36 +287,60 @@ $_adminTheme = $GLOBALS['color_theme'];
       <div class="logo-text">🐴 Virtuaalitalli</div>
       <div class="logo-sub">Hallintapaneeli</div>
     </div>
+    <?php $role = currentRole(); ?>
     <nav>
       <div class="admin-nav-section">Päävalikko</div>
+      <?php if (in_array($role, ['admin','mod','author'], true)): ?>
       <a class="admin-nav-item <?= in_array($_activePage, ['index']) ? 'active' : '' ?>"
          href="<?= e(SITE_URL) ?>/admin/">⊞ Dashboard</a>
+      <?php endif; ?>
+      <?php if (in_array($role, ['admin','mod'], true)): ?>
       <a class="admin-nav-item <?= in_array($_activePage, ['horses','horse_add','horse_edit','horse_delete']) ? 'active' : '' ?>"
          href="<?= e(SITE_URL) ?>/admin/horses.php">🐎 Hevoset</a>
+      <?php endif; ?>
+      <?php if (in_array($role, ['admin','mod'], true)): ?>
       <a class="admin-nav-item <?= in_array($_activePage, ['contacts','contact_add','contact_edit']) ? 'active' : '' ?>"
          href="<?= e(SITE_URL) ?>/admin/contacts.php">📒 Osoitekirja</a>
+      <?php endif; ?>
+      <?php if (in_array($role, ['admin','mod'], true)): ?>
       <a class="admin-nav-item <?= $_activePage === 'sukulaiset' ? 'active' : '' ?>"
          href="<?= e(SITE_URL) ?>/admin/sukulaiset.php">🌳 Sukulaiset</a>
+      <?php endif; ?>
+      <?php if (in_array($role, ['admin','mod'], true)): ?>
       <a class="admin-nav-item <?= $_activePage === 'horse_import_vrl' ? 'active' : '' ?>"
          href="<?= e(SITE_URL) ?>/admin/horse_import_vrl.php">📥 Tuo VRL:stä</a>
+      <?php endif; ?>
+      <?php if (in_array($role, ['admin','mod'], true)): ?>
       <a class="admin-nav-item <?= in_array($_activePage, ['kasvatus_all','foals']) ? 'active' : '' ?>"
          href="<?= e(SITE_URL) ?>/admin/kasvatus_all.php">🌱 Kasvatus</a>
+      <?php endif; ?>
+      <?php if (in_array($role, ['admin','mod'], true)): ?>
       <a class="admin-nav-item <?= in_array($_activePage, ['kilpailut_all','competitions']) ? 'active' : '' ?>"
          href="<?= e(SITE_URL) ?>/admin/kilpailut_all.php">🏆 Kilpailut</a>
+      <?php endif; ?>
+      <?php if (in_array($role, ['admin','mod'], true)): ?>
       <a class="admin-nav-item <?= in_array($_activePage, ['showrecords_all','showrecords']) ? 'active' : '' ?>"
          href="<?= e(SITE_URL) ?>/admin/showrecords_all.php">🎀 Näyttelyt</a>
+      <?php endif; ?>
       <div class="admin-nav-section">Media</div>
+      <?php if (in_array($role, ['admin','mod'], true)): ?>
       <a class="admin-nav-item <?= in_array($_activePage, ['kuvat_all','photos','photo_delete']) ? 'active' : '' ?>"
          href="<?= e(SITE_URL) ?>/admin/kuvat_all.php">📷 Kuvat</a>
+      <?php endif; ?>
+      <?php if (in_array($role, ['admin','mod','author'], true)): ?>
       <a class="admin-nav-item <?= strpos($_SERVER['PHP_SELF'], '/admin/posts') !== false ? 'active' : '' ?>"
          href="<?= e(SITE_URL) ?>/admin/posts.php">📝 Postaukset</a>
+      <?php endif; ?>
       <div class="admin-nav-section">Sivusto</div>
+      <?php if (in_array($role, ['admin'], true)): ?>
       <a class="admin-nav-item <?= $_activePage === 'settings' ? 'active' : '' ?>"
          href="<?= e(SITE_URL) ?>/admin/settings.php">⚙️ Asetukset</a>
+      <?php endif; ?>
       <a class="admin-nav-item" href="<?= e(SITE_URL) ?>/" target="_blank">🔗 Julkinen sivu</a>
     </nav>
     <div class="admin-sidebar-footer">
       <div class="sb-username"><?= e($_SESSION['admin_username'] ?? '') ?></div>
+      <a href="<?= e(SITE_URL) ?>/admin/change_password.php" class="sb-logout-btn" style="display:block;margin-top:0.3rem;">Vaihda salasana</a>
       <form method="post" action="<?= e(SITE_URL) ?>/admin/logout.php" style="margin-top:0.3rem">
         <input type="hidden" name="csrf_token" value="<?= e(generate_csrf_token()) ?>">
         <button type="submit" class="sb-logout-btn">Kirjaudu ulos →</button>
