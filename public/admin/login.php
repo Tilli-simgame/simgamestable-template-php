@@ -17,17 +17,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $password = $_POST['password'] ?? '';
 
         $db = getDB();
-        $stmt = $db->prepare('SELECT id, username, password FROM admin_users WHERE username = :username LIMIT 1');
+        $stmt = $db->prepare('SELECT id, username, password, role, is_active FROM admin_users WHERE username = :username LIMIT 1');
         $stmt->execute([':username' => $username]);
         $row = $stmt->fetch();
 
-        if ($row && password_verify($password, $row['password'])) {
+        if ($row && password_verify($password, $row['password']) && (int)$row['is_active'] === 1) {
             session_regenerate_id(true);
             $_SESSION['admin_logged_in'] = true;
             $_SESSION['admin_id']       = $row['id'];
             $_SESSION['admin_username'] = $row['username'];
+            $_SESSION['admin_role']     = $row['role'];
             redirect(SITE_URL . '/admin/index.php');
         } else {
+            // Sama geneerinen virhe väärälle salasanalle ja deaktivoidulle tilille (information disclosure -esto)
             $error = 'Väärä käyttäjätunnus tai salasana.';
         }
     }
