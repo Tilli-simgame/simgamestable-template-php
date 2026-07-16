@@ -83,7 +83,20 @@ function isAdmin(): bool {
  */
 function requireRole(string ...$allowedRoles): void {
     requireLogin();
-    if (!in_array(currentRole(), $allowedRoles, true)) {
+
+    $db = getDB();
+    $stmt = $db->prepare('SELECT role, is_active FROM admin_users WHERE id = :id');
+    $stmt->execute([':id' => $_SESSION['admin_id'] ?? 0]);
+    $row = $stmt->fetch();
+
+    if (!$row || (int)$row['is_active'] !== 1) {
+        session_destroy();
+        redirect(SITE_URL . '/admin/login.php');
+    }
+
+    $_SESSION['admin_role'] = $row['role'];
+
+    if (!in_array($row['role'], $allowedRoles, true)) {
         redirect(SITE_URL . '/admin/ei-oikeutta.php');
     }
 }
