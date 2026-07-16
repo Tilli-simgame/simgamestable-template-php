@@ -2,13 +2,13 @@
 gsd_state_version: 1.0
 milestone: v1.2
 milestone_name: Käyttäjäroolit
-current_phase: 11
-current_phase_name: k-ytt-j-hallinta
+current_phase: 12
+current_phase_name: Sisältötyyppien roolirajaus
 status: executing
 stopped_at: Completed 11-04-PLAN.md
-last_updated: "2026-07-16T14:37:24.759Z"
+last_updated: "2026-07-16T14:48:04.635Z"
 last_activity: 2026-07-16
-last_activity_desc: Phase 11 execution started
+last_activity_desc: Phase 11 complete, transitioned to Phase 12
 progress:
   total_phases: 4
   completed_phases: 2
@@ -28,10 +28,10 @@ See: .planning/PROJECT.md (updated 2026-07-05)
 
 ## Current Position
 
-Phase: 11 (k-ytt-j-hallinta) — EXECUTING
-Plan: 2 of 4
+Phase: 12 — Sisältötyyppien roolirajaus
+Plan: Not started
 Status: Ready to execute
-Last activity: 2026-07-16 — Phase 11 execution started
+Last activity: 2026-07-16 — Phase 11 complete, transitioned to Phase 12
 
 Progress: [░░░░░░░░░░] 0%
 

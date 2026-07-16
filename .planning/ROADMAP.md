@@ -136,7 +136,7 @@ See `.planning/milestones/v1.1-ROADMAP.md` for full phase details.
 | 8. Sivukontrollerien migraatio | v1.1 | 4/4 | Complete | 2026-07-04 |
 | 9. Admin-teemavalinta & Altervista-verifiointi | v1.1 | 2/2 | Complete | 2026-07-05 |
 | 10. Roolit ja autentikaation perusta | v1.2 | 3/3 | Complete    | 2026-07-16 |
-| 11. Käyttäjähallinta | v1.2 | 4/4 | Complete   | 2026-07-16 |
+| 11. Käyttäjähallinta | v1.2 | 4/4 | Complete    | 2026-07-16 |
 | 12. Sisältötyyppien roolirajaus | v1.2 | 0/TBD | Not started | - |
 | 13. Poisto-hyväksyntätyönkulku | v1.2 | 0/TBD | Not started | - |
 
