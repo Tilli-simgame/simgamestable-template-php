@@ -2,7 +2,7 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 require_once __DIR__ . '/../src/includes/db.php';
-requireLogin();
+requireRole('admin', 'mod');
 
 $db = getDB();
 $errors = [];
@@ -15,6 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!validate_csrf_token($_POST['csrf_token'] ?? '')) {
         $errors[] = 'Virheellinen pyyntö.';
     } elseif ($action === 'delete' && $foal_id > 0) {
+        requireRole('admin');
         $db->prepare('DELETE FROM foals WHERE id = :foal_id')->execute([':foal_id' => $foal_id]);
         redirect(SITE_URL . '/admin/kasvatus_all.php?deleted=1');
     }

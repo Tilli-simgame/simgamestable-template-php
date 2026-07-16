@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../src/includes/db.php';
-requireLogin();
+requireRole('admin', 'mod');
 
 $horse_id = (int)($_GET['horse_id'] ?? 0);
 if ($horse_id <= 0) {
@@ -98,6 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     redirect(SITE_URL . '/admin/showrecords.php?horse_id=' . $horse_id . '&updated=1');
             }
         } elseif ($action === 'delete' && $show_id > 0) {
+            requireRole('admin');
             $own = $db->prepare('SELECT id FROM showrecords WHERE id = :show_id AND horse_id = :horse_id');
             $own->execute([':show_id' => $show_id, ':horse_id' => $horse_id]);
             if ($own->fetch()) {

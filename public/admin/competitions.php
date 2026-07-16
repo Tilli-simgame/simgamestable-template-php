@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../src/includes/db.php';
-requireLogin();
+requireRole('admin', 'mod');
 
 $horse_id = (int)($_GET['horse_id'] ?? 0);
 if ($horse_id <= 0) {
@@ -71,6 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     redirect(SITE_URL . '/admin/competitions.php?horse_id=' . $horse_id . '&updated=1');
             }
         } elseif ($action === 'delete' && $comp_id > 0) {
+            requireRole('admin');
             $own = $db->prepare('SELECT id FROM competitions WHERE id = :comp_id AND horse_id = :horse_id');
             $own->execute([':comp_id' => $comp_id, ':horse_id' => $horse_id]);
             if ($own->fetch()) {

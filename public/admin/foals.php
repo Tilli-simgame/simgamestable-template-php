@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../src/includes/db.php';
-requireLogin();
+requireRole('admin', 'mod');
 
 $horse_id = (int)($_GET['horse_id'] ?? 0);
 if ($horse_id <= 0) {
@@ -120,6 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
         } elseif ($action === 'delete' && $foal_id > 0) {
+            requireRole('admin');
             $own = $db->prepare('SELECT id FROM foals WHERE id = :foal_id AND horse_id = :horse_id');
             $own->execute([':foal_id' => $foal_id, ':horse_id' => $horse_id]);
             if ($own->fetch()) {
