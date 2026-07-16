@@ -4,9 +4,9 @@ milestone: v1.2
 milestone_name: Käyttäjäroolit
 current_phase: 11
 current_phase_name: Käyttäjähallinta
-status: planning
+status: executing
 stopped_at: Phase 11 context gathered
-last_updated: "2026-07-16T12:43:07.752Z"
+last_updated: "2026-07-16T13:21:19.489Z"
 last_activity: 2026-07-16
 last_activity_desc: Phase 10 complete, transitioned to Phase 11
 progress:
@@ -30,7 +30,7 @@ See: .planning/PROJECT.md (updated 2026-07-05)
 
 Phase: 11 — Käyttäjähallinta
 Plan: Not started
-Status: Phase complete — ready for verification
+Status: Ready to execute
 Last activity: 2026-07-16 — Phase 10 complete, transitioned to Phase 11
 
 Progress: [░░░░░░░░░░] 0%
