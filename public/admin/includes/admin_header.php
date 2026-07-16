@@ -333,6 +333,10 @@ $_adminTheme = $GLOBALS['color_theme'];
       <?php endif; ?>
       <div class="admin-nav-section">Sivusto</div>
       <?php if (in_array($role, ['admin'], true)): ?>
+      <a class="admin-nav-item <?= in_array($_activePage, ['users','user_add','user_edit'], true) ? 'active' : '' ?>"
+         href="<?= e(SITE_URL) ?>/admin/users.php">👥 Käyttäjät</a>
+      <?php endif; ?>
+      <?php if (in_array($role, ['admin'], true)): ?>
       <a class="admin-nav-item <?= $_activePage === 'settings' ? 'active' : '' ?>"
          href="<?= e(SITE_URL) ?>/admin/settings.php">⚙️ Asetukset</a>
       <?php endif; ?>
