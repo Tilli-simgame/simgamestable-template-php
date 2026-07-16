@@ -62,6 +62,33 @@ function requireLogin(): void {
 }
 
 /**
+ * Palauttaa kirjautuneen käyttäjän roolin, tai null jos ei kirjautunut.
+ */
+function currentRole(): ?string {
+    return $_SESSION['admin_role'] ?? null;
+}
+
+/**
+ * Oikotie: onko kirjautunut käyttäjä admin.
+ */
+function isAdmin(): bool {
+    return currentRole() === 'admin';
+}
+
+/**
+ * Vaatii kirjautumisen JA että käyttäjän rooli on jokin sallituista.
+ * Käytetään requireLogin()-kutsun tilalla jokaisen suojatun sivun alussa.
+ *
+ * @param string ...$allowedRoles esim. requireRole('admin', 'mod')
+ */
+function requireRole(string ...$allowedRoles): void {
+    requireLogin();
+    if (!in_array(currentRole(), $allowedRoles, true)) {
+        redirect(SITE_URL . '/admin/ei-oikeutta.php');
+    }
+}
+
+/**
  * Muotoilee päivämäärän suomalaiseen muotoon
  */
 function formatDate(?string $date): string {
