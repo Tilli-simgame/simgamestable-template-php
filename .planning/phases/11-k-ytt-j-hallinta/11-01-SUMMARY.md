@@ -125,3 +125,7 @@ None - no external service configuration required.
 ---
 *Phase: 11-k-ytt-j-hallinta*
 *Completed: 2026-07-16*
+
+## Self-Check: PASSED
+
+All created/modified files verified present on disk; all four task/summary commits (`00e75c2`, `c6596a6`, `25895e8`, `df51a31`) verified present in `git log`.
