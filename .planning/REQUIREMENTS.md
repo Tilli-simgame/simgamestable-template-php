@@ -10,7 +10,7 @@
 - [x] **ROLE-01**: Järjestelmässä on kolme roolia (admin, mod, author) tallennettuna `admin_users`-tauluun
 - [x] **ROLE-02**: Käyttäjän rooli tallennetaan sessioon kirjautumisen yhteydessä ja tarkistetaan palvelinpuolella jokaisella suojatulla admin-sivulla
 - [x] **ROLE-03**: Käyttäjä joka yrittää avata roolinsa ulkopuolisen admin-sivun ohjataan "Ei käyttöoikeutta" -näkymään
-- [ ] **ROLE-04**: Admin-navigaatio näyttää vain käyttäjän roolille sallitut valikkokohdat
+- [x] **ROLE-04**: Admin-navigaatio näyttää vain käyttäjän roolille sallitut valikkokohdat
 
 ### Käyttäjähallinta
 
@@ -24,7 +24,7 @@
 
 ### Salasanan vaihto
 
-- [ ] **AUTH-06**: Kirjautunut käyttäjä (mikä tahansa rooli) voi vaihtaa oman salasanansa antamalla nykyisen salasanan sekä uuden salasanan kahdesti
+- [x] **AUTH-06**: Kirjautunut käyttäjä (mikä tahansa rooli) voi vaihtaa oman salasanansa antamalla nykyisen salasanan sekä uuden salasanan kahdesti
 
 ### Mod-rajattu sisällönhallinta
 

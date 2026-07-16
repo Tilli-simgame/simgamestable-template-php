@@ -35,7 +35,7 @@ See `.planning/milestones/v1.1-ROADMAP.md` for full phase details.
 
 **Milestone Goal:** Adminin lisäksi tallilla voi olla mod- ja author-käyttäjiä rajatuin oikeuksin; kaikki käyttäjät voivat vaihtaa oman salasanansa; vain admin voi luoda uusia tunnuksia.
 
-- [ ] **Phase 10: Roolit ja autentikaation perusta** - Kolme roolia (admin/mod/author) tunnistetaan sessiossa ja jokaisella suojatulla admin-sivulla; kaikki roolit voivat vaihtaa oman salasanansa
+- [x] **Phase 10: Roolit ja autentikaation perusta** - Kolme roolia (admin/mod/author) tunnistetaan sessiossa ja jokaisella suojatulla admin-sivulla; kaikki roolit voivat vaihtaa oman salasanansa (completed 2026-07-16)
 - [ ] **Phase 11: Käyttäjähallinta** - Admin luo, muokkaa, deaktivoi ja poistaa käyttäjätunnuksia sekä nollaa salasanoja ilman lukkiutumisriskiä
 - [ ] **Phase 12: Sisältötyyppien roolirajaus** - Mod luo/muokkaa hevosia, varsoja, kilpailuja, näyttelytuloksia ja postauksia; author luo/muokkaa vain omia postauksiaan ja linkittää niihin olemassa olevia hevosia
 - [ ] **Phase 13: Poisto-hyväksyntätyönkulku** - Modin poistopyynnöt odottavat admin-hyväksyntää yhdessä näkymässä; author poistaa omat postauksensa heti ilman hyväksyntää
@@ -54,7 +54,7 @@ See `.planning/milestones/v1.1-ROADMAP.md` for full phase details.
   3. Admin-navigaatio näyttää kullekin roolille vain sen omat valikkokohdat (esim. author ei näe käyttäjähallinta- eikä teema-asetuslinkkejä).
   4. Kirjautunut käyttäjä (mikä tahansa rooli) voi vaihtaa oman salasanansa antamalla nykyisen salasanan sekä uuden kahdesti, ja kirjautuminen onnistuu heti uudella salasanalla.
 
-**Plans**: 2/3 plans executed
+**Plans**: 3/3 plans complete
 **Wave 1**
 
 - [x] 10-01-PLAN.md — Rooli-infrastruktuuri: migrate_roles.sql + helpers.php (requireRole/currentRole/isAdmin) + login.php (rooli + is_active) + ei-oikeutta.php (Wave 1)
@@ -62,7 +62,7 @@ See `.planning/milestones/v1.1-ROADMAP.md` for full phase details.
 **Wave 2** *(blocked on Wave 1 completion)*
 
 - [x] 10-02-PLAN.md — Sivukohtainen roolisuojaus: 27 admin-sivun gate-swapit + 4 sekatiedoston inline delete-alagate (Wave 2)
-- [ ] 10-03-PLAN.md — Navigaation roolinäkyvyys (admin_header.php) + salasananvaihto (change_password.php) (Wave 2)
+- [x] 10-03-PLAN.md — Navigaation roolinäkyvyys (admin_header.php) + salasananvaihto (change_password.php) (Wave 2)
 
 ### Phase 11: Käyttäjähallinta
 
@@ -122,7 +122,7 @@ See `.planning/milestones/v1.1-ROADMAP.md` for full phase details.
 | 7. Oletusteman rakenne | v1.1 | 4/4 | Complete | 2026-07-03 |
 | 8. Sivukontrollerien migraatio | v1.1 | 4/4 | Complete | 2026-07-04 |
 | 9. Admin-teemavalinta & Altervista-verifiointi | v1.1 | 2/2 | Complete | 2026-07-05 |
-| 10. Roolit ja autentikaation perusta | v1.2 | 2/3 | In Progress|  |
+| 10. Roolit ja autentikaation perusta | v1.2 | 3/3 | Complete   | 2026-07-16 |
 | 11. Käyttäjähallinta | v1.2 | 0/TBD | Not started | - |
 | 12. Sisältötyyppien roolirajaus | v1.2 | 0/TBD | Not started | - |
 | 13. Poisto-hyväksyntätyönkulku | v1.2 | 0/TBD | Not started | - |

@@ -4,17 +4,17 @@ milestone: v1.2
 milestone_name: Käyttäjäroolit
 current_phase: 10
 current_phase_name: roolit-ja-autentikaation-perusta
-status: executing
+status: verifying
 stopped_at: Completed 10-01-PLAN.md
-last_updated: "2026-07-16T08:25:05.547Z"
+last_updated: "2026-07-16T08:30:39.296Z"
 last_activity: 2026-07-16
 last_activity_desc: Phase 10 execution started
 progress:
   total_phases: 4
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 3
-  completed_plans: 2
-  percent: 0
+  completed_plans: 3
+  percent: 25
 ---
 
 # Project State
@@ -30,7 +30,7 @@ See: .planning/PROJECT.md (updated 2026-07-05)
 
 Phase: 10 (roolit-ja-autentikaation-perusta) — EXECUTING
 Plan: 3 of 3
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-07-16 — Phase 10 execution started
 
 Progress: [░░░░░░░░░░] 0%
@@ -74,6 +74,7 @@ Full decision log in `.planning/PROJECT.md` Key Decisions table.
 - [Phase 10-01]: ei-oikeutta.php sulkeutuu require admin_footer.php -kutsulla eika kovakoodatulla </div></div></body></html>-lohkolla, koska se on kaikkien nykyisten admin-sivujen tosiasiallinen konventio — PATTERNS.md:n esimerkkilohko oli talta osin vanhentunut - grep-verifiointi osoitti kaikkien 21 admin-sivun kayttavan admin_footer.php-includea
 - [Phase 10-01]: role-sarakkeen DEFAULT on author seka migraatiossa etta schema.sql:ssa (D-06 turvallisin fallback), admin-tunnus nostetaan eksplisiittisella UPDATE-lauseella
 - [Phase ?]: [Phase 10-02]: Ei poikkeamia - plan suoritettu kirjaimellisesti audit-taulukon roolilistojen mukaan, mukaan lukien 10-01:ssa jo ratkaistut ASSUMED-oletukset (contact_delete.php/photo_delete.php -> admin+mod).
+- [Phase 10-03]: change_password.php sulkeutuu require admin_footer.php -kutsulla PATTERNS.md:n kovakoodatun markkauksen sijaan (sama konventio kuin ei-oikeutta.php:ssä, 10-01)
 
 ### Pending Todos
 
@@ -100,7 +101,7 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-07-16T08:23:58.967Z
+Last session: 2026-07-16T08:30:08.589Z
 Stopped at: Completed 10-01-PLAN.md
 Resume file: None
 
@@ -125,6 +126,7 @@ Resume file: None
 | Phase 09 P01 | 5min | 2 tasks | 1 files |
 | Phase 10 P01 | 5min | 3 tasks | 5 files |
 | Phase 10 P02 | 15min | 2 tasks | 27 files |
+| Phase 10 P03 | 12min | 2 tasks | 2 files |
 
 ## Operator Next Steps
 
