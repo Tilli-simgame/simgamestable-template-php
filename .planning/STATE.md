@@ -5,8 +5,8 @@ milestone_name: Käyttäjäroolit
 current_phase: 11
 current_phase_name: Käyttäjähallinta
 status: planning
-stopped_at: Phase 10 complete, ready to plan Phase 11
-last_updated: "2026-07-16T09:15:00.000Z"
+stopped_at: Phase 11 context gathered
+last_updated: "2026-07-16T12:43:07.752Z"
 last_activity: 2026-07-16
 last_activity_desc: Phase 10 complete, transitioned to Phase 11
 progress:
@@ -101,9 +101,9 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-07-16
-Stopped at: Phase 10 complete, ready to plan Phase 11
-Resume file: None
+Last session: 2026-07-16T12:43:07.722Z
+Stopped at: Phase 11 context gathered
+Resume file: .planning/phases/11-k-ytt-j-hallinta/11-CONTEXT.md
 
 ## Performance Metrics
 
