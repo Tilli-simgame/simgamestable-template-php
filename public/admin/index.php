@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../src/includes/db.php';
-requireLogin();
+requireRole('admin', 'mod', 'author');
 
 $db = getDB();
 $horseCount = $db->query('SELECT COUNT(*) FROM horses WHERE is_deleted = 0')->fetchColumn();

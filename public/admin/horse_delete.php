@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../src/includes/db.php';
-requireLogin();
+requireRole('admin');
 
 // Hyväksy vain POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {

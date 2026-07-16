@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../src/includes/db.php';
-requireLogin();
+requireRole('admin', 'mod');
 
 $horse_id = (int)($_GET['horse_id'] ?? 0);
 if ($horse_id <= 0) {

@@ -6,7 +6,7 @@
  * Returns: JSON { ok, inserted, skipped, mainHorseId, errors[] }
  */
 require_once __DIR__ . '/../../src/includes/db.php';
-requireLogin();
+requireRole('admin', 'mod');
 
 header('Content-Type: application/json; charset=utf-8');
 
