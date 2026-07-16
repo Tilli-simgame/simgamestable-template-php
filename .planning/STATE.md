@@ -5,8 +5,8 @@ milestone_name: Käyttäjäroolit
 current_phase: 12
 current_phase_name: Sisältötyyppien roolirajaus
 status: executing
-stopped_at: Completed 11-04-PLAN.md
-last_updated: "2026-07-16T14:48:04.635Z"
+stopped_at: Phase 12 context gathered
+last_updated: "2026-07-16T15:03:34.437Z"
 last_activity: 2026-07-16
 last_activity_desc: Phase 11 complete, transitioned to Phase 12
 progress:
@@ -109,9 +109,9 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-07-16T14:37:24.735Z
-Stopped at: Completed 11-04-PLAN.md
-Resume file: None
+Last session: 2026-07-16T15:03:34.417Z
+Stopped at: Phase 12 context gathered
+Resume file: .planning/phases/12-sis-lt-tyyppien-roolirajaus/12-CONTEXT.md
 
 ## Performance Metrics
 
