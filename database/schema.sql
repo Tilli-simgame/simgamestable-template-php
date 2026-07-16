@@ -245,6 +245,10 @@ CREATE TABLE IF NOT EXISTS `foals` (
 CREATE TABLE IF NOT EXISTS `admin_users` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(50) NOT NULL,
+  `role` ENUM('admin','mod','author') NOT NULL DEFAULT 'author'
+    COMMENT 'admin = kaikki oikeudet, mod = rajattu sisällönhallinta, author = vain omat postaukset',
+  `is_active` TINYINT(1) NOT NULL DEFAULT 1
+    COMMENT 'Deaktivoitu tunnus ei voi kirjautua sisään',
   `password` VARCHAR(255) NOT NULL COMMENT 'bcrypt-tiiviste',
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
