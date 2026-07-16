@@ -16,6 +16,8 @@ Sivusto on täysin toimiva PHP/MySQL-pohjainen virtuaalitalli Altervista-tuotann
 
 **Tunnettu, tarkoituksellisesti rajattu puute:** `oma-talli`-teemalla ei ole vielä `pages/.htaccess`-suojausta kuten `default`-teemalla (D-06, Phase 9) — teema on keskeneräinen eikä kuulunut v1.1-milestonen verifiointiin.
 
+**v1.2 eteneminen:** Phase 11 (Käyttäjähallinta) valmis (2026-07-16) — admin voi luoda, muokata, deaktivoida/reaktivoida ja poistaa käyttäjätunnuksia sekä nollata salasanoja turvallisesti (viimeisen adminin ja oman tunnuksen lukitusesto, per-pyyntö sessionrevalidointi, käyttäjänimen VARCHAR(50)-yhteensopiva validointi).
+
 <details>
 <summary>Archived: v1.1 Teemajärjestelmä goal (Phases 6-9)</summary>
 
@@ -57,13 +59,13 @@ Ei vielä määritelty seuraavaksi milestoneksi v1.2:n jälkeen.
 - ✓ OWASP Top 10 -tietoturva (PDO prepared statements, CSRF-suojaus, XSS-esto, input-validointi, turvalliset session-asetukset) — v1.0
 - ✓ Blogi (postausten hallinta adminissa, julkinen postauslista + yksittäinen postaussivu arkistosidebarilla) — v1.0 (Phase 5)
 - ✓ Tiedostopohjainen teemajärjestelmä: `resolveThemePath()` path-traversal-suojauksella, `public/themes/default/`-rakenne, data-only-sivukontrollerit, admin-teemavalinta, Altervista-tuotantoverifiointi — v1.1
+- ✓ Käyttäjähallinta: admin luo/muokkaa/deaktivoi/poistaa käyttäjätunnuksia ja nollaa salasanoja, per-pyyntö session-revalidointi (rooli/is_active) admin_users-taulusta — v1.2 (Phase 11)
 
 ### Active
 
 <!-- Current scope. Building toward these. -->
 
 - [ ] Rooliperusteinen pääsynhallinta (admin/mod/author) admin-paneelissa
-- [ ] Käyttäjähallinta: admin voi luoda/muokata/poistaa käyttäjiä ja nollata salasanoja
 - [ ] Kaikki käyttäjät voivat vaihtaa oman salasanansa
 - [ ] Mod-roolin rajattu CRUD hevosille/varsoille/kisoille/näyttelyille/postauksille poisto-hyväksyntäkiertoineen
 - [ ] Author-roolin rajattu CRUD vain omiin postauksiin + hevoslinkitys (read-only valinta)
@@ -128,4 +130,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-07-05 — v1.2 Käyttäjäroolit milestone started*
+*Last updated: 2026-07-16 — Phase 11 (Käyttäjähallinta) complete*
