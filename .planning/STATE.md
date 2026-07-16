@@ -4,17 +4,17 @@ milestone: v1.2
 milestone_name: Käyttäjäroolit
 current_phase: 11
 current_phase_name: k-ytt-j-hallinta
-status: executing
-stopped_at: Completed 11-02-PLAN.md
-last_updated: "2026-07-16T13:40:08.366Z"
+status: verifying
+stopped_at: Completed 11-03-PLAN.md
+last_updated: "2026-07-16T13:45:42.454Z"
 last_activity: 2026-07-16
 last_activity_desc: Phase 11 execution started
 progress:
   total_phases: 4
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 6
-  completed_plans: 5
-  percent: 25
+  completed_plans: 6
+  percent: 50
 ---
 
 # Project State
@@ -30,7 +30,7 @@ See: .planning/PROJECT.md (updated 2026-07-05)
 
 Phase: 11 (k-ytt-j-hallinta) — EXECUTING
 Plan: 3 of 3
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-07-16 — Phase 11 execution started
 
 Progress: [░░░░░░░░░░] 0%
@@ -79,6 +79,8 @@ Full decision log in `.planning/PROJECT.md` Key Decisions table.
 - [Phase 11-01]: Reset-password/toggle-active flashes use non-secret $_GET flags only; plaintext generated password never travels via $_GET (T-11-06 mitigation) — Prevents password leakage via browser history/referrer/logs, deferred to inline display in wave 2 action pages
 - [Phase 11]: user_add.php never redirects on success -- generated plaintext password is shown once inline (no $_GET transport) since a secret must never travel via redirect/browser history/Referer (T-11-06)
 - [Phase 11]: user_edit.php's UPDATE touches only username+role columns; password changes are exclusively handled by the separate reset-password action in plan 11-03
+- [Phase 11]: user_reset_password.php never redirects on success -- generated plaintext password shown once inline (no $_GET transport), mirroring user_add.php's pattern (T-11-06)
+- [Phase 11]: user_toggle_active.php and user_delete.php only run last-admin/self guards on the destructive path (deactivating/deleting) -- reactivation is always safe and skips both guards
 
 ### Pending Todos
 
@@ -105,8 +107,8 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-07-16T13:40:08.346Z
-Stopped at: Completed 11-02-PLAN.md
+Last session: 2026-07-16T13:45:42.432Z
+Stopped at: Completed 11-03-PLAN.md
 Resume file: None
 
 ## Performance Metrics
@@ -133,6 +135,7 @@ Resume file: None
 | Phase 10 P03 | 12min | 2 tasks | 2 files |
 | Phase 11 P01 | 12min | 3 tasks | 3 files |
 | Phase 11 P02 | 12min | 2 tasks | 2 files |
+| Phase 11 P03 | 10min | 3 tasks | 3 files |
 
 ## Operator Next Steps
 
