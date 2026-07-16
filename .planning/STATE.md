@@ -5,15 +5,15 @@ milestone_name: Käyttäjäroolit
 current_phase: 11
 current_phase_name: k-ytt-j-hallinta
 status: executing
-stopped_at: Completed 11-03-PLAN.md
-last_updated: "2026-07-16T14:22:12.195Z"
+stopped_at: Completed 11-04-PLAN.md
+last_updated: "2026-07-16T14:37:24.759Z"
 last_activity: 2026-07-16
 last_activity_desc: Phase 11 execution started
 progress:
   total_phases: 4
   completed_phases: 2
-  total_plans: 6
-  completed_plans: 6
+  total_plans: 7
+  completed_plans: 7
   percent: 50
 ---
 
@@ -29,7 +29,7 @@ See: .planning/PROJECT.md (updated 2026-07-05)
 ## Current Position
 
 Phase: 11 (k-ytt-j-hallinta) — EXECUTING
-Plan: 3 of 3
+Plan: 2 of 4
 Status: Ready to execute
 Last activity: 2026-07-16 — Phase 11 execution started
 
@@ -81,6 +81,8 @@ Full decision log in `.planning/PROJECT.md` Key Decisions table.
 - [Phase 11]: user_edit.php's UPDATE touches only username+role columns; password changes are exclusively handled by the separate reset-password action in plan 11-03
 - [Phase 11]: user_reset_password.php never redirects on success -- generated plaintext password shown once inline (no $_GET transport), mirroring user_add.php's pattern (T-11-06)
 - [Phase 11]: user_toggle_active.php and user_delete.php only run last-admin/self guards on the destructive path (deactivating/deleting) -- reactivation is always safe and skips both guards
+- [Phase 11-04]: requireRole() re-validates role/is_active from admin_users per protected request (one PK-indexed SELECT per page load accepted) instead of session-TTL caching, guaranteeing role/deactivation changes take effect on the next request (USER-02/SC2, CR-01)
+- [Phase 11-04]: Username validation upper bound lowered from 255 to 50 in user_add.php/user_edit.php to match admin_users.username VARCHAR(50); INSERT/UPDATE wrapped in try/catch(PDOException) mapping SQLSTATE 23000 to the existing duplicate-username flash message (CR-02, WR-01)
 
 ### Pending Todos
 
@@ -107,8 +109,8 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-07-16T13:45:42.432Z
-Stopped at: Completed 11-03-PLAN.md
+Last session: 2026-07-16T14:37:24.735Z
+Stopped at: Completed 11-04-PLAN.md
 Resume file: None
 
 ## Performance Metrics
@@ -136,6 +138,7 @@ Resume file: None
 | Phase 11 P01 | 12min | 3 tasks | 3 files |
 | Phase 11 P02 | 12min | 2 tasks | 2 files |
 | Phase 11 P03 | 10min | 3 tasks | 3 files |
+| Phase 11 P04 | 10min | 2 tasks | 3 files |
 
 ## Operator Next Steps
 

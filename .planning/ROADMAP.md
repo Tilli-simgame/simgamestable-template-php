@@ -77,7 +77,7 @@ See `.planning/milestones/v1.1-ROADMAP.md` for full phase details.
   4. Admin voi poistaa käyttäjätunnuksen pysyvästi tai nollata toisen käyttäjän salasanan ilman että tarvitsee tietää vanhaa salasanaa.
   5. Järjestelmä estää viimeisen admin-tunnuksen poiston/deaktivoinnin sekä adminin oman tunnuksen poiston/deaktivoinnin — yritys näyttää virheilmoituksen eikä toimintoa suoriteta.
 
-**Plans**: 3/3 plans complete + 1 gap-closure plan (11-04) pending
+**Plans**: 4/4 plans complete
 
 **Wave 1**
 
@@ -90,7 +90,7 @@ See `.planning/milestones/v1.1-ROADMAP.md` for full phase details.
 
 **Gap closure** *(from 11-VERIFICATION.md — 2 rakenteellista aukkoa)*
 
-- [ ] 11-04-PLAN.md — CR-01: requireRole() re-validoi session admin_users-taulusta (USER-02/SC2 seuraavan pyynnön oikeuksien voimaantulo) + CR-02: username-validointi VARCHAR(50):een + try/catch INSERT/UPDATE-kaatumissuoja (USER-01/USER-02) (Wave 1)
+- [x] 11-04-PLAN.md — CR-01: requireRole() re-validoi session admin_users-taulusta (USER-02/SC2 seuraavan pyynnön oikeuksien voimaantulo) + CR-02: username-validointi VARCHAR(50):een + try/catch INSERT/UPDATE-kaatumissuoja (USER-01/USER-02) (Wave 1)
 
 ### Phase 12: Sisältötyyppien roolirajaus
 
@@ -136,7 +136,7 @@ See `.planning/milestones/v1.1-ROADMAP.md` for full phase details.
 | 8. Sivukontrollerien migraatio | v1.1 | 4/4 | Complete | 2026-07-04 |
 | 9. Admin-teemavalinta & Altervista-verifiointi | v1.1 | 2/2 | Complete | 2026-07-05 |
 | 10. Roolit ja autentikaation perusta | v1.2 | 3/3 | Complete    | 2026-07-16 |
-| 11. Käyttäjähallinta | v1.2 | 3/3 | Complete   | 2026-07-16 |
+| 11. Käyttäjähallinta | v1.2 | 4/4 | Complete   | 2026-07-16 |
 | 12. Sisältötyyppien roolirajaus | v1.2 | 0/TBD | Not started | - |
 | 13. Poisto-hyväksyntätyönkulku | v1.2 | 0/TBD | Not started | - |
 
