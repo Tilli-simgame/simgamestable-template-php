@@ -35,7 +35,7 @@ See `.planning/milestones/v1.1-ROADMAP.md` for full phase details.
 
 **Milestone Goal:** Adminin lisäksi tallilla voi olla mod- ja author-käyttäjiä rajatuin oikeuksin; kaikki käyttäjät voivat vaihtaa oman salasanansa; vain admin voi luoda uusia tunnuksia.
 
-- [x] **Phase 10: Roolit ja autentikaation perusta** - Kolme roolia (admin/mod/author) tunnistetaan sessiossa ja jokaisella suojatulla admin-sivulla; kaikki roolit voivat vaihtaa oman salasanansa (completed 2026-07-16)
+- [ ] **Phase 10: Roolit ja autentikaation perusta** - Kolme roolia (admin/mod/author) tunnistetaan sessiossa ja jokaisella suojatulla admin-sivulla; kaikki roolit voivat vaihtaa oman salasanansa (plans complete, pending human verification)
 - [ ] **Phase 11: Käyttäjähallinta** - Admin luo, muokkaa, deaktivoi ja poistaa käyttäjätunnuksia sekä nollaa salasanoja ilman lukkiutumisriskiä
 - [ ] **Phase 12: Sisältötyyppien roolirajaus** - Mod luo/muokkaa hevosia, varsoja, kilpailuja, näyttelytuloksia ja postauksia; author luo/muokkaa vain omia postauksiaan ja linkittää niihin olemassa olevia hevosia
 - [ ] **Phase 13: Poisto-hyväksyntätyönkulku** - Modin poistopyynnöt odottavat admin-hyväksyntää yhdessä näkymässä; author poistaa omat postauksensa heti ilman hyväksyntää
@@ -122,7 +122,7 @@ See `.planning/milestones/v1.1-ROADMAP.md` for full phase details.
 | 7. Oletusteman rakenne | v1.1 | 4/4 | Complete | 2026-07-03 |
 | 8. Sivukontrollerien migraatio | v1.1 | 4/4 | Complete | 2026-07-04 |
 | 9. Admin-teemavalinta & Altervista-verifiointi | v1.1 | 2/2 | Complete | 2026-07-05 |
-| 10. Roolit ja autentikaation perusta | v1.2 | 3/3 | Complete   | 2026-07-16 |
+| 10. Roolit ja autentikaation perusta | v1.2 | 3/3 | Verifying  | - |
 | 11. Käyttäjähallinta | v1.2 | 0/TBD | Not started | - |
 | 12. Sisältötyyppien roolirajaus | v1.2 | 0/TBD | Not started | - |
 | 13. Poisto-hyväksyntätyönkulku | v1.2 | 0/TBD | Not started | - |
