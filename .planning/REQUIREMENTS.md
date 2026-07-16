@@ -14,11 +14,11 @@
 
 ### Käyttäjähallinta
 
-- [ ] **USER-01**: Admin voi luoda uuden käyttäjätunnuksen (käyttäjänimi, salasana, rooli)
-- [ ] **USER-02**: Admin voi muokata olemassa olevan käyttäjän roolia ja käyttäjänimeä
-- [ ] **USER-03**: Admin voi deaktivoida käyttäjätunnuksen ilman että käyttäjän aiempi sisältö (esim. postausten tekijätieto) katoaa
-- [ ] **USER-04**: Admin voi poistaa käyttäjätunnuksen pysyvästi
-- [ ] **USER-05**: Admin voi nollata toisen käyttäjän salasanan ilman että tarvitsee tietää vanhaa salasanaa
+- [x] **USER-01**: Admin voi luoda uuden käyttäjätunnuksen (käyttäjänimi, salasana, rooli)
+- [x] **USER-02**: Admin voi muokata olemassa olevan käyttäjän roolia ja käyttäjänimeä
+- [x] **USER-03**: Admin voi deaktivoida käyttäjätunnuksen ilman että käyttäjän aiempi sisältö (esim. postausten tekijätieto) katoaa
+- [x] **USER-04**: Admin voi poistaa käyttäjätunnuksen pysyvästi
+- [x] **USER-05**: Admin voi nollata toisen käyttäjän salasanan ilman että tarvitsee tietää vanhaa salasanaa
 - [ ] **USER-06**: Järjestelmä estää viimeisen admin-tunnuksen poistamisen tai deaktivoinnin
 - [ ] **USER-07**: Admin ei voi poistaa tai deaktivoida omaa tunnustaan
 

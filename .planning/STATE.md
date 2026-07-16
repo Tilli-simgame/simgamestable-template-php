@@ -3,17 +3,17 @@ gsd_state_version: 1.0
 milestone: v1.2
 milestone_name: Käyttäjäroolit
 current_phase: 11
-current_phase_name: Käyttäjähallinta
+current_phase_name: k-ytt-j-hallinta
 status: executing
 stopped_at: Phase 11 context gathered
-last_updated: "2026-07-16T13:21:19.489Z"
+last_updated: "2026-07-16T13:33:39.425Z"
 last_activity: 2026-07-16
-last_activity_desc: Phase 10 complete, transitioned to Phase 11
+last_activity_desc: Phase 11 execution started
 progress:
   total_phases: 4
   completed_phases: 1
-  total_plans: 3
-  completed_plans: 3
+  total_plans: 6
+  completed_plans: 4
   percent: 25
 ---
 
@@ -24,14 +24,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-07-05)
 
 **Core value:** Hevosomistaja voi hallita koko tallinsa hevostietoja yhdestä turvallisesta admin-paneelista, ja kaikki tieto näkyy automaattisesti julkisella sivustolla.
-**Current focus:** Phase 11 — Käyttäjähallinta
+**Current focus:** Phase 11 — k-ytt-j-hallinta
 
 ## Current Position
 
-Phase: 11 — Käyttäjähallinta
-Plan: Not started
+Phase: 11 (k-ytt-j-hallinta) — EXECUTING
+Plan: 2 of 3
 Status: Ready to execute
-Last activity: 2026-07-16 — Phase 10 complete, transitioned to Phase 11
+Last activity: 2026-07-16 — Phase 11 execution started
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -75,6 +75,8 @@ Full decision log in `.planning/PROJECT.md` Key Decisions table.
 - [Phase 10-01]: role-sarakkeen DEFAULT on author seka migraatiossa etta schema.sql:ssa (D-06 turvallisin fallback), admin-tunnus nostetaan eksplisiittisella UPDATE-lauseella
 - [Phase ?]: [Phase 10-02]: Ei poikkeamia - plan suoritettu kirjaimellisesti audit-taulukon roolilistojen mukaan, mukaan lukien 10-01:ssa jo ratkaistut ASSUMED-oletukset (contact_delete.php/photo_delete.php -> admin+mod).
 - [Phase 10-03]: change_password.php sulkeutuu require admin_footer.php -kutsulla PATTERNS.md:n kovakoodatun markkauksen sijaan (sama konventio kuin ei-oikeutta.php:ssä, 10-01)
+- [Phase 11-01]: users.php uses requireRole('admin') only (not 'admin','mod') — entire users.* file family is admin-exclusive per phase domain — Phase 11 domain restricts account management to admin role only, unlike contacts.php which allows mod
+- [Phase 11-01]: Reset-password/toggle-active flashes use non-secret $_GET flags only; plaintext generated password never travels via $_GET (T-11-06 mitigation) — Prevents password leakage via browser history/referrer/logs, deferred to inline display in wave 2 action pages
 
 ### Pending Todos
 
@@ -101,7 +103,7 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-07-16T12:43:07.722Z
+Last session: 2026-07-16T13:32:43.052Z
 Stopped at: Phase 11 context gathered
 Resume file: .planning/phases/11-k-ytt-j-hallinta/11-CONTEXT.md
 
@@ -127,6 +129,7 @@ Resume file: .planning/phases/11-k-ytt-j-hallinta/11-CONTEXT.md
 | Phase 10 P01 | 5min | 3 tasks | 5 files |
 | Phase 10 P02 | 15min | 2 tasks | 27 files |
 | Phase 10 P03 | 12min | 2 tasks | 2 files |
+| Phase 11 P01 | 12min | 3 tasks | 3 files |
 
 ## Operator Next Steps
 
