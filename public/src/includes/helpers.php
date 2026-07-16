@@ -419,6 +419,23 @@ function generate_safe_filename(string $extension): string {
 }
 
 /**
+ * Luo kryptografisesti vahvan satunnaissalasanan
+ * Käyttää random_int()-pohjaista valintaa (CSPRNG, ei rand()/mt_rand()/uniqid())
+ *
+ * @param int $length Salasanan pituus (oletus 16, täyttää D-10:n 8 merkin minimin)
+ * @return string Satunnaissalasana (A-Z, a-z, 0-9)
+ */
+function generate_password(int $length = 16): string {
+    $charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    $max = strlen($charset) - 1;
+    $password = '';
+    for ($i = 0; $i < $length; $i++) {
+        $password .= $charset[random_int(0, $max)];
+    }
+    return $password;
+}
+
+/**
  * Validoi kuvan latausyrityksen
  * Tarkistaa tiedostotyypin, koon ja tiedostopääteen
  *
