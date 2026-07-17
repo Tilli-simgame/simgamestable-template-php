@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../src/includes/db.php';
-requireRole('admin');
+requireRole('admin', 'mod');
 
 // Hyväksy vain POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -20,5 +20,10 @@ if ($id <= 0) {
 $db = getDB();
 $stmt = $db->prepare('UPDATE horses SET is_deleted = 1, deleted_at = NOW() WHERE id = :id AND is_deleted = 0');
 $stmt->execute([':id' => $id]);
+
+if (currentRole() === 'mod') {
+    insertPendingDeletion('horse', $id, (int)$_SESSION['admin_id']);
+}
+// admin: suora soft-delete, ei pending-riviä (D-04)
 
 redirect(SITE_URL . '/admin/horses.php?deleted=1');
