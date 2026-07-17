@@ -105,11 +105,11 @@ See `.planning/milestones/v1.1-ROADMAP.md` for full phase details.
   4. Author-käyttäjä voi valita olemassa olevia hevosia listalta ja linkittää ne omaan postaukseensa, muttei pysty muokkaamaan itse hevostietoja.
   5. Mod- ja author-käyttäjät eivät näe eivätkä pääse käyttäjähallinta- tai teema-asetussivuille edes suoralla osoitteella.
 
-**Plans**: 2 plans
+**Plans**: 1/2 plans executed
 
 **Wave 1**
 
-- [ ] 12-01-PLAN.md — Skeema: posts.author_id -migraatio (migrate_posts_author.sql) + backfill admin-tunnukselle (D-01) + schema.sql-peilaus + ajo dev-DB:hen (Wave 1)
+- [x] 12-01-PLAN.md — Skeema: posts.author_id -migraatio (migrate_posts_author.sql) + backfill admin-tunnukselle (D-01) + schema.sql-peilaus + ajo dev-DB:hen (Wave 1)
 
 **Wave 2** *(blocked on Wave 1)*
 
@@ -145,7 +145,7 @@ See `.planning/milestones/v1.1-ROADMAP.md` for full phase details.
 | 9. Admin-teemavalinta & Altervista-verifiointi | v1.1 | 2/2 | Complete | 2026-07-05 |
 | 10. Roolit ja autentikaation perusta | v1.2 | 3/3 | Complete    | 2026-07-16 |
 | 11. Käyttäjähallinta | v1.2 | 4/4 | Complete    | 2026-07-16 |
-| 12. Sisältötyyppien roolirajaus | v1.2 | 0/2 | Not started | - |
+| 12. Sisältötyyppien roolirajaus | v1.2 | 1/2 | In Progress|  |
 | 13. Poisto-hyväksyntätyönkulku | v1.2 | 0/TBD | Not started | - |
 
 ---

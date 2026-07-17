@@ -3,17 +3,17 @@ gsd_state_version: 1.0
 milestone: v1.2
 milestone_name: Käyttäjäroolit
 current_phase: 12
-current_phase_name: Sisältötyyppien roolirajaus
+current_phase_name: sis-lt-tyyppien-roolirajaus
 status: executing
 stopped_at: Phase 12 context gathered
-last_updated: "2026-07-16T15:03:34.437Z"
-last_activity: 2026-07-16
-last_activity_desc: Phase 11 complete, transitioned to Phase 12
+last_updated: "2026-07-17T06:40:16.962Z"
+last_activity: 2026-07-17
+last_activity_desc: Phase 12 execution started
 progress:
   total_phases: 4
   completed_phases: 2
-  total_plans: 7
-  completed_plans: 7
+  total_plans: 9
+  completed_plans: 8
   percent: 50
 ---
 
@@ -24,14 +24,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-07-05)
 
 **Core value:** Hevosomistaja voi hallita koko tallinsa hevostietoja yhdestä turvallisesta admin-paneelista, ja kaikki tieto näkyy automaattisesti julkisella sivustolla.
-**Current focus:** Phase 11 — k-ytt-j-hallinta
+**Current focus:** Phase 12 — sis-lt-tyyppien-roolirajaus
 
 ## Current Position
 
-Phase: 12 — Sisältötyyppien roolirajaus
-Plan: Not started
+Phase: 12 (sis-lt-tyyppien-roolirajaus) — EXECUTING
+Plan: 2 of 2
 Status: Ready to execute
-Last activity: 2026-07-16 — Phase 11 complete, transitioned to Phase 12
+Last activity: 2026-07-17 — Phase 12 execution started
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -83,6 +83,8 @@ Full decision log in `.planning/PROJECT.md` Key Decisions table.
 - [Phase 11]: user_toggle_active.php and user_delete.php only run last-admin/self guards on the destructive path (deactivating/deleting) -- reactivation is always safe and skips both guards
 - [Phase 11-04]: requireRole() re-validates role/is_active from admin_users per protected request (one PK-indexed SELECT per page load accepted) instead of session-TTL caching, guaranteeing role/deactivation changes take effect on the next request (USER-02/SC2, CR-01)
 - [Phase 11-04]: Username validation upper bound lowered from 255 to 50 in user_add.php/user_edit.php to match admin_users.username VARCHAR(50); INSERT/UPDATE wrapped in try/catch(PDOException) mapping SQLSTATE 23000 to the existing duplicate-username flash message (CR-02, WR-01)
+- [Phase ?]: [Phase 12-01]: posts.author_id nullable with FK ON DELETE SET NULL so permanent user deletion (USER-04) clears ownership instead of cascading delete on posts
+- [Phase ?]: [Phase 12-01]: Backfill targets existing 'admin' username per D-01, consistent with migrate_roles.sql's admin-elevation convention
 
 ### Pending Todos
 
@@ -109,7 +111,7 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-07-16T15:03:34.417Z
+Last session: 2026-07-17T06:39:41.822Z
 Stopped at: Phase 12 context gathered
 Resume file: .planning/phases/12-sis-lt-tyyppien-roolirajaus/12-CONTEXT.md
 
@@ -139,6 +141,7 @@ Resume file: .planning/phases/12-sis-lt-tyyppien-roolirajaus/12-CONTEXT.md
 | Phase 11 P02 | 12min | 2 tasks | 2 files |
 | Phase 11 P03 | 10min | 3 tasks | 3 files |
 | Phase 11 P04 | 10min | 2 tasks | 3 files |
+| Phase 12 P01 | 2min | 2 tasks | 2 files |
 
 ## Operator Next Steps
 

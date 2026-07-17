@@ -47,9 +47,9 @@
 ### Author-rajattu sisällönhallinta
 
 - [ ] **AUTHOR-01**: Author-rooli voi luoda uuden postauksen
-- [ ] **AUTHOR-02**: Author-rooli voi muokata vain omia postauksiaan
+- [x] **AUTHOR-02**: Author-rooli voi muokata vain omia postauksiaan
 - [ ] **AUTHOR-03**: Author-rooli voi poistaa vain omia postauksiaan välittömästi (ilman hyväksyntää)
-- [ ] **AUTHOR-04**: Author-rooli voi linkittää olemassa olevia hevosia postaukseensa valitsemalla ne listalta (ei muokkausoikeutta hevostietoihin)
+- [x] **AUTHOR-04**: Author-rooli voi linkittää olemassa olevia hevosia postaukseensa valitsemalla ne listalta (ei muokkausoikeutta hevostietoihin)
 - [ ] **AUTHOR-05**: Author-roolilla ei ole pääsyä muihin admin-toimintoihin (hevoset, varsat, kilpailut, näyttelyt, käyttäjähallinta, teema-asetukset)
 
 ## v2 Requirements
