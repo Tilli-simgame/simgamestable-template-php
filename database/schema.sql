@@ -263,10 +263,12 @@ CREATE TABLE IF NOT EXISTS `posts` (
   `title`      VARCHAR(255) NOT NULL,
   `slug`       VARCHAR(255) NOT NULL,
   `content`    MEDIUMTEXT   NOT NULL,
+  `author_id`  INT UNSIGNED DEFAULT NULL COMMENT 'Postauksen tekijä (admin_users.id)',
   `created_at` DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uk_post_slug` (`slug`)
+  UNIQUE KEY `uk_post_slug` (`slug`),
+  CONSTRAINT `fk_posts_author` FOREIGN KEY (`author_id`) REFERENCES `admin_users` (`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ------------------------------------------------------------
