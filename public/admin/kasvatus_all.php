@@ -15,8 +15,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!validate_csrf_token($_POST['csrf_token'] ?? '')) {
         $errors[] = 'Virheellinen pyyntö.';
     } elseif ($action === 'delete' && $foal_id > 0) {
-        requireRole('admin');
-        $db->prepare('DELETE FROM foals WHERE id = :foal_id')->execute([':foal_id' => $foal_id]);
+        requireRole('admin', 'mod');
+        $db->prepare('UPDATE foals SET is_deleted = 1, deleted_at = NOW() WHERE id = :foal_id AND is_deleted = 0')
+           ->execute([':foal_id' => $foal_id]);
+        if (currentRole() === 'mod') {
+            insertPendingDeletion('foal', $foal_id, (int)$_SESSION['admin_id']);
+        }
         redirect(SITE_URL . '/admin/kasvatus_all.php?deleted=1');
     }
 }
@@ -30,6 +34,7 @@ $foals = $db->query(
      LEFT JOIN horses   s  ON s.id  = f.sire_id       AND s.is_deleted = 0
      LEFT JOIN horses   d  ON d.id  = f.dam_id        AND d.is_deleted = 0
      LEFT JOIN horses   fh ON fh.id = f.foal_horse_id AND fh.is_deleted = 0
+     WHERE f.is_deleted = 0
      ORDER BY f.birth_date DESC, f.foal_name ASC'
 )->fetchAll();
 

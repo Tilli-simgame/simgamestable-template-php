@@ -71,11 +71,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     redirect(SITE_URL . '/admin/competitions.php?horse_id=' . $horse_id . '&updated=1');
             }
         } elseif ($action === 'delete' && $comp_id > 0) {
-            requireRole('admin');
+            requireRole('admin', 'mod');
             $own = $db->prepare('SELECT id FROM competitions WHERE id = :comp_id AND horse_id = :horse_id');
             $own->execute([':comp_id' => $comp_id, ':horse_id' => $horse_id]);
             if ($own->fetch()) {
-                $db->prepare('DELETE FROM competitions WHERE id = :comp_id')->execute([':comp_id' => $comp_id]);
+                $db->prepare('UPDATE competitions SET is_deleted = 1, deleted_at = NOW() WHERE id = :comp_id AND is_deleted = 0')
+                   ->execute([':comp_id' => $comp_id]);
+                if (currentRole() === 'mod') {
+                    insertPendingDeletion('competition', $comp_id, (int)$_SESSION['admin_id']);
+                }
             }
             redirect(SITE_URL . '/admin/competitions.php?horse_id=' . $horse_id . '&deleted=1');
         }
@@ -83,14 +87,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Hae kilpailut
-$compsStmt = $db->prepare('SELECT * FROM competitions WHERE horse_id = :horse_id ORDER BY competition_date DESC');
+$compsStmt = $db->prepare('SELECT * FROM competitions WHERE horse_id = :horse_id AND is_deleted = 0 ORDER BY competition_date DESC');
 $compsStmt->execute([':horse_id' => $horse_id]);
 $competitions = $compsStmt->fetchAll();
 
 // Muokkaustila
 $editComp = null;
 if ($edit_id > 0) {
-    $editStmt = $db->prepare('SELECT * FROM competitions WHERE id = :id AND horse_id = :horse_id');
+    $editStmt = $db->prepare('SELECT * FROM competitions WHERE id = :id AND horse_id = :horse_id AND is_deleted = 0');
     $editStmt->execute([':id' => $edit_id, ':horse_id' => $horse_id]);
     $editComp = $editStmt->fetch();
 }

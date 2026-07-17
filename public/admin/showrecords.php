@@ -98,11 +98,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     redirect(SITE_URL . '/admin/showrecords.php?horse_id=' . $horse_id . '&updated=1');
             }
         } elseif ($action === 'delete' && $show_id > 0) {
-            requireRole('admin');
+            requireRole('admin', 'mod');
             $own = $db->prepare('SELECT id FROM showrecords WHERE id = :show_id AND horse_id = :horse_id');
             $own->execute([':show_id' => $show_id, ':horse_id' => $horse_id]);
             if ($own->fetch()) {
-                $db->prepare('DELETE FROM showrecords WHERE id = :show_id')->execute([':show_id' => $show_id]);
+                $db->prepare('UPDATE showrecords SET is_deleted = 1, deleted_at = NOW() WHERE id = :show_id AND is_deleted = 0')
+                   ->execute([':show_id' => $show_id]);
+                if (currentRole() === 'mod') {
+                    insertPendingDeletion('showrecord', $show_id, (int)$_SESSION['admin_id']);
+                }
             }
             redirect(SITE_URL . '/admin/showrecords.php?horse_id=' . $horse_id . '&deleted=1');
         }
@@ -115,7 +119,7 @@ $showsStmt = $db->prepare(
             p.filename AS photo_filename, p.title AS photo_title, p.original_name AS photo_original_name
      FROM showrecords s LEFT JOIN contacts jc ON jc.id = s.judge_contact_id
      LEFT JOIN horse_photos p ON p.id = s.photo_id
-     WHERE s.horse_id = :horse_id ORDER BY s.show_date DESC'
+     WHERE s.horse_id = :horse_id AND s.is_deleted = 0 ORDER BY s.show_date DESC'
 );
 $showsStmt->execute([':horse_id' => $horse_id]);
 $showrecords = $showsStmt->fetchAll();

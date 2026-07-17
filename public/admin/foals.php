@@ -120,11 +120,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
         } elseif ($action === 'delete' && $foal_id > 0) {
-            requireRole('admin');
+            requireRole('admin', 'mod');
             $own = $db->prepare('SELECT id FROM foals WHERE id = :foal_id AND horse_id = :horse_id');
             $own->execute([':foal_id' => $foal_id, ':horse_id' => $horse_id]);
             if ($own->fetch()) {
-                $db->prepare('DELETE FROM foals WHERE id = :foal_id')->execute([':foal_id' => $foal_id]);
+                $db->prepare('UPDATE foals SET is_deleted = 1, deleted_at = NOW() WHERE id = :foal_id AND is_deleted = 0')
+                   ->execute([':foal_id' => $foal_id]);
+                if (currentRole() === 'mod') {
+                    insertPendingDeletion('foal', $foal_id, (int)$_SESSION['admin_id']);
+                }
             }
             redirect(SITE_URL . '/admin/foals.php?horse_id=' . $horse_id . '&deleted=1');
         }
@@ -142,7 +146,7 @@ $foalsStmt = $db->prepare(
      LEFT JOIN horses   d  ON d.id  = f.dam_id           AND d.is_deleted = 0
      LEFT JOIN contacts oc ON oc.id = f.owner_contact_id
      LEFT JOIN horses   fh ON fh.id = f.foal_horse_id    AND fh.is_deleted = 0
-     WHERE f.horse_id = :horse_id
+     WHERE f.horse_id = :horse_id AND f.is_deleted = 0
      ORDER BY f.birth_date DESC, f.foal_name ASC'
 );
 $foalsStmt->execute([':horse_id' => $horse_id]);
