@@ -37,7 +37,7 @@ See `.planning/milestones/v1.1-ROADMAP.md` for full phase details.
 
 - [x] **Phase 10: Roolit ja autentikaation perusta** - Kolme roolia (admin/mod/author) tunnistetaan sessiossa ja jokaisella suojatulla admin-sivulla; kaikki roolit voivat vaihtaa oman salasanansa (plans complete, pending human verification) (completed 2026-07-16)
 - [x] **Phase 11: Käyttäjähallinta** - Admin luo, muokkaa, deaktivoi ja poistaa käyttäjätunnuksia sekä nollaa salasanoja ilman lukkiutumisriskiä (completed 2026-07-16)
-- [ ] **Phase 12: Sisältötyyppien roolirajaus** - Mod luo/muokkaa hevosia, varsoja, kilpailuja, näyttelytuloksia ja postauksia; author luo/muokkaa vain omia postauksiaan ja linkittää niihin olemassa olevia hevosia
+- [x] **Phase 12: Sisältötyyppien roolirajaus** - Mod luo/muokkaa hevosia, varsoja, kilpailuja, näyttelytuloksia ja postauksia; author luo/muokkaa vain omia postauksiaan ja linkittää niihin olemassa olevia hevosia (completed 2026-07-17)
 - [ ] **Phase 13: Poisto-hyväksyntätyönkulku** - Modin poistopyynnöt odottavat admin-hyväksyntää yhdessä näkymässä; author poistaa omat postauksensa heti ilman hyväksyntää
 
 ## Phase Details
@@ -105,7 +105,7 @@ See `.planning/milestones/v1.1-ROADMAP.md` for full phase details.
   4. Author-käyttäjä voi valita olemassa olevia hevosia listalta ja linkittää ne omaan postaukseensa, muttei pysty muokkaamaan itse hevostietoja.
   5. Mod- ja author-käyttäjät eivät näe eivätkä pääse käyttäjähallinta- tai teema-asetussivuille edes suoralla osoitteella.
 
-**Plans**: 1/2 plans executed
+**Plans**: 2/2 plans complete
 
 **Wave 1**
 
@@ -113,7 +113,7 @@ See `.planning/milestones/v1.1-ROADMAP.md` for full phase details.
 
 **Wave 2** *(blocked on Wave 1)*
 
-- [ ] 12-02-PLAN.md — posts.php-omistajuuslogiikka (author_id INSERT D-02, listasuodatus D-03, GET/POST IDOR-esto SC3) + requireOwnResourceOrAdmin() + roolirajauksen verifiointipassi D-04 (Wave 2)
+- [x] 12-02-PLAN.md — posts.php-omistajuuslogiikka (author_id INSERT D-02, listasuodatus D-03, GET/POST IDOR-esto SC3) + requireOwnResourceOrAdmin() + roolirajauksen verifiointipassi D-04 (Wave 2)
 
 ### Phase 13: Poisto-hyväksyntätyönkulku
 
@@ -145,7 +145,7 @@ See `.planning/milestones/v1.1-ROADMAP.md` for full phase details.
 | 9. Admin-teemavalinta & Altervista-verifiointi | v1.1 | 2/2 | Complete | 2026-07-05 |
 | 10. Roolit ja autentikaation perusta | v1.2 | 3/3 | Complete    | 2026-07-16 |
 | 11. Käyttäjähallinta | v1.2 | 4/4 | Complete    | 2026-07-16 |
-| 12. Sisältötyyppien roolirajaus | v1.2 | 1/2 | In Progress|  |
+| 12. Sisältötyyppien roolirajaus | v1.2 | 2/2 | Complete   | 2026-07-17 |
 | 13. Poisto-hyväksyntätyönkulku | v1.2 | 0/TBD | Not started | - |
 
 ---

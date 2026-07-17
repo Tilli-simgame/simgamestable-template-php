@@ -4,17 +4,17 @@ milestone: v1.2
 milestone_name: Käyttäjäroolit
 current_phase: 12
 current_phase_name: sis-lt-tyyppien-roolirajaus
-status: executing
+status: verifying
 stopped_at: Phase 12 context gathered
-last_updated: "2026-07-17T06:40:16.962Z"
+last_updated: "2026-07-17T06:49:14.961Z"
 last_activity: 2026-07-17
 last_activity_desc: Phase 12 execution started
 progress:
   total_phases: 4
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 9
-  completed_plans: 8
-  percent: 50
+  completed_plans: 9
+  percent: 75
 ---
 
 # Project State
@@ -30,7 +30,7 @@ See: .planning/PROJECT.md (updated 2026-07-05)
 
 Phase: 12 (sis-lt-tyyppien-roolirajaus) — EXECUTING
 Plan: 2 of 2
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-07-17 — Phase 12 execution started
 
 Progress: [░░░░░░░░░░] 0%
@@ -85,6 +85,8 @@ Full decision log in `.planning/PROJECT.md` Key Decisions table.
 - [Phase 11-04]: Username validation upper bound lowered from 255 to 50 in user_add.php/user_edit.php to match admin_users.username VARCHAR(50); INSERT/UPDATE wrapped in try/catch(PDOException) mapping SQLSTATE 23000 to the existing duplicate-username flash message (CR-02, WR-01)
 - [Phase ?]: [Phase 12-01]: posts.author_id nullable with FK ON DELETE SET NULL so permanent user deletion (USER-04) clears ownership instead of cascading delete on posts
 - [Phase ?]: [Phase 12-01]: Backfill targets existing 'admin' username per D-01, consistent with migrate_roles.sql's admin-elevation convention
+- [Phase ?]: [Phase 12-02]: requireOwnResourceOrAdmin() placed alongside isAdmin()/requireRole() in helpers.php, mirroring the existing helper style exactly (no return value, redirect on failure); admin/mod always pass, only author is ownership-restricted
+- [Phase ?]: [Phase 12-02]: POST UPDATE branch performs its own author_id fetch and ownership check independent of the GET-side check (defense-in-depth for crafted-POST IDOR, Pitfall 2), since a crafted POST bypasses the GET view entirely
 
 ### Pending Todos
 
@@ -111,7 +113,7 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-07-17T06:39:41.822Z
+Last session: 2026-07-17T06:46:20.037Z
 Stopped at: Phase 12 context gathered
 Resume file: .planning/phases/12-sis-lt-tyyppien-roolirajaus/12-CONTEXT.md
 
@@ -142,6 +144,7 @@ Resume file: .planning/phases/12-sis-lt-tyyppien-roolirajaus/12-CONTEXT.md
 | Phase 11 P03 | 10min | 3 tasks | 3 files |
 | Phase 11 P04 | 10min | 2 tasks | 3 files |
 | Phase 12 P01 | 2min | 2 tasks | 2 files |
+| Phase 12 P2 | 8min | 3 tasks | 2 files |
 
 ## Operator Next Steps
 
