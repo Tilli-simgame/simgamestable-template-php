@@ -9,6 +9,7 @@ $competitions = $db->query(
             h.id AS horse_id, h.name AS horse_name
      FROM competitions c
      JOIN horses h ON h.id = c.horse_id AND h.is_deleted = 0
+     WHERE c.is_deleted = 0
      ORDER BY c.competition_date DESC, h.name ASC'
 )->fetchAll();
 

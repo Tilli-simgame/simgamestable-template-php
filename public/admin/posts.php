@@ -77,7 +77,7 @@ $edit_id = (int)($_GET['id'] ?? 0);
 $f = ['title' => '', 'content' => '', 'edit_id' => 0, 'horse_ids' => []];
 
 if ($action === 'edit' && $edit_id > 0) {
-    $editPost = $db->prepare('SELECT * FROM posts WHERE id = :id');
+    $editPost = $db->prepare('SELECT * FROM posts WHERE id = :id AND is_deleted = 0');
     $editPost->execute([':id' => $edit_id]);
     $editPost = $editPost->fetch();
     if ($editPost) {
@@ -117,11 +117,11 @@ if (isset($_GET['deleted'])) $flash = '<p class="flash-ok">Postaus poistettu.</p
 // Haetaan kaikki postaukset listanäkymää varten
 // Author näkee VAIN omat postauksensa (D-03) — admin/mod näkevät kaikki, ei omistajuusrajausta.
 if (currentRole() === 'author') {
-    $posts = $db->prepare('SELECT id, title, slug, created_at FROM posts WHERE author_id = :aid ORDER BY created_at DESC');
+    $posts = $db->prepare('SELECT id, title, slug, created_at FROM posts WHERE author_id = :aid AND is_deleted = 0 ORDER BY created_at DESC');
     $posts->execute([':aid' => $_SESSION['admin_id']]);
     $posts = $posts->fetchAll();
 } else {
-    $posts = $db->query('SELECT id, title, slug, created_at FROM posts ORDER BY created_at DESC')->fetchAll();
+    $posts = $db->query('SELECT id, title, slug, created_at FROM posts WHERE is_deleted = 0 ORDER BY created_at DESC')->fetchAll();
 }
 
 // Haetaan kaikki hevoset lomakevalitsinta varten

@@ -13,6 +13,7 @@ $showrecords = $db->query(
      JOIN horses h ON h.id = s.horse_id AND h.is_deleted = 0
      LEFT JOIN contacts jc ON jc.id = s.judge_contact_id
      LEFT JOIN horse_photos p ON p.id = s.photo_id
+     WHERE s.is_deleted = 0
      ORDER BY s.show_date DESC, h.name ASC'
 )->fetchAll();
 

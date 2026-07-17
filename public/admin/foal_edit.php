@@ -17,7 +17,7 @@ $foalStmt = $db->prepare(
      LEFT JOIN horses s  ON s.id  = f.sire_id AND s.is_deleted = 0
      LEFT JOIN horses d  ON d.id  = f.dam_id  AND d.is_deleted = 0
      LEFT JOIN horses fh ON fh.id = f.foal_horse_id AND fh.is_deleted = 0
-     WHERE f.id = :id'
+     WHERE f.id = :id AND f.is_deleted = 0'
 );
 $foalStmt->execute([':id' => $id]);
 $foal = $foalStmt->fetch();
