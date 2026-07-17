@@ -16,7 +16,7 @@ Sivusto on täysin toimiva PHP/MySQL-pohjainen virtuaalitalli Altervista-tuotann
 
 **Tunnettu, tarkoituksellisesti rajattu puute:** `oma-talli`-teemalla ei ole vielä `pages/.htaccess`-suojausta kuten `default`-teemalla (D-06, Phase 9) — teema on keskeneräinen eikä kuulunut v1.1-milestonen verifiointiin.
 
-**v1.2 eteneminen:** Phase 11 (Käyttäjähallinta) valmis (2026-07-16) — admin voi luoda, muokata, deaktivoida/reaktivoida ja poistaa käyttäjätunnuksia sekä nollata salasanoja turvallisesti (viimeisen adminin ja oman tunnuksen lukitusesto, per-pyyntö sessionrevalidointi, käyttäjänimen VARCHAR(50)-yhteensopiva validointi).
+**v1.2 eteneminen:** Phase 11 (Käyttäjähallinta) valmis (2026-07-16) — admin voi luoda, muokata, deaktivoida/reaktivoida ja poistaa käyttäjätunnuksia sekä nollata salasanoja turvallisesti (viimeisen adminin ja oman tunnuksen lukitusesto, per-pyyntö sessionrevalidointi, käyttäjänimen VARCHAR(50)-yhteensopiva validointi). Phase 12 (Sisältötyyppien roolirajaus) valmis (2026-07-17) — mod voi luoda/muokata hevosia, varsoja, kilpailuja, näyttelytuloksia ja postauksia omalla roolillaan; author voi luoda/muokata vain omia postauksiaan (`posts.author_id`-omistajuus, IDOR-suojaus sekä GET- että POST-poluilla) ja linkittää niihin olemassa olevia hevosia; kumpikaan rooli ei pääse käyttäjähallintaan eikä teema-asetuksiin. Poisto-oikeudet (mod-hyväksyntäkierto, author-välitön poisto) on tarkoituksella jätetty Phase 13:een, koska ne riippuvat vielä rakentamattomasta `pending_deletions`-skeemasta.
 
 <details>
 <summary>Archived: v1.1 Teemajärjestelmä goal (Phases 6-9)</summary>
@@ -60,15 +60,20 @@ Ei vielä määritelty seuraavaksi milestoneksi v1.2:n jälkeen.
 - ✓ Blogi (postausten hallinta adminissa, julkinen postauslista + yksittäinen postaussivu arkistosidebarilla) — v1.0 (Phase 5)
 - ✓ Tiedostopohjainen teemajärjestelmä: `resolveThemePath()` path-traversal-suojauksella, `public/themes/default/`-rakenne, data-only-sivukontrollerit, admin-teemavalinta, Altervista-tuotantoverifiointi — v1.1
 - ✓ Käyttäjähallinta: admin luo/muokkaa/deaktivoi/poistaa käyttäjätunnuksia ja nollaa salasanoja, per-pyyntö session-revalidointi (rooli/is_active) admin_users-taulusta — v1.2 (Phase 11)
+- ✓ Rooliperusteinen pääsynhallinta (admin/mod/author) admin-paneelissa: sivutason roolisuojaus (Phase 10) + sisältötyyppikohtainen luonti/muokkaus-rajaus (Phase 12) — v1.2 (Phase 10, 12)
+- ✓ Mod voi luoda ja muokata hevosia (+kuvat), varsoja, kilpailuja ja näyttelytuloksia omalla roolillaan — v1.2 (Phase 12, MOD-01..04)
+- ✓ Mod voi luoda ja muokata postauksia rajoituksetta — v1.2 (Phase 12, MOD-05)
+- ✓ Author voi luoda ja muokata vain omia postauksiaan (`posts.author_id`-omistajuus, lista suodattuu, IDOR-suojaus sekä GET- että POST-poluilla) — v1.2 (Phase 12, AUTHOR-01/02)
+- ✓ Author voi linkittää olemassa olevia hevosia postaukseensa (read-only valinta, ei hevostietojen muokkausoikeutta) — v1.2 (Phase 12, AUTHOR-04)
+- ✓ Mod ja author eivät pääse käyttäjähallintaan eivätkä teema-asetuksiin — v1.2 (Phase 12, MOD-07/AUTHOR-05)
 
 ### Active
 
 <!-- Current scope. Building toward these. -->
 
-- [ ] Rooliperusteinen pääsynhallinta (admin/mod/author) admin-paneelissa
 - [ ] Kaikki käyttäjät voivat vaihtaa oman salasanansa
-- [ ] Mod-roolin rajattu CRUD hevosille/varsoille/kisoille/näyttelyille/postauksille poisto-hyväksyntäkiertoineen
-- [ ] Author-roolin rajattu CRUD vain omiin postauksiin + hevoslinkitys (read-only valinta)
+- [ ] Mod-roolin poisto vaatii admin-hyväksynnän (pending-deletion-tila hevosille/varsoille/kisoille/näyttelyille/postauksille, admin-hyväksyntänäkymä) — MOD-06, DEL-01..05
+- [ ] Author voi poistaa omat postauksensa välittömästi ilman hyväksyntää — AUTHOR-03
 
 ### Out of Scope
 
@@ -111,6 +116,10 @@ Ei vielä määritelty seuraavaksi milestoneksi v1.2:n jälkeen.
 | Sivukontrollerit data-only + resolveThemePath()-delegointi | Teeman vaihto ei vaadi kontrollerimuutoksia (todistettu Phase 08-04) | ✓ Good |
 | Deny from all themes/{teema}/pages/*.php:lle | Root .htaccess ei koskaan routita polkuun; require_once ohittaa Apache-eston joka tapauksessa turvallisesti | ✓ Good |
 | oma-talli-teeman .htaccess-suojaus jätetty ulkopuolelle | Teema keskeneräinen, ei kuulunut v1.1-scopeen | — Pending (tunnettu puute) |
+| posts.author_id nullable + FK ON DELETE SET NULL | Käyttäjän pysyvä poisto (USER-04) ei saa poistaa postauksia — vain omistajuus tyhjenee | ✓ Good |
+| requireOwnResourceOrAdmin() helpers.php:hen, requireRole()-konvention mukaisesti | Yhtenäinen omistajuus- ja roolisuojausrajapinta; admin/mod aina läpi, vain author omistajuusrajattu | ✓ Good |
+| POST-UPDATE-haaran oma riippumaton omistajuustarkistus ennen UPDATE-lausetta | Crafted POST toisen postauksen edit_id:llä ei saa ohittaa GET-näkymän suojausta (IDOR defense-in-depth) | ✓ Good |
+| Poisto-oikeudet (MOD-06/AUTHOR-03/DEL-01..05) siirretty Phase 13:een | Riippuvat vielä rakentamattomasta pending_deletions-skeemasta; poistohaarautuminen on yksi looginen kokonaisuus | ✓ Good |
 
 ## Evolution
 
@@ -130,4 +139,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-07-16 — Phase 11 (Käyttäjähallinta) complete*
+*Last updated: 2026-07-17 — Phase 12 (Sisältötyyppien roolirajaus) complete*
