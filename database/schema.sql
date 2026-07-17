@@ -176,9 +176,13 @@ CREATE TABLE IF NOT EXISTS `competitions` (
   `placement` VARCHAR(50) DEFAULT NULL COMMENT 'Tulos (esim. "1.", "DQ", "Hyv")',
   `points` DECIMAL(8,2) DEFAULT NULL COMMENT 'Pisteet',
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  -- Pehmeä poisto
+  `is_deleted` TINYINT(1) NOT NULL DEFAULT 0,
+  `deleted_at` TIMESTAMP NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_comp_horse` (`horse_id`),
   KEY `idx_comp_date` (`competition_date`),
+  KEY `idx_competitions_deleted` (`is_deleted`),
   CONSTRAINT `fk_comp_horse` FOREIGN KEY (`horse_id`) REFERENCES `horses` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -201,11 +205,15 @@ CREATE TABLE IF NOT EXISTS `showrecords` (
   `review` TEXT DEFAULT NULL COMMENT 'Sanallinen arvostelu',
   `notes` TEXT DEFAULT NULL COMMENT 'Huom',
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  -- Pehmeä poisto
+  `is_deleted` TINYINT(1) NOT NULL DEFAULT 0,
+  `deleted_at` TIMESTAMP NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_showrecords_horse` (`horse_id`),
   KEY `idx_showrecords_date` (`show_date`),
   KEY `idx_showrecords_judge` (`judge_contact_id`),
   KEY `idx_showrecords_photo` (`photo_id`),
+  KEY `idx_showrecords_deleted` (`is_deleted`),
   CONSTRAINT `fk_showrecords_horse` FOREIGN KEY (`horse_id`) REFERENCES `horses` (`id`) ON DELETE CASCADE,
   CONSTRAINT `fk_showrecords_judge` FOREIGN KEY (`judge_contact_id`) REFERENCES `contacts` (`id`) ON DELETE SET NULL,
   CONSTRAINT `fk_showrecords_photo` FOREIGN KEY (`photo_id`) REFERENCES `horse_photos` (`id`) ON DELETE SET NULL
@@ -229,8 +237,12 @@ CREATE TABLE IF NOT EXISTS `foals` (
   `foal_horse_id`    INT UNSIGNED  DEFAULT NULL COMMENT 'Linkki hevoseen kun status=born (horses.id)',
   `notes`        TEXT          DEFAULT NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  -- Pehmeä poisto
+  `is_deleted` TINYINT(1) NOT NULL DEFAULT 0,
+  `deleted_at` TIMESTAMP NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_foals_horse` (`horse_id`),
+  KEY `idx_foals_deleted` (`is_deleted`),
   CONSTRAINT `fk_foals_horse` FOREIGN KEY (`horse_id`)         REFERENCES `horses`   (`id`) ON DELETE SET NULL,
   CONSTRAINT `fk_foals_breed` FOREIGN KEY (`breed_id`)         REFERENCES `breeds`   (`id`) ON DELETE SET NULL,
   CONSTRAINT `fk_foals_sire`  FOREIGN KEY (`sire_id`)          REFERENCES `horses`   (`id`) ON DELETE SET NULL,
@@ -256,6 +268,25 @@ CREATE TABLE IF NOT EXISTS `admin_users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ------------------------------------------------------------
+-- Poistopyynnöt (mod-käyttäjien poistoehdotukset admin-hyväksyntää varten)
+-- ------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `pending_deletions` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `entity_type` ENUM('horse','foal','competition','showrecord','post') NOT NULL,
+  `entity_id` INT UNSIGNED NOT NULL,
+  `requested_by` INT UNSIGNED NOT NULL COMMENT 'admin_users.id (mod)',
+  `requested_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `status` ENUM('pending','approved','rejected') NOT NULL DEFAULT 'pending',
+  `reviewed_by` INT UNSIGNED DEFAULT NULL COMMENT 'admin_users.id (admin)',
+  `reviewed_at` TIMESTAMP NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_pending_deletions_status` (`status`),
+  KEY `idx_pending_deletions_entity` (`entity_type`, `entity_id`),
+  CONSTRAINT `fk_pending_deletions_requested_by` FOREIGN KEY (`requested_by`) REFERENCES `admin_users` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_pending_deletions_reviewed_by` FOREIGN KEY (`reviewed_by`) REFERENCES `admin_users` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ------------------------------------------------------------
 -- Blogijulkaisut
 -- ------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `posts` (
@@ -266,8 +297,12 @@ CREATE TABLE IF NOT EXISTS `posts` (
   `author_id`  INT UNSIGNED DEFAULT NULL COMMENT 'Postauksen tekijä (admin_users.id)',
   `created_at` DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  -- Pehmeä poisto
+  `is_deleted` TINYINT(1) NOT NULL DEFAULT 0,
+  `deleted_at` TIMESTAMP NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_post_slug` (`slug`),
+  KEY `idx_posts_deleted` (`is_deleted`),
   CONSTRAINT `fk_posts_author` FOREIGN KEY (`author_id`) REFERENCES `admin_users` (`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
