@@ -5,8 +5,8 @@ milestone_name: Käyttäjäroolit
 current_phase: 13
 current_phase_name: Poisto-hyväksyntätyönkulku
 status: verifying
-stopped_at: Phase 12 context gathered
-last_updated: "2026-07-17T07:27:26.204Z"
+stopped_at: Phase 13 context gathered
+last_updated: "2026-07-17T07:37:02.402Z"
 last_activity: 2026-07-17
 last_activity_desc: Phase 12 complete, transitioned to Phase 13
 progress:
@@ -111,9 +111,9 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-07-17T07:27:26Z
-Stopped at: Phase 12 complete, ready to plan Phase 13
-Resume file: None
+Last session: 2026-07-17T07:37:02.375Z
+Stopped at: Phase 13 context gathered
+Resume file: .planning/phases/13-poisto-hyv-ksynt-ty-nkulku/13-CONTEXT.md
 
 ## Performance Metrics
 
