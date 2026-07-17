@@ -128,7 +128,17 @@ See `.planning/milestones/v1.1-ROADMAP.md` for full phase details.
   4. Author-käyttäjä voi poistaa oman postauksensa välittömästi ilman admin-hyväksyntää.
   5. Sama sisältö ei voi olla useamman kertaan poistojonossa samanaikaisesti — toistuva poistopyyntö samaan sisältöön ei luo uutta odottavaa riviä.
 
-**Plans**: TBD
+**Plans**: 4 plans
+
+**Wave 1**
+
+- [ ] 13-01-PLAN.md — Skeema + apufunktiot: migrate_delete_approval.sql (pending_deletions + soft-delete-sarakkeet foals/competitions/showrecords/posts) + insertPendingDeletion()/entityTypeToTable() (Wave 1)
+
+**Wave 2** *(blocked on Wave 1)*
+
+- [ ] 13-02-PLAN.md — Poistokohtien roolihaarautuminen: horse/post_delete + inline foals/competitions/showrecords/kasvatus_all soft-deleteen (mod → pending, admin/author → suora) (Wave 2)
+- [ ] 13-03-PLAN.md — Admin-hyväksyntänäkymä: deletions.php + deletion_approve/reject + index.php-laskuri + admin_header-nav (Wave 2)
+- [ ] 13-04-PLAN.md — is_deleted-audit-passi: jäljellä olevat admin- ja julkiset kyselyt (molemmat teemat) piilottavat soft-deletetyn sisällön (Wave 2)
 
 ## Progress
 
@@ -145,8 +155,8 @@ See `.planning/milestones/v1.1-ROADMAP.md` for full phase details.
 | 9. Admin-teemavalinta & Altervista-verifiointi | v1.1 | 2/2 | Complete | 2026-07-05 |
 | 10. Roolit ja autentikaation perusta | v1.2 | 3/3 | Complete    | 2026-07-16 |
 | 11. Käyttäjähallinta | v1.2 | 4/4 | Complete    | 2026-07-16 |
-| 12. Sisältötyyppien roolirajaus | v1.2 | 2/2 | Complete   | 2026-07-17 |
-| 13. Poisto-hyväksyntätyönkulku | v1.2 | 0/TBD | Not started | - |
+| 12. Sisältötyyppien roolirajaus | v1.2 | 2/2 | Complete    | 2026-07-17 |
+| 13. Poisto-hyväksyntätyönkulku | v1.2 | 0/4 | Not started | - |
 
 ---
 *Roadmap created: 2026-06-17*
