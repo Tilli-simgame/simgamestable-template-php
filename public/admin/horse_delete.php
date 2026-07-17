@@ -21,7 +21,7 @@ $db = getDB();
 $stmt = $db->prepare('UPDATE horses SET is_deleted = 1, deleted_at = NOW() WHERE id = :id AND is_deleted = 0');
 $stmt->execute([':id' => $id]);
 
-if (currentRole() === 'mod') {
+if ($stmt->rowCount() > 0 && currentRole() === 'mod') {
     insertPendingDeletion('horse', $id, (int)$_SESSION['admin_id']);
 }
 // admin: suora soft-delete, ei pending-riviä (D-04)

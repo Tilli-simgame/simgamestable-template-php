@@ -1,6 +1,4 @@
 <?php
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
 require_once __DIR__ . '/../src/includes/db.php';
 requireRole('admin', 'mod');
 
@@ -16,9 +14,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = 'Virheellinen pyyntö.';
     } elseif ($action === 'delete' && $foal_id > 0) {
         requireRole('admin', 'mod');
-        $db->prepare('UPDATE foals SET is_deleted = 1, deleted_at = NOW() WHERE id = :foal_id AND is_deleted = 0')
-           ->execute([':foal_id' => $foal_id]);
-        if (currentRole() === 'mod') {
+        $delStmt = $db->prepare('UPDATE foals SET is_deleted = 1, deleted_at = NOW() WHERE id = :foal_id AND is_deleted = 0');
+        $delStmt->execute([':foal_id' => $foal_id]);
+        if ($delStmt->rowCount() > 0 && currentRole() === 'mod') {
             insertPendingDeletion('foal', $foal_id, (int)$_SESSION['admin_id']);
         }
         redirect(SITE_URL . '/admin/kasvatus_all.php?deleted=1');

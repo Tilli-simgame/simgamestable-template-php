@@ -31,7 +31,7 @@ requireOwnResourceOrAdmin((int)$ownerRow['author_id']);
 $stmt = $db->prepare('UPDATE posts SET is_deleted = 1, deleted_at = NOW() WHERE id = :id AND is_deleted = 0');
 $stmt->execute([':id' => $id]);
 
-if (currentRole() === 'mod') {
+if ($stmt->rowCount() > 0 && currentRole() === 'mod') {
     insertPendingDeletion('post', $id, (int)$_SESSION['admin_id']);
 }
 // admin ja author-oman-postauksen-poisto: suora soft-delete, ei pending-riviä (D-04, AUTHOR-03)

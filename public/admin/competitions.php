@@ -75,9 +75,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $own = $db->prepare('SELECT id FROM competitions WHERE id = :comp_id AND horse_id = :horse_id');
             $own->execute([':comp_id' => $comp_id, ':horse_id' => $horse_id]);
             if ($own->fetch()) {
-                $db->prepare('UPDATE competitions SET is_deleted = 1, deleted_at = NOW() WHERE id = :comp_id AND is_deleted = 0')
-                   ->execute([':comp_id' => $comp_id]);
-                if (currentRole() === 'mod') {
+                $delStmt = $db->prepare('UPDATE competitions SET is_deleted = 1, deleted_at = NOW() WHERE id = :comp_id AND is_deleted = 0');
+                $delStmt->execute([':comp_id' => $comp_id]);
+                if ($delStmt->rowCount() > 0 && currentRole() === 'mod') {
                     insertPendingDeletion('competition', $comp_id, (int)$_SESSION['admin_id']);
                 }
             }

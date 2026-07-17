@@ -102,9 +102,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $own = $db->prepare('SELECT id FROM showrecords WHERE id = :show_id AND horse_id = :horse_id');
             $own->execute([':show_id' => $show_id, ':horse_id' => $horse_id]);
             if ($own->fetch()) {
-                $db->prepare('UPDATE showrecords SET is_deleted = 1, deleted_at = NOW() WHERE id = :show_id AND is_deleted = 0')
-                   ->execute([':show_id' => $show_id]);
-                if (currentRole() === 'mod') {
+                $delStmt = $db->prepare('UPDATE showrecords SET is_deleted = 1, deleted_at = NOW() WHERE id = :show_id AND is_deleted = 0');
+                $delStmt->execute([':show_id' => $show_id]);
+                if ($delStmt->rowCount() > 0 && currentRole() === 'mod') {
                     insertPendingDeletion('showrecord', $show_id, (int)$_SESSION['admin_id']);
                 }
             }
