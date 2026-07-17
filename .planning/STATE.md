@@ -2,13 +2,13 @@
 gsd_state_version: 1.0
 milestone: v1.2
 milestone_name: Käyttäjäroolit
-current_phase: 12
-current_phase_name: sis-lt-tyyppien-roolirajaus
+current_phase: 13
+current_phase_name: Poisto-hyväksyntätyönkulku
 status: verifying
 stopped_at: Phase 12 context gathered
-last_updated: "2026-07-17T06:49:14.961Z"
+last_updated: "2026-07-17T07:27:26.204Z"
 last_activity: 2026-07-17
-last_activity_desc: Phase 12 execution started
+last_activity_desc: Phase 12 complete, transitioned to Phase 13
 progress:
   total_phases: 4
   completed_phases: 3
@@ -21,17 +21,17 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-07-05)
+See: .planning/PROJECT.md (updated 2026-07-17)
 
 **Core value:** Hevosomistaja voi hallita koko tallinsa hevostietoja yhdestä turvallisesta admin-paneelista, ja kaikki tieto näkyy automaattisesti julkisella sivustolla.
-**Current focus:** Phase 12 — sis-lt-tyyppien-roolirajaus
+**Current focus:** Phase 13 — poisto-hyväksyntätyönkulku
 
 ## Current Position
 
-Phase: 12 (sis-lt-tyyppien-roolirajaus) — EXECUTING
-Plan: 2 of 2
-Status: Phase complete — ready for verification
-Last activity: 2026-07-17 — Phase 12 execution started
+Phase: 13 — Poisto-hyväksyntätyönkulku
+Plan: Not started
+Status: Ready to plan
+Last activity: 2026-07-17 — Phase 12 complete, transitioned to Phase 13
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -49,8 +49,8 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 8 — Sivukontrollerien migraatio | Complete | 2026-07-03 | 2026-07-04 |
 | Phase 9 — Admin-teemavalinta & Altervista | Complete | 2026-07-04 | 2026-07-05 |
 | Phase 10 — Roolit ja autentikaation perusta | Complete | 2026-07-16 | 2026-07-16 |
-| Phase 11 — Käyttäjähallinta | Not started | - | - |
-| Phase 12 — Sisältötyyppien roolirajaus | Not started | - | - |
+| Phase 11 — Käyttäjähallinta | Complete | 2026-07-16 | 2026-07-16 |
+| Phase 12 — Sisältötyyppien roolirajaus | Complete | 2026-07-17 | 2026-07-17 |
 | Phase 13 — Poisto-hyväksyntätyönkulku | Not started | - | - |
 
 ## Configuration
@@ -99,8 +99,6 @@ None open. Altervista CSS MIME-tyyppi -epäilys (Phase 9, v1.1) ratkaistu tuotan
 Research flags deeper attention needed during phase planning (not blockers, just planning inputs):
 
 - Phase 13: `pending_deletions` polymorphic queue-table shape (entity_type/status columns, approve/reject transaction sequencing) has no single canonical source — MEDIUM confidence, needs a focused pass during planning.
-- Phase 12: posts ownership/IDOR-prevention has zero existing precedent in this codebase — needs explicit negative-test scoping during planning.
-- Phase 12: legacy `posts.author_id` backfill decision (backfill to existing admin vs. leave NULL) not resolved by research — must be decided at phase-12 planning.
 
 ## Deferred Items
 
@@ -113,9 +111,9 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-07-17T06:46:20.037Z
-Stopped at: Phase 12 context gathered
-Resume file: .planning/phases/12-sis-lt-tyyppien-roolirajaus/12-CONTEXT.md
+Last session: 2026-07-17T07:27:26Z
+Stopped at: Phase 12 complete, ready to plan Phase 13
+Resume file: None
 
 ## Performance Metrics
 
@@ -148,4 +146,4 @@ Resume file: .planning/phases/12-sis-lt-tyyppien-roolirajaus/12-CONTEXT.md
 
 ## Operator Next Steps
 
-- `/gsd-discuss-phase 11` — gather context for Käyttäjähallinta before planning
+- `/gsd-discuss-phase 13` — gather context for Poisto-hyväksyntätyönkulku before planning
