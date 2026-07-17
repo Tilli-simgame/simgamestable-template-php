@@ -90,6 +90,49 @@ function requireOwnResourceOrAdmin(int $resourceAuthorId): void {
 }
 
 /**
+ * Luo odottavan pending_deletions-rivin annetulle sisältötyypille/idlle.
+ * Estää duplikaatit (DEL-05): tarkistaa ensin ettei samalle entiteetille
+ * ole jo pending-tilassa olevaa pyyntöä (check-then-insert, PHP-tason guard).
+ *
+ * @param string $entityType Whitelistattu arvo: horse|foal|competition|showrecord|post
+ * @param int $entityId
+ * @param int $requestedBy admin_users.id (aina $_SESSION['admin_id'], ei käyttäjän syötteestä)
+ */
+function insertPendingDeletion(string $entityType, int $entityId, int $requestedBy): void {
+    $db = getDB();
+    $chk = $db->prepare(
+        'SELECT id FROM pending_deletions WHERE entity_type = :t AND entity_id = :id AND status = :status'
+    );
+    $chk->execute([':t' => $entityType, ':id' => $entityId, ':status' => 'pending']);
+    if ($chk->fetch()) {
+        return; // jo pending, ei duplikaattia
+    }
+    $db->prepare(
+        'INSERT INTO pending_deletions (entity_type, entity_id, requested_by) VALUES (:t, :id, :by)'
+    )->execute([':t' => $entityType, ':id' => $entityId, ':by' => $requestedBy]);
+}
+
+/**
+ * Mappaa entity_type-arvon tietokannan taulunimeen whitelist-match()-lausekkeella.
+ * Ainoa sallittu tapa johtaa taulunimi entity_type-arvosta — EI dynaamista
+ * taulunimen rakennusta käyttäjän syötteestä (SQL-injektioesto).
+ *
+ * @param string $entityType Whitelistattu arvo: horse|foal|competition|showrecord|post
+ * @return string Taulunimi
+ * @throws InvalidArgumentException jos $entityType ei ole whitelistin arvo
+ */
+function entityTypeToTable(string $entityType): string {
+    return match ($entityType) {
+        'horse'       => 'horses',
+        'foal'        => 'foals',
+        'competition' => 'competitions',
+        'showrecord'  => 'showrecords',
+        'post'        => 'posts',
+        default       => throw new InvalidArgumentException('Invalid entity_type'),
+    };
+}
+
+/**
  * Vaatii kirjautumisen JA että käyttäjän rooli on jokin sallituista.
  * Käytetään requireLogin()-kutsun tilalla jokaisen suojatun sivun alussa.
  *
