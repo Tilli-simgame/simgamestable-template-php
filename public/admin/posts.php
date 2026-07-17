@@ -36,13 +36,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             if ($edit_id > 0) {
+                // Omistajuustarkistus ENNEN UPDATE-lausetta (IDOR defense-in-depth, Pitfall 2):
+                // crafted POST toisen postauksen edit_id:llä ohjautuu ei-oikeutta.php:hen.
+                $ownerChk = $db->prepare('SELECT author_id FROM posts WHERE id = :id');
+                $ownerChk->execute([':id' => $edit_id]);
+                $ownerRow = $ownerChk->fetch();
+                if ($ownerRow) {
+                    requireOwnResourceOrAdmin((int)$ownerRow['author_id']);
+                }
+
                 $db->prepare('UPDATE posts SET title=:t, slug=:s, content=:c WHERE id=:id')
                    ->execute([':t'=>$title, ':s'=>$slug, ':c'=>$content, ':id'=>$edit_id]);
                 $savedId = $edit_id;
                 $redirectParam = 'updated=1';
             } else {
-                $db->prepare('INSERT INTO posts (title, slug, content) VALUES (:t, :s, :c)')
-                   ->execute([':t'=>$title, ':s'=>$slug, ':c'=>$content]);
+                $db->prepare('INSERT INTO posts (title, slug, content, author_id) VALUES (:t, :s, :c, :aid)')
+                   ->execute([':t'=>$title, ':s'=>$slug, ':c'=>$content, ':aid'=>$_SESSION['admin_id']]);
                 $savedId = (int)$db->lastInsertId();
                 $redirectParam = 'added=1';
             }
@@ -72,6 +81,10 @@ if ($action === 'edit' && $edit_id > 0) {
     $editPost->execute([':id' => $edit_id]);
     $editPost = $editPost->fetch();
     if ($editPost) {
+        // Suora-URL-omistajuustarkistus (SC3): author joka arvaa/kirjoittaa vieraan
+        // postauksen ID:n URL:iin ohjautuu ei-oikeutta.php:hen.
+        requireOwnResourceOrAdmin((int)$editPost['author_id']);
+
         $linkedHorses = $db->prepare('SELECT horse_id FROM post_horses WHERE post_id = :pid');
         $linkedHorses->execute([':pid' => $edit_id]);
         $linkedHorseIds = array_column($linkedHorses->fetchAll(), 'horse_id');
@@ -102,7 +115,14 @@ if (isset($_GET['updated'])) $flash = '<p class="flash-ok">Muutokset tallennettu
 if (isset($_GET['deleted'])) $flash = '<p class="flash-ok">Postaus poistettu.</p>';
 
 // Haetaan kaikki postaukset listanäkymää varten
-$posts = $db->query('SELECT id, title, slug, created_at FROM posts ORDER BY created_at DESC')->fetchAll();
+// Author näkee VAIN omat postauksensa (D-03) — admin/mod näkevät kaikki, ei omistajuusrajausta.
+if (currentRole() === 'author') {
+    $posts = $db->prepare('SELECT id, title, slug, created_at FROM posts WHERE author_id = :aid ORDER BY created_at DESC');
+    $posts->execute([':aid' => $_SESSION['admin_id']]);
+    $posts = $posts->fetchAll();
+} else {
+    $posts = $db->query('SELECT id, title, slug, created_at FROM posts ORDER BY created_at DESC')->fetchAll();
+}
 
 // Haetaan kaikki hevoset lomakevalitsinta varten
 $allHorses = $db->query(
