@@ -76,6 +76,20 @@ function isAdmin(): bool {
 }
 
 /**
+ * Vaatii että kirjautunut author-käyttäjä omistaa käsiteltävän resurssin.
+ * Admin ja mod eivät ole omistajuusrajattuja ja läpäisevät aina.
+ * Identiteetti johdetaan AINA sessiosta ($_SESSION['admin_id']), ei koskaan
+ * käyttäjän toimittamasta syötteestä (Spoofing-suoja).
+ *
+ * @param int $resourceAuthorId Resurssin (esim. postauksen) author_id
+ */
+function requireOwnResourceOrAdmin(int $resourceAuthorId): void {
+    if (currentRole() === 'author' && $resourceAuthorId !== (int)($_SESSION['admin_id'] ?? 0)) {
+        redirect(SITE_URL . '/admin/ei-oikeutta.php');
+    }
+}
+
+/**
  * Vaatii kirjautumisen JA että käyttäjän rooli on jokin sallituista.
  * Käytetään requireLogin()-kutsun tilalla jokaisen suojatun sivun alussa.
  *
