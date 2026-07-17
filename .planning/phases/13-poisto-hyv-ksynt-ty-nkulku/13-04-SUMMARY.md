@@ -126,3 +126,19 @@ None - no external service configuration required. All changes are query-level P
 ---
 *Phase: 13-poisto-hyv-ksynt-ty-nkulku*
 *Completed: 2026-07-17*
+
+## Self-Check: PASSED
+
+- FOUND: public/admin/foal_edit.php
+- FOUND: public/admin/kilpailut_all.php
+- FOUND: public/admin/showrecords_all.php
+- FOUND: public/admin/posts.php
+- FOUND: public/pages/kasvatus.php
+- FOUND: public/pages/hevonen.php
+- FOUND: public/pages/index.php
+- FOUND: public/pages/postaus.php
+- FOUND: public/pages/ajankohtaista.php
+- FOUND: public/themes/oma-talli/hevonen.php
+- FOUND: 3c2e4f9 (Task 1 commit)
+- FOUND: a5966de (Task 2 commit)
+- FOUND: 74dde95 (SUMMARY.md commit)
