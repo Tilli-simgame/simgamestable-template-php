@@ -337,6 +337,10 @@ $_adminTheme = $GLOBALS['color_theme'];
          href="<?= e(SITE_URL) ?>/admin/users.php">👥 Käyttäjät</a>
       <?php endif; ?>
       <?php if (in_array($role, ['admin'], true)): ?>
+      <a class="admin-nav-item <?= $_activePage === 'deletions' ? 'active' : '' ?>"
+         href="<?= e(SITE_URL) ?>/admin/deletions.php">🗑️ Poistopyynnöt</a>
+      <?php endif; ?>
+      <?php if (in_array($role, ['admin'], true)): ?>
       <a class="admin-nav-item <?= $_activePage === 'settings' ? 'active' : '' ?>"
          href="<?= e(SITE_URL) ?>/admin/settings.php">⚙️ Asetukset</a>
       <?php endif; ?>
