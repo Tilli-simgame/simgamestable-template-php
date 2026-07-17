@@ -4,17 +4,17 @@ milestone: v1.2
 milestone_name: Käyttäjäroolit
 current_phase: 13
 current_phase_name: poisto-hyv-ksynt-ty-nkulku
-status: executing
-stopped_at: Completed 13-03-PLAN.md
-last_updated: "2026-07-17T08:34:03.770Z"
+status: verifying
+stopped_at: Completed 13-04-PLAN.md
+last_updated: "2026-07-17T08:45:30.772Z"
 last_activity: 2026-07-17
 last_activity_desc: Phase 13 execution started
 progress:
   total_phases: 4
-  completed_phases: 3
+  completed_phases: 4
   total_plans: 13
-  completed_plans: 12
-  percent: 75
+  completed_plans: 13
+  percent: 100
 ---
 
 # Project State
@@ -30,7 +30,7 @@ See: .planning/PROJECT.md (updated 2026-07-17)
 
 Phase: 13 (poisto-hyv-ksynt-ty-nkulku) — EXECUTING
 Plan: 4 of 4
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-07-17 — Phase 13 execution started
 
 Progress: [░░░░░░░░░░] 0%
@@ -96,6 +96,8 @@ Full decision log in `.planning/PROJECT.md` Key Decisions table.
 - [Phase ?]: [Phase 13-03]: entity_label built via COALESCE across horses.name/foals.foal_name/CONCAT(discipline,date) for competitions+showrecords/posts.title, with a fallback for any unmatched row
 - [Phase ?]: [Phase 13-03]: index.php's compCount/showCount queries gained WHERE is_deleted = 0 -- these queries pre-date Plan 01's soft-delete columns and were never updated to filter them
 - [Phase ?]: [Phase 13-03]: deletion_reject.php wraps content-restore + pending_deletions status update in one PDO transaction, entityTypeToTable() as the only sanctioned entity_type-to-table path
+- [Phase ?]: [Phase 13-04]: Wrapped OR-condition foals query (sire_id/dam_id) in parentheses before appending AND is_deleted = 0 in both hevonen.php themes, preserving correct operator precedence
+- [Phase ?]: [Phase 13-04]: Extended audit beyond plan's line-numbered inventory to also filter postaus.php and ajankohtaista.php archive-sidebar COUNT queries, since those are posts-table aggregate queries too
 
 ### Pending Todos
 
@@ -120,8 +122,8 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-07-17T08:34:03.747Z
-Stopped at: Completed 13-03-PLAN.md
+Last session: 2026-07-17T08:45:30.748Z
+Stopped at: Completed 13-04-PLAN.md
 Resume file: None
 
 ## Performance Metrics
@@ -155,6 +157,7 @@ Resume file: None
 | Phase 13 P01 | 12min | 2 tasks | 3 files |
 | Phase 13 P02 | 10min | 2 tasks | 6 files |
 | Phase 13 P03 | 12min | 3 tasks | 5 files |
+| Phase 13 P04 | 15min | 2 tasks | 10 files |
 
 ## Operator Next Steps
 

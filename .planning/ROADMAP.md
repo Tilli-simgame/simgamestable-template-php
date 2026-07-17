@@ -38,7 +38,7 @@ See `.planning/milestones/v1.1-ROADMAP.md` for full phase details.
 - [x] **Phase 10: Roolit ja autentikaation perusta** - Kolme roolia (admin/mod/author) tunnistetaan sessiossa ja jokaisella suojatulla admin-sivulla; kaikki roolit voivat vaihtaa oman salasanansa (plans complete, pending human verification) (completed 2026-07-16)
 - [x] **Phase 11: Käyttäjähallinta** - Admin luo, muokkaa, deaktivoi ja poistaa käyttäjätunnuksia sekä nollaa salasanoja ilman lukkiutumisriskiä (completed 2026-07-16)
 - [x] **Phase 12: Sisältötyyppien roolirajaus** - Mod luo/muokkaa hevosia, varsoja, kilpailuja, näyttelytuloksia ja postauksia; author luo/muokkaa vain omia postauksiaan ja linkittää niihin olemassa olevia hevosia (completed 2026-07-17)
-- [ ] **Phase 13: Poisto-hyväksyntätyönkulku** - Modin poistopyynnöt odottavat admin-hyväksyntää yhdessä näkymässä; author poistaa omat postauksensa heti ilman hyväksyntää
+- [x] **Phase 13: Poisto-hyväksyntätyönkulku** - Modin poistopyynnöt odottavat admin-hyväksyntää yhdessä näkymässä; author poistaa omat postauksensa heti ilman hyväksyntää (completed 2026-07-17)
 
 ## Phase Details
 
@@ -128,7 +128,7 @@ See `.planning/milestones/v1.1-ROADMAP.md` for full phase details.
   4. Author-käyttäjä voi poistaa oman postauksensa välittömästi ilman admin-hyväksyntää.
   5. Sama sisältö ei voi olla useamman kertaan poistojonossa samanaikaisesti — toistuva poistopyyntö samaan sisältöön ei luo uutta odottavaa riviä.
 
-**Plans**: 3/4 plans executed
+**Plans**: 4/4 plans complete
 
 **Wave 1**
 
@@ -138,7 +138,7 @@ See `.planning/milestones/v1.1-ROADMAP.md` for full phase details.
 
 - [x] 13-02-PLAN.md — Poistokohtien roolihaarautuminen: horse/post_delete + inline foals/competitions/showrecords/kasvatus_all soft-deleteen (mod → pending, admin/author → suora) (Wave 2)
 - [x] 13-03-PLAN.md — Admin-hyväksyntänäkymä: deletions.php + deletion_approve/reject + index.php-laskuri + admin_header-nav (Wave 2)
-- [ ] 13-04-PLAN.md — is_deleted-audit-passi: jäljellä olevat admin- ja julkiset kyselyt (molemmat teemat) piilottavat soft-deletetyn sisällön (Wave 2)
+- [x] 13-04-PLAN.md — is_deleted-audit-passi: jäljellä olevat admin- ja julkiset kyselyt (molemmat teemat) piilottavat soft-deletetyn sisällön (Wave 2)
 
 ## Progress
 
@@ -156,7 +156,7 @@ See `.planning/milestones/v1.1-ROADMAP.md` for full phase details.
 | 10. Roolit ja autentikaation perusta | v1.2 | 3/3 | Complete    | 2026-07-16 |
 | 11. Käyttäjähallinta | v1.2 | 4/4 | Complete    | 2026-07-16 |
 | 12. Sisältötyyppien roolirajaus | v1.2 | 2/2 | Complete    | 2026-07-17 |
-| 13. Poisto-hyväksyntätyönkulku | v1.2 | 3/4 | In Progress|  |
+| 13. Poisto-hyväksyntätyönkulku | v1.2 | 4/4 | Complete   | 2026-07-17 |
 
 ---
 *Roadmap created: 2026-06-17*
