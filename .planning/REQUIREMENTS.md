@@ -33,7 +33,7 @@
 - [x] **MOD-03**: Mod-rooli voi luoda ja muokata kilpailuja
 - [x] **MOD-04**: Mod-rooli voi luoda ja muokata näyttelytuloksia (showrecords)
 - [x] **MOD-05**: Mod-rooli voi luoda ja muokata postauksia
-- [ ] **MOD-06**: Mod-roolin poistopyyntö hevosesta/varsasta/kilpailusta/näyttelytuloksesta/postauksesta ei poista sisältöä heti, vaan asettaa sen odottamaan admin-hyväksyntää
+- [x] **MOD-06**: Mod-roolin poistopyyntö hevosesta/varsasta/kilpailusta/näyttelytuloksesta/postauksesta ei poista sisältöä heti, vaan asettaa sen odottamaan admin-hyväksyntää
 - [x] **MOD-07**: Mod-roolilla ei ole pääsyä käyttäjähallintaan eikä teema-asetuksiin
 
 ### Poisto-hyväksyntätyönkulku
@@ -48,7 +48,7 @@
 
 - [x] **AUTHOR-01**: Author-rooli voi luoda uuden postauksen
 - [x] **AUTHOR-02**: Author-rooli voi muokata vain omia postauksiaan
-- [ ] **AUTHOR-03**: Author-rooli voi poistaa vain omia postauksiaan välittömästi (ilman hyväksyntää)
+- [x] **AUTHOR-03**: Author-rooli voi poistaa vain omia postauksiaan välittömästi (ilman hyväksyntää)
 - [x] **AUTHOR-04**: Author-rooli voi linkittää olemassa olevia hevosia postaukseensa valitsemalla ne listalta (ei muokkausoikeutta hevostietoihin)
 - [x] **AUTHOR-05**: Author-roolilla ei ole pääsyä muihin admin-toimintoihin (hevoset, varsat, kilpailut, näyttelyt, käyttäjähallinta, teema-asetukset)
 

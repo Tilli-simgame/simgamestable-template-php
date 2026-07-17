@@ -6,14 +6,14 @@ current_phase: 13
 current_phase_name: poisto-hyv-ksynt-ty-nkulku
 status: executing
 stopped_at: Phase 13 context gathered
-last_updated: "2026-07-17T08:14:34.771Z"
+last_updated: "2026-07-17T08:24:17.757Z"
 last_activity: 2026-07-17
 last_activity_desc: Phase 13 execution started
 progress:
   total_phases: 4
   completed_phases: 3
   total_plans: 13
-  completed_plans: 10
+  completed_plans: 11
   percent: 75
 ---
 
@@ -29,7 +29,7 @@ See: .planning/PROJECT.md (updated 2026-07-17)
 ## Current Position
 
 Phase: 13 (poisto-hyv-ksynt-ty-nkulku) — EXECUTING
-Plan: 2 of 4
+Plan: 3 of 4
 Status: Ready to execute
 Last activity: 2026-07-17 — Phase 13 execution started
 
@@ -90,6 +90,9 @@ Full decision log in `.planning/PROJECT.md` Key Decisions table.
 - [Phase ?]: [Phase 13-01]: Migration column definitions copied verbatim from the horses table's existing soft-delete precedent (is_deleted/deleted_at/idx_<table>_deleted) for consistency across all 5 soft-deletable tables
 - [Phase ?]: [Phase 13-01]: pending_deletions placed in schema.sql immediately after admin_users so its two admin_users FKs resolve without forward-declaration issues
 - [Phase ?]: [Phase 13-01]: entityTypeToTable() is the only sanctioned path from entity_type to a table name -- match() whitelist, default throws InvalidArgumentException, no dynamic SQL from user input
+- [Phase 13]: [Phase 13-02]: post_delete.php performs its own independent author_id fetch + requireOwnResourceOrAdmin() call before the UPDATE, mirroring posts.php's IDOR defense-in-depth pattern rather than trusting the GET view to have already checked ownership
+- [Phase 13]: [Phase 13-02]: competitions.php's edit-mode fetch query also received the is_deleted = 0 filter alongside the list query so a soft-deleted competition cannot be loaded into the edit modal via a direct edit=<id> URL
+- [Phase 13]: [Phase 13-02]: kasvatus_all.php's global foal list query had no prior WHERE clause -- added a new WHERE f.is_deleted = 0 clause rather than appending to an existing filter
 
 ### Pending Todos
 
@@ -114,7 +117,7 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-07-17T08:13:04.552Z
+Last session: 2026-07-17T08:22:57.039Z
 Stopped at: Phase 13 context gathered
 Resume file: .planning/phases/13-poisto-hyv-ksynt-ty-nkulku/13-CONTEXT.md
 
@@ -147,6 +150,7 @@ Resume file: .planning/phases/13-poisto-hyv-ksynt-ty-nkulku/13-CONTEXT.md
 | Phase 12 P01 | 2min | 2 tasks | 2 files |
 | Phase 12 P2 | 8min | 3 tasks | 2 files |
 | Phase 13 P01 | 12min | 2 tasks | 3 files |
+| Phase 13 P02 | 10min | 2 tasks | 6 files |
 
 ## Operator Next Steps
 
