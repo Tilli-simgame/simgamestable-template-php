@@ -3,17 +3,17 @@ gsd_state_version: 1.0
 milestone: v1.2
 milestone_name: Käyttäjäroolit
 current_phase: 13
-current_phase_name: Poisto-hyväksyntätyönkulku
+current_phase_name: poisto-hyv-ksynt-ty-nkulku
 status: executing
 stopped_at: Phase 13 context gathered
-last_updated: "2026-07-17T07:59:26.508Z"
+last_updated: "2026-07-17T08:14:34.771Z"
 last_activity: 2026-07-17
-last_activity_desc: Phase 12 complete, transitioned to Phase 13
+last_activity_desc: Phase 13 execution started
 progress:
   total_phases: 4
   completed_phases: 3
-  total_plans: 9
-  completed_plans: 9
+  total_plans: 13
+  completed_plans: 10
   percent: 75
 ---
 
@@ -24,14 +24,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-07-17)
 
 **Core value:** Hevosomistaja voi hallita koko tallinsa hevostietoja yhdestä turvallisesta admin-paneelista, ja kaikki tieto näkyy automaattisesti julkisella sivustolla.
-**Current focus:** Phase 13 — poisto-hyväksyntätyönkulku
+**Current focus:** Phase 13 — poisto-hyv-ksynt-ty-nkulku
 
 ## Current Position
 
-Phase: 13 — Poisto-hyväksyntätyönkulku
-Plan: Not started
+Phase: 13 (poisto-hyv-ksynt-ty-nkulku) — EXECUTING
+Plan: 2 of 4
 Status: Ready to execute
-Last activity: 2026-07-17 — Phase 12 complete, transitioned to Phase 13
+Last activity: 2026-07-17 — Phase 13 execution started
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -87,6 +87,9 @@ Full decision log in `.planning/PROJECT.md` Key Decisions table.
 - [Phase ?]: [Phase 12-01]: Backfill targets existing 'admin' username per D-01, consistent with migrate_roles.sql's admin-elevation convention
 - [Phase ?]: [Phase 12-02]: requireOwnResourceOrAdmin() placed alongside isAdmin()/requireRole() in helpers.php, mirroring the existing helper style exactly (no return value, redirect on failure); admin/mod always pass, only author is ownership-restricted
 - [Phase ?]: [Phase 12-02]: POST UPDATE branch performs its own author_id fetch and ownership check independent of the GET-side check (defense-in-depth for crafted-POST IDOR, Pitfall 2), since a crafted POST bypasses the GET view entirely
+- [Phase ?]: [Phase 13-01]: Migration column definitions copied verbatim from the horses table's existing soft-delete precedent (is_deleted/deleted_at/idx_<table>_deleted) for consistency across all 5 soft-deletable tables
+- [Phase ?]: [Phase 13-01]: pending_deletions placed in schema.sql immediately after admin_users so its two admin_users FKs resolve without forward-declaration issues
+- [Phase ?]: [Phase 13-01]: entityTypeToTable() is the only sanctioned path from entity_type to a table name -- match() whitelist, default throws InvalidArgumentException, no dynamic SQL from user input
 
 ### Pending Todos
 
@@ -111,7 +114,7 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-07-17T07:37:02.375Z
+Last session: 2026-07-17T08:13:04.552Z
 Stopped at: Phase 13 context gathered
 Resume file: .planning/phases/13-poisto-hyv-ksynt-ty-nkulku/13-CONTEXT.md
 
@@ -143,6 +146,7 @@ Resume file: .planning/phases/13-poisto-hyv-ksynt-ty-nkulku/13-CONTEXT.md
 | Phase 11 P04 | 10min | 2 tasks | 3 files |
 | Phase 12 P01 | 2min | 2 tasks | 2 files |
 | Phase 12 P2 | 8min | 3 tasks | 2 files |
+| Phase 13 P01 | 12min | 2 tasks | 3 files |
 
 ## Operator Next Steps
 

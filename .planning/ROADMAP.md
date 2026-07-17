@@ -128,11 +128,11 @@ See `.planning/milestones/v1.1-ROADMAP.md` for full phase details.
   4. Author-käyttäjä voi poistaa oman postauksensa välittömästi ilman admin-hyväksyntää.
   5. Sama sisältö ei voi olla useamman kertaan poistojonossa samanaikaisesti — toistuva poistopyyntö samaan sisältöön ei luo uutta odottavaa riviä.
 
-**Plans**: 4 plans
+**Plans**: 1/4 plans executed
 
 **Wave 1**
 
-- [ ] 13-01-PLAN.md — Skeema + apufunktiot: migrate_delete_approval.sql (pending_deletions + soft-delete-sarakkeet foals/competitions/showrecords/posts) + insertPendingDeletion()/entityTypeToTable() (Wave 1)
+- [x] 13-01-PLAN.md — Skeema + apufunktiot: migrate_delete_approval.sql (pending_deletions + soft-delete-sarakkeet foals/competitions/showrecords/posts) + insertPendingDeletion()/entityTypeToTable() (Wave 1)
 
 **Wave 2** *(blocked on Wave 1)*
 
@@ -156,7 +156,7 @@ See `.planning/milestones/v1.1-ROADMAP.md` for full phase details.
 | 10. Roolit ja autentikaation perusta | v1.2 | 3/3 | Complete    | 2026-07-16 |
 | 11. Käyttäjähallinta | v1.2 | 4/4 | Complete    | 2026-07-16 |
 | 12. Sisältötyyppien roolirajaus | v1.2 | 2/2 | Complete    | 2026-07-17 |
-| 13. Poisto-hyväksyntätyönkulku | v1.2 | 0/4 | Not started | - |
+| 13. Poisto-hyväksyntätyönkulku | v1.2 | 1/4 | In Progress|  |
 
 ---
 *Roadmap created: 2026-06-17*
