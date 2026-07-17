@@ -38,10 +38,10 @@
 
 ### Poisto-hyväksyntätyönkulku
 
-- [ ] **DEL-01**: Admin näkee yhden näkymän kaikista odottavista poistopyynnöistä (hevoset, varsat, kilpailut, näyttelyt, postaukset)
-- [ ] **DEL-02**: Admin voi hyväksyä poistopyynnön, jolloin sisältö poistuu (pehmeästi) näkyvistä
-- [ ] **DEL-03**: Admin voi hylätä poistopyynnön, jolloin sisältö palautuu normaalisti näkyväksi
-- [ ] **DEL-04**: Admin-etusivulla näkyy laskuri odottavien poistopyyntöjen määrästä
+- [x] **DEL-01**: Admin näkee yhden näkymän kaikista odottavista poistopyynnöistä (hevoset, varsat, kilpailut, näyttelyt, postaukset)
+- [x] **DEL-02**: Admin voi hyväksyä poistopyynnön, jolloin sisältö poistuu (pehmeästi) näkyvistä
+- [x] **DEL-03**: Admin voi hylätä poistopyynnön, jolloin sisältö palautuu normaalisti näkyväksi
+- [x] **DEL-04**: Admin-etusivulla näkyy laskuri odottavien poistopyyntöjen määrästä
 - [x] **DEL-05**: Sama sisältö ei voi olla useamman kertaan poistojonossa samanaikaisesti
 
 ### Author-rajattu sisällönhallinta

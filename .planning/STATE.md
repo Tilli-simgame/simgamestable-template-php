@@ -5,15 +5,15 @@ milestone_name: Käyttäjäroolit
 current_phase: 13
 current_phase_name: poisto-hyv-ksynt-ty-nkulku
 status: executing
-stopped_at: Phase 13 context gathered
-last_updated: "2026-07-17T08:24:17.757Z"
+stopped_at: Completed 13-03-PLAN.md
+last_updated: "2026-07-17T08:34:03.770Z"
 last_activity: 2026-07-17
 last_activity_desc: Phase 13 execution started
 progress:
   total_phases: 4
   completed_phases: 3
   total_plans: 13
-  completed_plans: 11
+  completed_plans: 12
   percent: 75
 ---
 
@@ -29,7 +29,7 @@ See: .planning/PROJECT.md (updated 2026-07-17)
 ## Current Position
 
 Phase: 13 (poisto-hyv-ksynt-ty-nkulku) — EXECUTING
-Plan: 3 of 4
+Plan: 4 of 4
 Status: Ready to execute
 Last activity: 2026-07-17 — Phase 13 execution started
 
@@ -93,6 +93,9 @@ Full decision log in `.planning/PROJECT.md` Key Decisions table.
 - [Phase 13]: [Phase 13-02]: post_delete.php performs its own independent author_id fetch + requireOwnResourceOrAdmin() call before the UPDATE, mirroring posts.php's IDOR defense-in-depth pattern rather than trusting the GET view to have already checked ownership
 - [Phase 13]: [Phase 13-02]: competitions.php's edit-mode fetch query also received the is_deleted = 0 filter alongside the list query so a soft-deleted competition cannot be loaded into the edit modal via a direct edit=<id> URL
 - [Phase 13]: [Phase 13-02]: kasvatus_all.php's global foal list query had no prior WHERE clause -- added a new WHERE f.is_deleted = 0 clause rather than appending to an existing filter
+- [Phase ?]: [Phase 13-03]: entity_label built via COALESCE across horses.name/foals.foal_name/CONCAT(discipline,date) for competitions+showrecords/posts.title, with a fallback for any unmatched row
+- [Phase ?]: [Phase 13-03]: index.php's compCount/showCount queries gained WHERE is_deleted = 0 -- these queries pre-date Plan 01's soft-delete columns and were never updated to filter them
+- [Phase ?]: [Phase 13-03]: deletion_reject.php wraps content-restore + pending_deletions status update in one PDO transaction, entityTypeToTable() as the only sanctioned entity_type-to-table path
 
 ### Pending Todos
 
@@ -117,9 +120,9 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-07-17T08:22:57.039Z
-Stopped at: Phase 13 context gathered
-Resume file: .planning/phases/13-poisto-hyv-ksynt-ty-nkulku/13-CONTEXT.md
+Last session: 2026-07-17T08:34:03.747Z
+Stopped at: Completed 13-03-PLAN.md
+Resume file: None
 
 ## Performance Metrics
 
@@ -151,6 +154,7 @@ Resume file: .planning/phases/13-poisto-hyv-ksynt-ty-nkulku/13-CONTEXT.md
 | Phase 12 P2 | 8min | 3 tasks | 2 files |
 | Phase 13 P01 | 12min | 2 tasks | 3 files |
 | Phase 13 P02 | 10min | 2 tasks | 6 files |
+| Phase 13 P03 | 12min | 3 tasks | 5 files |
 
 ## Operator Next Steps
 
