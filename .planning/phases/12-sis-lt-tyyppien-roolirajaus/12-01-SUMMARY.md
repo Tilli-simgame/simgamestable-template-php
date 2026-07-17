@@ -122,3 +122,10 @@ None - no external service configuration required. Migration was applied directl
 ---
 *Phase: 12-sis-lt-tyyppien-roolirajaus*
 *Completed: 2026-07-17*
+
+## Self-Check: PASSED
+
+- FOUND: database/migrate_posts_author.sql
+- FOUND: .planning/phases/12-sis-lt-tyyppien-roolirajaus/12-01-SUMMARY.md
+- FOUND: 2c8fbcb (Task 1 commit)
+- FOUND: f6b8797 (Summary commit)
