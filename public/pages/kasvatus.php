@@ -18,6 +18,7 @@ $stmt = $db->prepare(
      FROM foals f
      LEFT JOIN horses sire ON sire.id = f.sire_id AND sire.is_deleted = 0
      LEFT JOIN horses dam  ON dam.id  = f.dam_id  AND dam.is_deleted = 0
+     WHERE f.is_deleted = 0
      ORDER BY FIELD(f.status, \'expected\', \'born\'), f.birth_date DESC'
 );
 $stmt->execute();

@@ -18,7 +18,7 @@ $horseCount = (int)$stmtCount->fetchColumn();
 
 // Varsoja tänä vuonna
 $thisYear = (int)date('Y');
-$stmtFoals = $db->prepare('SELECT COUNT(*) FROM foals WHERE YEAR(birth_date) = :y');
+$stmtFoals = $db->prepare('SELECT COUNT(*) FROM foals WHERE YEAR(birth_date) = :y AND is_deleted = 0');
 $stmtFoals->execute([':y' => $thisYear]);
 $foalCount = (int)$stmtFoals->fetchColumn();
 
@@ -26,7 +26,7 @@ $foalCount = (int)$stmtFoals->fetchColumn();
 $latestPost = null;
 try {
     $stmtPost = $db->query(
-        'SELECT title, slug, content, created_at FROM posts ORDER BY created_at DESC LIMIT 1'
+        'SELECT title, slug, content, created_at FROM posts WHERE is_deleted = 0 ORDER BY created_at DESC LIMIT 1'
     );
     $latestPost = $stmtPost->fetch() ?: null;
 } catch (PDOException $e) {

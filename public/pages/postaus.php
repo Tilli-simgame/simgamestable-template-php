@@ -15,11 +15,11 @@ $db = getDB();
 // Hae postaus slugin tai id:n perusteella (T-05-01: slug sanitoitu preg_replace)
 if (!empty($_GET['slug'])) {
     $slug = preg_replace('/[^a-z0-9\-]/', '', strtolower(trim($_GET['slug'])));
-    $stmt = $db->prepare('SELECT * FROM posts WHERE slug = :slug');
+    $stmt = $db->prepare('SELECT * FROM posts WHERE slug = :slug AND is_deleted = 0');
     $stmt->execute([':slug' => $slug]);
 } elseif (!empty($_GET['id'])) {
     $id = (int)$_GET['id'];
-    $stmt = $db->prepare('SELECT * FROM posts WHERE id = :id');
+    $stmt = $db->prepare('SELECT * FROM posts WHERE id = :id AND is_deleted = 0');
     $stmt->execute([':id' => $id]);
 } else {
     http_response_code(404);
@@ -38,7 +38,7 @@ $page_title = $post['title'];
 // Edellinen postaus (vanhempi)
 $stmtPrev = $db->prepare(
     'SELECT id, title, slug FROM posts
-     WHERE created_at < :created_at ORDER BY created_at DESC LIMIT 1'
+     WHERE created_at < :created_at AND is_deleted = 0 ORDER BY created_at DESC LIMIT 1'
 );
 $stmtPrev->execute([':created_at' => $post['created_at']]);
 $prev = $stmtPrev->fetch();
@@ -46,7 +46,7 @@ $prev = $stmtPrev->fetch();
 // Seuraava postaus (uudempi)
 $stmtNext = $db->prepare(
     'SELECT id, title, slug FROM posts
-     WHERE created_at > :created_at ORDER BY created_at ASC LIMIT 1'
+     WHERE created_at > :created_at AND is_deleted = 0 ORDER BY created_at ASC LIMIT 1'
 );
 $stmtNext->execute([':created_at' => $post['created_at']]);
 $next = $stmtNext->fetch();
@@ -55,6 +55,7 @@ $next = $stmtNext->fetch();
 $stmtArchive = $db->query(
     'SELECT YEAR(created_at) AS yr, MONTH(created_at) AS mo, COUNT(*) AS cnt
      FROM posts
+     WHERE is_deleted = 0
      GROUP BY YEAR(created_at), MONTH(created_at)
      ORDER BY yr DESC, mo DESC'
 );

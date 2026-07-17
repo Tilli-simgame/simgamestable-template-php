@@ -73,7 +73,7 @@ $page_title = $horse['name'];
 // Hae kilpailut
 $stmtComp = $db->prepare(
     'SELECT competition_date, discipline, country, organizer, organizer_url, class, placement, points, notes
-     FROM competitions WHERE horse_id = :id ORDER BY competition_date DESC'
+     FROM competitions WHERE horse_id = :id AND is_deleted = 0 ORDER BY competition_date DESC'
 );
 $stmtComp->execute([':id' => $id]);
 $competitions = $stmtComp->fetchAll();
@@ -86,7 +86,7 @@ $stmtShow = $db->prepare(
             p.filename AS photo_filename, p.title AS photo_title, p.original_name AS photo_original_name
      FROM showrecords s LEFT JOIN contacts jc ON jc.id = s.judge_contact_id
      LEFT JOIN horse_photos p ON p.id = s.photo_id
-     WHERE s.horse_id = :id ORDER BY s.show_date DESC'
+     WHERE s.horse_id = :id AND s.is_deleted = 0 ORDER BY s.show_date DESC'
 );
 $stmtShow->execute([':id' => $id]);
 $showrecords = $stmtShow->fetchAll();
@@ -114,7 +114,7 @@ $stmtFoals = $db->prepare(
      LEFT JOIN horses   d  ON d.id  = f.dam_id           AND d.is_deleted = 0
      LEFT JOIN contacts oc ON oc.id = f.owner_contact_id
      LEFT JOIN horses   fh ON fh.id = f.foal_horse_id    AND fh.is_deleted = 0
-     WHERE f.sire_id = :id1 OR f.dam_id = :id2
+     WHERE (f.sire_id = :id1 OR f.dam_id = :id2) AND f.is_deleted = 0
      ORDER BY f.birth_date DESC, f.foal_name ASC'
 );
 $stmtFoals->execute([':id1' => $id, ':id2' => $id]);
@@ -125,7 +125,7 @@ $stmtPosts = $db->prepare(
     'SELECT p.title, p.slug, p.created_at
      FROM posts p
      JOIN post_horses ph ON ph.post_id = p.id
-     WHERE ph.horse_id = :id
+     WHERE ph.horse_id = :id AND p.is_deleted = 0
      ORDER BY p.created_at DESC'
 );
 $stmtPosts->execute([':id' => $id]);

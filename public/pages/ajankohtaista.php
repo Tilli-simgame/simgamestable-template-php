@@ -20,7 +20,7 @@ if ($yearFilter > 0 && $monthFilter > 0) {
     $stmt = $db->prepare(
         'SELECT id, title, slug, content, created_at
          FROM posts
-         WHERE YEAR(created_at) = :y AND MONTH(created_at) = :m
+         WHERE YEAR(created_at) = :y AND MONTH(created_at) = :m AND is_deleted = 0
          ORDER BY created_at DESC'
     );
     $stmt->execute([':y' => $yearFilter, ':m' => $monthFilter]);
@@ -28,7 +28,7 @@ if ($yearFilter > 0 && $monthFilter > 0) {
     $stmt = $db->prepare(
         'SELECT id, title, slug, content, created_at
          FROM posts
-         WHERE YEAR(created_at) = :y
+         WHERE YEAR(created_at) = :y AND is_deleted = 0
          ORDER BY created_at DESC'
     );
     $stmt->execute([':y' => $yearFilter]);
@@ -36,6 +36,7 @@ if ($yearFilter > 0 && $monthFilter > 0) {
     $stmt = $db->query(
         'SELECT id, title, slug, content, created_at
          FROM posts
+         WHERE is_deleted = 0
          ORDER BY created_at DESC'
     );
 }
@@ -45,6 +46,7 @@ $posts = $stmt->fetchAll();
 $stmtArchive = $db->query(
     'SELECT YEAR(created_at) AS yr, MONTH(created_at) AS mo, COUNT(*) AS cnt
      FROM posts
+     WHERE is_deleted = 0
      GROUP BY YEAR(created_at), MONTH(created_at)
      ORDER BY yr DESC, mo DESC'
 );
