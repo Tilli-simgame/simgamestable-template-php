@@ -1,5 +1,26 @@
 # Milestones
 
+## v1.2 Käyttäjäroolit (Shipped: 2026-07-18)
+
+**Phases completed:** 4 phases, 13 plans, 31 tasks
+
+**Key accomplishments:**
+
+- Rooli-infrastruktuurin perusta: admin_users.role/is_active-sarakkeet, keskitetyt requireRole()/currentRole()/isAdmin()-funktiot, roolinkirjoitus loginissa ja "Ei käyttöoikeutta" -redirect-kohde.
+- Admin_header.php:n navigaatio piilottaa nyt roolikohtaisesti sisällönhallintalinkit (author näkee vain Dashboard+Postaukset, mod ei näe Asetuksia) synkronoituna suoraan Plan 02:n requireRole()-listoihin, ja uusi change_password.php antaa kaikille rooleille turvallisen oman salasanan vaihdon session fixation -suojauksella.
+- generate_password() CSPRNG-apufunktio, admin-only käyttäjähallinta-nav-linkki, ja users.php-listasivu perinteisenä table-näkymänä kaikin per-rivin toiminnoin
+- user_add.php generates a bcrypt-hashed password server-side and displays it once inline; user_edit.php updates username/role with a self-demotion guard blocking admins from removing their own admin role
+- Kolme POST-only admin-toimintoa (reset_password, toggle_active, delete) salasanan nollaukseen kertanäytöllä sekä viimeisen adminin/oman tunnuksen lukituksenestoguardein (USER-03/04/05/06/07)
+- requireRole() re-validates role/is_active from admin_users per-request (closing session-staleness gap), and user_add/user_edit wrap their writes in try/catch(PDOException) with a VARCHAR(50)-aligned validation bound (closing the long-username crash gap).
+- Added posts.author_id column with FK to admin_users.id (ON DELETE SET NULL), backfilled existing posts to admin, and mirrored the change in schema.sql for fresh installs
+- Author-role ownership enforcement on posts.php via a new `requireOwnResourceOrAdmin()` helper — list filtering, INSERT author_id assignment, and defense-in-depth IDOR guards on both the GET edit view and the POST update handler
+- New `pending_deletions` polymorphic queue table plus soft-delete columns on foals/competitions/showrecords/posts, backed by a duplicate-safe `insertPendingDeletion()` and a whitelist-only `entityTypeToTable()` helper
+- Six content-delete handlers converted from hard-delete/admin-only to role-branched soft-delete: mod requests are queued via `insertPendingDeletion()`, admin deletes directly, and author can only delete their own posts immediately
+- Unified `deletions.php` approval list joining `pending_deletions` to all five content tables, dedicated `deletion_approve.php`/`deletion_reject.php` handlers (approve = status-only transition, reject = atomic content-restore + status transition via `entityTypeToTable()`), plus a DEL-04 dashboard counter and admin-only nav link
+- Audit-passi joka lisää `is_deleted = 0` -suodatuksen kaikkiin jäljellä oleviin foals/competitions/showrecords/posts-kyselyihin — neljä admin-tiedostoa ja kuusi julkisen sivuston tiedostoa (molemmat teemat)
+
+---
+
 ## v1.1 Teemajärjestelmä (Shipped: 2026-07-05)
 
 **Phases completed:** 4 phases, 12 plans, 18 tasks

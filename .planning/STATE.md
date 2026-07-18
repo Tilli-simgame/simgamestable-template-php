@@ -2,12 +2,12 @@
 gsd_state_version: 1.0
 milestone: v1.2
 milestone_name: Käyttäjäroolit
-current_phase: 13
-status: verifying
-stopped_at: Completed 13-04-PLAN.md
-last_updated: "2026-07-18T06:47:21.124Z"
+current_phase: 2
+status: Awaiting next milestone
+stopped_at: Phase 13 complete, v1.2 Käyttäjäroolit milestone finished — ready to archive
+last_updated: "2026-07-18T06:55:37.707Z"
 last_activity: 2026-07-18
-last_activity_desc: Phase 13 complete
+last_activity_desc: Milestone v1.2 completed and archived
 progress:
   total_phases: 4
   completed_phases: 4
@@ -28,12 +28,10 @@ See: .planning/PROJECT.md (updated 2026-07-18)
 
 ## Current Position
 
-Phase: 13 (last phase of v1.2)
-Plan: All 4/4 complete
-Status: Milestone complete — ready for /gsd-complete-milestone
-Last activity: 2026-07-18 — Phase 13 complete, v1.2 Käyttäjäroolit finished
-
-Progress: [██████████] 100%
+Phase: Milestone v1.2 complete
+Plan: —
+Status: Awaiting next milestone
+Last activity: 2026-07-18 — Milestone v1.2 completed and archived
 
 ## Workflow Status
 
@@ -159,4 +157,4 @@ Resume file: None
 
 ## Operator Next Steps
 
-- `/gsd-complete-milestone v1.2` — archive v1.2 Käyttäjäroolit and prepare for next version
+- Start the next milestone with /gsd-new-milestone

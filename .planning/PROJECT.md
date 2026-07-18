@@ -2,21 +2,34 @@
 
 ## What This Is
 
-Virtuaalitalli on PHP- ja MySQL-pohjainen tallinhallintajärjestelmä, joka korvaa olemassa olevan HTML/CSS/PHP-sivuston kokonaan uudelleenrakennuksella. Sivusto esittelee hevostalli ja sen hevoset yleisölle, sekä tarjoaa admin-paneelin tallinhallintaan. Järjestelmä on isännöity Altervistassa (PHP 8.2, MySQL, PDO).
+Virtuaalitalli on PHP- ja MySQL-pohjainen tallinhallintajärjestelmä, joka korvaa olemassa olevan HTML/CSS/PHP-sivuston kokonaan uudelleenrakennuksella. Sivusto esittelee hevostalli ja sen hevoset yleisölle, sekä tarjoaa admin-paneelin tallinhallintaan kolmelle roolille (admin/mod/author) rajatuin oikeuksin ja poisto-hyväksyntätyönkululla. Järjestelmä on isännöity Altervistassa (PHP 8.2, MySQL, PDO).
 
 ## Core Value
 
-Hevosomistaja voi hallita koko tallinsa hevostietoja (profiilit, sukutaulut, kisahistoria, kuvat ja kasvatus) yhdestä turvallisesta admin-paneelista, ja kaikki tieto näkyy automaattisesti julkisella sivustolla.
+Hevosomistaja (admin) voi jakaa tallinsa ylläpitoa luotetulle tiimille (mod, author) turvallisesti rajatuin oikeuksin ja hyväksyntäkontrollein, samalla kun kaikki tieto näkyy automaattisesti julkisella sivustolla.
 
 ## Current State
 
-**Shipped:** v1.1 Teemajärjestelmä (2026-07-05)
+**Shipped:** v1.2 Käyttäjäroolit (2026-07-18)
 
-Sivusto on täysin toimiva PHP/MySQL-pohjainen virtuaalitalli Altervista-tuotannossa (`/demotalli-02/`). Julkinen puoli (etusivu, hevoslistaus, hevosprofiili, kasvatus, yhteystiedot, blogi) ja admin-paneeli (autentikaatio, hevosten/kuvien/kilpailujen/kasvatuksen CRUD, tietoturva) ovat kaikki tuotannossa. v1.1 lisäsi tiedostopohjaisen teemajärjestelmän: julkiset sivukontrollerit ovat data-only ja lataavat HTML:n aktiivisesta teemasta `resolveThemePath()`:n kautta; admin voi vaihtaa teeman `settings.php`:sta yhdellä klikkauksella; teemanvaihto on todistettu toimivaksi tuotannossa ilman kontrollerimuutoksia.
+Sivusto on täysin toimiva PHP/MySQL-pohjainen virtuaalitalli Altervista-tuotannossa (`/demotalli-02/`), nyt kolmiroolisella (admin/mod/author) admin-paneelilla ja poisto-hyväksyntätyönkululla. Julkinen puoli (etusivu, hevoslistaus, hevosprofiili, kasvatus, yhteystiedot, blogi) ja admin-paneeli (autentikaatio, hevosten/kuvien/kilpailujen/kasvatuksen/postausten CRUD, käyttäjähallinta, poisto-hyväksyntä, tietoturva) ovat kaikki tuotantovalmiita: admin hallitsee kaikkea suoraan ja luo/hallinnoi käyttäjätunnuksia; mod ylläpitää sisältöä mutta poisto vaatii admin-hyväksynnän yhtenäisessä `deletions.php`-näkymässä; author ylläpitää vain omia postauksiaan (IDOR-suojattu) ja poistaa ne välittömästi ilman hyväksyntää. v1.1:n tiedostopohjainen teemajärjestelmä (julkiset sivukontrollerit data-only, `resolveThemePath()`) säilyy muuttumattomana admin-puolen ulkopuolella.
 
-**Tunnettu, tarkoituksellisesti rajattu puute:** `oma-talli`-teemalla ei ole vielä `pages/.htaccess`-suojausta kuten `default`-teemalla (D-06, Phase 9) — teema on keskeneräinen eikä kuulunut v1.1-milestonen verifiointiin.
+**Tunnettu, tarkoituksellisesti rajattu puute:** `oma-talli`-teemalla ei ole vielä `pages/.htaccess`-suojausta kuten `default`-teemalla (D-06, Phase 9) — teema on keskeneräinen eikä kuulunut v1.1- tai v1.2-milestonen verifiointiin.
 
-**v1.2 valmis (2026-07-18):** Phase 11 (Käyttäjähallinta) — admin voi luoda, muokata, deaktivoida/reaktivoida ja poistaa käyttäjätunnuksia sekä nollata salasanoja turvallisesti (viimeisen adminin ja oman tunnuksen lukitusesto, per-pyyntö sessionrevalidointi, käyttäjänimen VARCHAR(50)-yhteensopiva validointi). Phase 12 (Sisältötyyppien roolirajaus) — mod voi luoda/muokata hevosia, varsoja, kilpailuja, näyttelytuloksia ja postauksia omalla roolillaan; author voi luoda/muokata vain omia postauksiaan (`posts.author_id`-omistajuus, IDOR-suojaus sekä GET- että POST-poluilla) ja linkittää niihin olemassa olevia hevosia; kumpikaan rooli ei pääse käyttäjähallintaan eikä teema-asetuksiin. Phase 13 (Poisto-hyväksyntätyönkulku) — mod:n poistopyynnöt (hevoset, varsat, kilpailut, näyttelyt, postaukset) siirtyvät pehmeästi poistetuksi heti (piiloutuvat julkiselta sivustolta ja admin-listoilta) ja odottavat admin-hyväksyntää yhtenäisessä `deletions.php`-näkymässä; admin voi hyväksyä (pysyy poistettuna) tai hylätä (palautuu näkyväksi); author voi poistaa omat postauksensa välittömästi ilman hyväksyntää. Kaikki v1.2-milestonen tavoitteet on nyt saavutettu — 4/4 phasea valmis.
+<details>
+<summary>Archived: v1.2 Käyttäjäroolit goal (Phases 10-13)</summary>
+
+**Goal:** Adminin lisäksi tallilla voi olla mod- ja author-käyttäjiä rajatuin oikeuksin; kaikki käyttäjät voivat vaihtaa oman salasanansa; vain admin voi luoda uusia tunnuksia.
+
+**Target features (all shipped):**
+- `admin_users.role`-sarake (admin / mod / author) ja rooliperusteinen pääsynhallinta admin-paneelissa — Phase 10
+- Täysi käyttäjähallinta (luo/muokkaa roolia+nimeä/poista/nollaa salasana, viimeisen adminin lukitusesto) — Phase 11
+- Kaikki roolit voivat vaihtaa oman salasanansa admin-paneelista — Phase 10
+- Mod voi luoda/muokata hevosia (+kuvat), varsoja, kisoja, näyttelyitä, postauksia; ei pääsyä käyttäjähallintaan/teema-asetuksiin — Phase 12
+- Author voi luoda/muokata/poistaa VAIN omia postauksiaan, linkittää olemassa olevia hevosia (read-only) — Phase 12 (luonti/muokkaus), Phase 13 (poisto)
+- Pending-deletion-mekanismi hevosille, varsoille, kisoille, näyttelyille ja postauksille (jaettu `pending_deletions`-jonotaulu, admin-hyväksyntänäkymä) — Phase 13
+
+</details>
 
 <details>
 <summary>Archived: v1.1 Teemajärjestelmä goal (Phases 6-9)</summary>
@@ -32,21 +45,9 @@ Sivusto on täysin toimiva PHP/MySQL-pohjainen virtuaalitalli Altervista-tuotann
 
 </details>
 
-## Current Milestone: v1.2 Käyttäjäroolit
-
-**Goal:** Adminin lisäksi tallilla voi olla mod- ja author-käyttäjiä rajatuin oikeuksin; kaikki käyttäjät voivat vaihtaa oman salasanansa; vain admin voi luoda uusia tunnuksia.
-
-**Target features:**
-- `admin_users.role`-sarake (admin / mod / author) ja rooliperusteinen pääsynhallinta admin-paneelissa
-- **admin**: kaikki oikeudet — hevoset/varsat/kisat/näyttelyt/postaukset (luo/muokkaa/poista suoraan), täysi käyttäjähallinta (luo/muokkaa roolia+nimeä/poista/nollaa salasana), teemavalinta/asetukset
-- **mod**: voi luoda/muokata hevosia (+kuvat), varsoja, kisoja, näyttelyitä (showrecords), postauksia. Poisto vaatii admin-hyväksynnän (pending-deletion-tila → admin hyväksyy/hylkää). Ei pääsyä käyttäjähallintaan eikä teema-asetuksiin.
-- **author**: voi luoda/muokata/poistaa VAIN omia postauksiaan (`posts.author_id`, välitön poisto). Voi linkittää olemassa olevia hevosia postaukseen (read-only valinta postausten post_horses-linkitykseen). Ei pääsyä muualle.
-- Kaikki roolit voivat vaihtaa oman salasanansa admin-paneelista
-- Pending-deletion-mekanismi hevosille, varsoille, kisoille, näyttelyille ja postauksille (uusi status/taulu, admin-hyväksyntänäkymä)
-
 ## Next Milestone Goals
 
-Ei vielä määritelty seuraavaksi milestoneksi v1.2:n jälkeen.
+Ei vielä määritelty seuraavaksi milestoneksi v1.2:n jälkeen. Käytä `/gsd-new-milestone` aloittaaksesi.
 
 ## Requirements
 
@@ -91,6 +92,8 @@ None — v1.2 Käyttäjäroolit -milestone on täysin valmis (4/4 phasea). Ei vi
 - Tietoturva on erityinen painopiste: OWASP Top 10 2025, SQL-injektiot, XSS, CSRF
 - v1.1 jälkeen: julkinen puoli on täysin teema-ajettu (data-only-kontrollerit + `resolveThemePath()`); admin-puoli pysyy tarkoituksella teemajärjestelmän ulkopuolella (ei koskaan lataa `theme.php`-shimmiä)
 - Toinen teema (`oma-talli`) on olemassa hakemistorakenteessa mutta on keskeneräinen (ei `pages/.htaccess`-suojausta)
+- v1.2 jälkeen: ~10 100 riviä PHP:tä `public/`-hakemistossa; admin-paneelin poisto-toiminnot ovat nyt roolihaarautuvia (soft-delete + `pending_deletions`-jono) hard-deleten sijaan kaikilla viidellä sisältötyypillä paitsi kuvilla (`photo_delete.php` pysyy admin-only hard-deletenä, ei ROADMAP-scopessa)
+- Ei automatisoitua testisarjaa (ei composer/phpunit-asennusta) — verifiointi nojaa live-DB-kyselyihin, `php -l`-syntaksitarkastukseen kontainerissa, ja ihmisen selainpohjaiseen UAT:iin
 
 ## Constraints
 
@@ -151,4 +154,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-07-18 — Phase 13 (Poisto-hyväksyntätyönkulku) complete — v1.2 Käyttäjäroolit milestone finished*
+*Last updated: 2026-07-18 — v1.2 Käyttäjäroolit milestone shipped (full evolution review)*

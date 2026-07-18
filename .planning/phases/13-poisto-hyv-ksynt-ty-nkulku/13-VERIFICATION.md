@@ -1,17 +1,20 @@
 ---
 phase: 13-poisto-hyv-ksynt-ty-nkulku
 verified: 2026-07-18T06:25:36Z
-status: human_needed
+status: passed
 score: 15/15 must-haves verified
 behavior_unverified: 0
 overrides_applied: 0
 human_verification:
+
   - test: "Kirjaudu admin-tunnuksella, siirry /admin/deletions.php ja tarkista sivun ulkoasu kun pending_deletions-taulussa on rivejä kaikista viidestä entity_type-arvosta samanaikaisesti (hevonen/varsa/kilpailu/näyttelytulos/postaus)."
     expected: "Kaikki rivit näkyvät yhdessä taulukossa oikeilla suomenkielisillä tyyppinimillä ja luettavilla entity_label-arvoilla, ei PHP-virheitä tai tyhjiä/rikkinäisiä soluja."
     why_human: "Verifioija ajoi tämän LEFT JOIN -kyselyn suoraan tietokantaa vasten (tyhjällä tuloksella, rakenne validoitu) ja simuloi approve/reject-SQL:n suoraan, mutta ei renderöinyt varsinaista deletions.php-sivua selaimessa aidon admin-session + useiden rivien kanssa."
+
   - test: "Kirjaudu mod- ja author-tunnuksilla ja tarkista, ettei admin-navigaatiossa näy 'Poistopyynnöt'-linkkiä kummallakaan roolilla; kirjaudu adminilla ja tarkista että linkki näkyy ja on aktiivinen deletions.php-sivulla."
     expected: "Vain admin näkee linkin; mod/author eivät. Admin-sessiolla linkki korostuu aktiivisena deletions.php:llä."
     why_human: "Nav-linkin `in_array($role, ['admin'], true)`-ehto todennettiin staattisesti (grep), mutta ei renderöity kolmella eri roolilla selaimessa."
+
   - test: "Klikkaa oikeasti 'Hyväksy'- ja 'Hylkää'-nappeja deletions.php-sivulla adminina kirjautuneena (CSRF-token + POST aidon lomakkeen kautta, ei suoraa SQL-simulaatiota) ja varmista redirect + flash-viesti näkyy oikein."
     expected: "Hyväksyntä ohjaa deletions.php?approved=1:een ja näyttää 'Poistopyyntö hyväksytty.' Hylkäys ohjaa deletions.php?rejected=1:een ja näyttää 'Poistopyyntö hylätty, sisältö palautettu näkyväksi.'"
     why_human: "Verifioija todensi approve/reject-käsittelijöiden SQL-logiikan suoralla tietokantasimulaatiolla (täsmälleen sama SQL kuin tiedostoissa) ja `php -l`:llä, mutta ei ajanut itse PHP-käsittelijätiedostoja HTTP-pyynnön ja CSRF-tokenin kautta selaimessa."
