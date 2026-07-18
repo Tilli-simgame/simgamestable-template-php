@@ -23,8 +23,8 @@ current_phase_name: poisto-hyv-ksynt-ty-nkulku
 
 See: .planning/PROJECT.md (updated 2026-07-18)
 
-**Core value:** Hevosomistaja voi hallita koko tallinsa hevostietoja yhdestä turvallisesta admin-paneelista, ja kaikki tieto näkyy automaattisesti julkisella sivustolla.
-**Current focus:** v1.2 Käyttäjäroolit milestone complete — ready to archive
+**Core value:** Hevosomistaja (admin) voi jakaa tallinsa ylläpitoa luotetulle tiimille (mod, author) turvallisesti rajatuin oikeuksin ja hyväksyntäkontrollein, samalla kun kaikki tieto näkyy automaattisesti julkisella sivustolla.
+**Current focus:** v1.2 Käyttäjäroolit shipped and archived — planning next milestone
 
 ## Current Position
 
