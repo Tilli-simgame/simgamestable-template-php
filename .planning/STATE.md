@@ -3,37 +3,37 @@ gsd_state_version: 1.0
 milestone: v1.2
 milestone_name: Käyttäjäroolit
 current_phase: 13
-current_phase_name: poisto-hyv-ksynt-ty-nkulku
 status: verifying
 stopped_at: Completed 13-04-PLAN.md
-last_updated: "2026-07-17T08:45:30.772Z"
-last_activity: 2026-07-17
-last_activity_desc: Phase 13 execution started
+last_updated: "2026-07-18T06:47:21.124Z"
+last_activity: 2026-07-18
+last_activity_desc: Phase 13 complete
 progress:
   total_phases: 4
   completed_phases: 4
   total_plans: 13
   completed_plans: 13
   percent: 100
+current_phase_name: poisto-hyv-ksynt-ty-nkulku
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-07-17)
+See: .planning/PROJECT.md (updated 2026-07-18)
 
 **Core value:** Hevosomistaja voi hallita koko tallinsa hevostietoja yhdestä turvallisesta admin-paneelista, ja kaikki tieto näkyy automaattisesti julkisella sivustolla.
-**Current focus:** Phase 13 — poisto-hyv-ksynt-ty-nkulku
+**Current focus:** v1.2 Käyttäjäroolit milestone complete — ready to archive
 
 ## Current Position
 
-Phase: 13 (poisto-hyv-ksynt-ty-nkulku) — EXECUTING
-Plan: 4 of 4
-Status: Phase complete — ready for verification
-Last activity: 2026-07-17 — Phase 13 execution started
+Phase: 13 (last phase of v1.2)
+Plan: All 4/4 complete
+Status: Milestone complete — ready for /gsd-complete-milestone
+Last activity: 2026-07-18 — Phase 13 complete, v1.2 Käyttäjäroolit finished
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [██████████] 100%
 
 ## Workflow Status
 
@@ -51,7 +51,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 10 — Roolit ja autentikaation perusta | Complete | 2026-07-16 | 2026-07-16 |
 | Phase 11 — Käyttäjähallinta | Complete | 2026-07-16 | 2026-07-16 |
 | Phase 12 — Sisältötyyppien roolirajaus | Complete | 2026-07-17 | 2026-07-17 |
-| Phase 13 — Poisto-hyväksyntätyönkulku | Not started | - | - |
+| Phase 13 — Poisto-hyväksyntätyönkulku | Complete | 2026-07-17 | 2026-07-18 |
 
 ## Configuration
 
@@ -107,9 +107,7 @@ None yet.
 
 None open. Altervista CSS MIME-tyyppi -epäilys (Phase 9, v1.1) ratkaistu tuotantoverifioinnilla 2026-07-05.
 
-Research flags deeper attention needed during phase planning (not blockers, just planning inputs):
-
-- Phase 13: `pending_deletions` polymorphic queue-table shape (entity_type/status columns, approve/reject transaction sequencing) has no single canonical source — MEDIUM confidence, needs a focused pass during planning.
+No open research flags — the Phase 13 `pending_deletions` schema-shape concern was resolved during Phase 13 planning/execution.
 
 ## Deferred Items
 
@@ -122,16 +120,16 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-07-17T08:45:30.748Z
-Stopped at: Completed 13-04-PLAN.md
+Last session: 2026-07-18T06:50:04Z
+Stopped at: Phase 13 complete, v1.2 Käyttäjäroolit milestone finished — ready to archive
 Resume file: None
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 27 (v1.0 + v1.1)
-- v1.2 plans: none yet planned
+- Total plans completed: 40 (v1.0 + v1.1 + v1.2)
+- v1.2 plans: 13 (Phase 10: 3, Phase 11: 4, Phase 12: 2, Phase 13: 4)
 
 **By Phase:**
 
@@ -161,4 +159,4 @@ Resume file: None
 
 ## Operator Next Steps
 
-- `/gsd-discuss-phase 13` — gather context for Poisto-hyväksyntätyönkulku before planning
+- `/gsd-complete-milestone v1.2` — archive v1.2 Käyttäjäroolit and prepare for next version
