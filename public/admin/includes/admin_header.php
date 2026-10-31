@@ -273,6 +273,58 @@ $_adminTheme = $GLOBALS['color_theme'];
     /* ── JS HELPERS ────────────────────────────── */
     .js-slide-trigger { cursor: pointer; }
 
+    /* ── VÄRITEEMAN VALITSIN (asetukset, tallit) ── */
+  .theme-picker { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 0.75rem; margin-top: 1rem; }
+  .theme-opt { cursor: pointer; user-select: none; }
+  .theme-opt input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
+  .theme-card {
+    border: 2px solid var(--color-border, #e0d5c5);
+    border-radius: 10px; overflow: hidden;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .theme-opt:hover .theme-card { border-color: var(--color-accent, #a0633a); }
+  .theme-opt input:checked ~ .theme-card {
+    border-color: var(--color-primary, #3d2b1f);
+    box-shadow: 0 0 0 2px var(--color-primary, #3d2b1f);
+  }
+  .theme-swatches { display: flex; height: 36px; }
+  .theme-swatches span { flex: 1; display: block; }
+  .theme-label {
+    padding: 0.35rem 0.5rem;
+    font-size: 0.72rem; text-align: center;
+    background: #fff; color: var(--color-text-muted, #6b5e52);
+    font-weight: 600; letter-spacing: 0.03em;
+    border-top: 1px solid var(--color-border, #e0d5c5);
+  }
+  .theme-opt input:checked ~ .theme-card .theme-label {
+    color: var(--color-primary, #3d2b1f);
+  }
+  .theme-check {
+    display: none; text-align: center; font-size: 0.7rem;
+    color: var(--color-primary, #3d2b1f); font-weight: 700;
+    padding: 0 0 0.25rem;
+    background: #fff;
+  }
+  .theme-opt input:checked ~ .theme-card .theme-check { display: block; }
+
+    /* ── HEVOSLISTAN SUODATUS (includes/horse_filters.php) ── */
+    .hl-toolbar { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: flex-end; margin-bottom: 0.75rem; }
+    .hl-toolbar .form-group { min-width: 180px; flex: 1 1 180px; }
+    .hl-toolbar .form-group.hl-search { flex: 2 1 260px; }
+    .hl-hint { font-size: 0.72rem; color: var(--color-text-muted, #6b5e52); min-height: 1em; }
+    .hl-statusbar { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; }
+    .hl-statusbar .filter-bar { margin-bottom: 0; }
+    .hl-count { font-size: 0.8rem; color: var(--color-text-muted, #6b5e52); }
+    .hl-reset { background: none; border: none; padding: 0; margin-left: 0.5rem; color: var(--color-accent, #a0633a); font: inherit; font-size: 0.8rem; cursor: pointer; text-decoration: underline; }
+    .hl-sort { background: none; border: none; padding: 0; font: inherit; color: inherit; text-transform: inherit; letter-spacing: inherit; font-weight: inherit; cursor: pointer; display: inline-flex; gap: 4px; align-items: center; }
+    .hl-sort:hover { color: var(--color-primary, #3d2b1f); }
+    .hl-sort[aria-sort="ascending"]::after  { content: '▲'; font-size: 0.6rem; }
+    .hl-sort[aria-sort="descending"]::after { content: '▼'; font-size: 0.6rem; }
+    .hl-tags { display: flex; flex-wrap: wrap; gap: 3px; }
+    .hl-tag { display: inline-block; padding: 1px 7px; border-radius: 999px; font-size: 0.7rem; background: var(--color-surface-accent, #f5ede0); color: var(--color-text-muted, #6b5e52); white-space: nowrap; }
+    [data-hf-list] [hidden] { display: none !important; }
+    .hl-empty { display: none; padding: 1.25rem; text-align: center; color: var(--color-text-muted, #6b5e52); }
+
     @media (max-width: 768px) {
       .admin-sidebar { display: none; }
       .form-row, .form-row-3 { grid-template-columns: 1fr; }
@@ -297,6 +349,10 @@ $_adminTheme = $GLOBALS['color_theme'];
       <?php if (in_array($role, ['admin','mod'], true)): ?>
       <a class="admin-nav-item <?= in_array($_activePage, ['horses','horse_add','horse_edit','horse_delete']) ? 'active' : '' ?>"
          href="<?= e(SITE_URL) ?>/admin/horses.php">🐎 Hevoset</a>
+      <?php endif; ?>
+      <?php if (in_array($role, ['admin','mod'], true)): ?>
+      <a class="admin-nav-item <?= in_array($_activePage, ['stables','stable_add','stable_edit']) ? 'active' : '' ?>"
+         href="<?= e(SITE_URL) ?>/admin/stables.php">🏠 Tallit</a>
       <?php endif; ?>
       <?php if (in_array($role, ['admin','mod'], true)): ?>
       <a class="admin-nav-item <?= in_array($_activePage, ['contacts','contact_add','contact_edit']) ? 'active' : '' ?>"

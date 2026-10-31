@@ -14,17 +14,8 @@ foreach ($rows as $row) {
 $errors  = [];
 $success = false;
 
-// Lue saatavilla olevat ulkoasuteeman kansiot (tarvitaan POST-validoinnissa)
-$available_themes = [];
-$themes_dir = __DIR__ . '/../themes';
-foreach (glob($themes_dir . '/*/theme.json') ?: [] as $json_path) {
-    $theme_key = basename(dirname($json_path));
-    $meta = json_decode(file_get_contents($json_path), true);
-    $available_themes[$theme_key] = $meta['name'] ?? $theme_key;
-}
-if (empty($available_themes)) {
-    $available_themes['default'] = 'Default';
-}
+// Saatavilla olevat ulkoasuteemat (tarvitaan POST-validoinnissa)
+$available_themes = availableLayoutThemes();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!validate_csrf_token($_POST['csrf_token'] ?? '')) {
@@ -65,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // Väriteema: sallitut arvot
-        $valid_themes = ['savi','metsa','yo','ruusu','kivikko','arktinen','aurinko','laventeli','talvi','kulta'];
+        $valid_themes = array_keys(colorThemeDefs());
         $theme_post = $_POST['color_theme'] ?? 'savi';
         $values['color_theme'] = in_array($theme_post, $valid_themes, true) ? $theme_post : 'savi';
 
@@ -97,56 +88,11 @@ $pageTitle = 'Ylläpitäjän tiedot';
 $current_active_theme = $s['active_theme'] ?? 'default';
 
 // Teemamäärittely väriesikatselua varten
-$theme_defs = [
-    'savi'      => ['nimi' => 'Savi',       'p' => '#3d2b1f', 'a' => '#a0633a', 'g' => '#c9a84c', 'bg' => '#f9f7f4'],
-    'metsa'     => ['nimi' => 'Metsä',      'p' => '#1a3d2b', 'a' => '#5a8a3a', 'g' => '#8db44a', 'bg' => '#f4f7f4'],
-    'yo'        => ['nimi' => 'Yö',         'p' => '#1a1f3d', 'a' => '#4a6fa0', 'g' => '#7090c8', 'bg' => '#f4f5f9'],
-    'ruusu'     => ['nimi' => 'Ruusu',      'p' => '#4a1f30', 'a' => '#c06080', 'g' => '#d8a0b8', 'bg' => '#fdf5f7'],
-    'kivikko'   => ['nimi' => 'Kivikko',    'p' => '#2c3030', 'a' => '#5a7070', 'g' => '#b0a860', 'bg' => '#f5f5f5'],
-    'arktinen'  => ['nimi' => 'Arktinen',   'p' => '#1a3a4d', 'a' => '#3d9abf', 'g' => '#70c0e0', 'bg' => '#f4f8fc'],
-    'aurinko'   => ['nimi' => 'Aurinko',    'p' => '#4d2c1a', 'a' => '#c06030', 'g' => '#e0a040', 'bg' => '#fdf8f4'],
-    'laventeli' => ['nimi' => 'Laventeli',  'p' => '#3a2060', 'a' => '#8060c0', 'g' => '#c0a8e0', 'bg' => '#f8f5fd'],
-    'talvi'     => ['nimi' => 'Talvi',      'p' => '#2c3840', 'a' => '#4a7888', 'g' => '#9ab8c8', 'bg' => '#f5f7f8'],
-    'kulta'     => ['nimi' => 'Kultainen',  'p' => '#3d3010', 'a' => '#b88c20', 'g' => '#e8c840', 'bg' => '#fdf9f0'],
-];
+$theme_defs = colorThemeDefs();
 $current_theme = $s['color_theme'] ?? 'savi';
 
 require __DIR__ . '/includes/admin_header.php';
 ?>
-<style>
-  .theme-picker { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 0.75rem; margin-top: 1rem; }
-  .theme-opt { cursor: pointer; user-select: none; }
-  .theme-opt input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
-  .theme-card {
-    border: 2px solid var(--color-border, #e0d5c5);
-    border-radius: 10px; overflow: hidden;
-    transition: border-color 0.15s, box-shadow 0.15s;
-  }
-  .theme-opt:hover .theme-card { border-color: var(--color-accent, #a0633a); }
-  .theme-opt input:checked ~ .theme-card {
-    border-color: var(--color-primary, #3d2b1f);
-    box-shadow: 0 0 0 2px var(--color-primary, #3d2b1f);
-  }
-  .theme-swatches { display: flex; height: 36px; }
-  .theme-swatches span { flex: 1; display: block; }
-  .theme-label {
-    padding: 0.35rem 0.5rem;
-    font-size: 0.72rem; text-align: center;
-    background: #fff; color: var(--color-text-muted, #6b5e52);
-    font-weight: 600; letter-spacing: 0.03em;
-    border-top: 1px solid var(--color-border, #e0d5c5);
-  }
-  .theme-opt input:checked ~ .theme-card .theme-label {
-    color: var(--color-primary, #3d2b1f);
-  }
-  .theme-check {
-    display: none; text-align: center; font-size: 0.7rem;
-    color: var(--color-primary, #3d2b1f); font-weight: 700;
-    padding: 0 0 0.25rem;
-    background: #fff;
-  }
-  .theme-opt input:checked ~ .theme-card .theme-check { display: block; }
-</style>
 
 <div class="admin-page-header">
   <h1>Ylläpitäjän tiedot</h1>

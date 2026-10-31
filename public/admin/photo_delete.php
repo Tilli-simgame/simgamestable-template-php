@@ -31,15 +31,18 @@ if ((int)$photo['horse_id'] !== $horse_id) {
     redirect(SITE_URL . '/admin/horses.php');
 }
 
-// Poista tiedosto levyltä
-$filepath = UPLOADS_DIR . $photo['filename'];
-if (file_exists($filepath)) {
-    unlink($filepath);
-}
-
 // Poista DB-rivi
 $del = $db->prepare('DELETE FROM horse_photos WHERE id = :photo_id');
 $del->execute([':photo_id' => $photo_id]);
+
+// Poista tiedosto levyltä vain, jos mikään muu kuva ei käytä samaa tiedostoa
+// (importoiduissa kuvissa sama tiedosto voi kuulua useammalle hevoselle)
+$shared = $db->prepare('SELECT COUNT(*) FROM horse_photos WHERE filename = :filename');
+$shared->execute([':filename' => $photo['filename']]);
+$filepath = UPLOADS_DIR . $photo['filename'];
+if ((int)$shared->fetchColumn() === 0 && file_exists($filepath)) {
+    unlink($filepath);
+}
 
 $redirect = $_POST['redirect'] ?? '';
 if ($redirect === 'kuvat_all') {

@@ -17,6 +17,7 @@ if (!$horse) {
 
 $allHorses   = $db->query('SELECT id, name FROM horses WHERE is_deleted = 0 ORDER BY name')->fetchAll();
 $disciplines = $db->query('SELECT id, name FROM disciplines ORDER BY name')->fetchAll();
+$stables     = $db->query('SELECT id, name FROM stables ORDER BY sort_order, name')->fetchAll();
 $breeds      = $db->query('SELECT id, name FROM breeds ORDER BY name')->fetchAll();
 $colors      = $db->query('SELECT id, name FROM colors ORDER BY name')->fetchAll();
 $contacts    = $db->query('SELECT * FROM contacts ORDER BY nickname, stable_name')->fetchAll();
@@ -38,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                    'level_ko','level_re','level_ke',
                    'owner_contact_id','breeder_contact_id','importer_contact_id',
                    'sire_id','dam_id','evm','profile_url',
-                   'description','pedigree_notes','porrastetut_discipline_id'];
+                   'description','pedigree_notes','porrastetut_discipline_id','stable_id'];
         $validAgingSystems = ['IRL','VHKR','VARL','CAS','KATT','SHS'];
         $validGenders = ['ori','tamma','ruuna'];
         foreach ($fields as $k) {
@@ -108,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $stmt = $db->prepare(
                 'UPDATE horses SET
-                 name=:name, call_name=:call_name, vh_id=:vh_id, pkk_id=:pkk_id, breed_id=:breed_id, porrastetut=:porrastetut, porrastetut_discipline_id=:porrastetut_discipline_id,
+                 name=:name, call_name=:call_name, vh_id=:vh_id, pkk_id=:pkk_id, breed_id=:breed_id, porrastetut=:porrastetut, porrastetut_discipline_id=:porrastetut_discipline_id, stable_id=:stable_id,
                  birth_date=:birth_date, aging_system=:aging_system, gender=:gender, color_id=:color_id, genes=:genes, height_cm=:height_cm,
                  level_ko=:level_ko, level_re=:level_re, level_ke=:level_ke,
                  owner_contact_id=:owner_contact_id, breeder_contact_id=:breeder_contact_id, importer_contact_id=:importer_contact_id,
@@ -143,6 +144,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ':slug'                      => $slug,
                 ':porrastetut'               => (int)$f['porrastetut'],
                 ':porrastetut_discipline_id' => $f['porrastetut_discipline_id'] !== '' ? (int)$f['porrastetut_discipline_id'] : null,
+                ':stable_id'                 => in_array((int)$f['stable_id'], array_map('intval', array_column($stables, 'id')), true) ? (int)$f['stable_id'] : null,
                 ':id'                        => $id,
             ]);
             $del = $db->prepare('DELETE FROM horse_disciplines WHERE horse_id = :id');
@@ -252,6 +254,15 @@ require __DIR__ . '/includes/admin_header.php';
            data-current-id="<?= (int)($f['breed_id'] ?? 0) ?>"
            data-current-label="<?= e($currentBreedLabel) ?>"
            data-placeholder="Hae rotua..."></div>
+    </div>
+    <div class="form-group">
+      <label for="stable_id">Talli</label>
+      <select id="stable_id" name="stable_id">
+        <option value="">— ei tallia —</option>
+        <?php foreach ($stables as $st): ?>
+          <option value="<?= (int)$st['id'] ?>" <?= (int)($f['stable_id'] ?? 0) === (int)$st['id'] ? 'selected' : '' ?>><?= e($st['name']) ?></option>
+        <?php endforeach; ?>
+      </select>
     </div>
   </div>
 

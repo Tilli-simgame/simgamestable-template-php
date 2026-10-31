@@ -1,5 +1,16 @@
 <?php
 require_once __DIR__ . '/../src/includes/db.php';
+
+// Hevosen talli määrää ulkoasu- ja väriteeman → selvitettävä ennen theme.php:tä
+$_vt_stableStmt = getDB()->prepare(
+    'SELECT s.* FROM horses h JOIN stables s ON s.id = h.stable_id
+     WHERE h.is_deleted = 0 AND ' . (!empty($_GET['slug']) ? 'h.slug = :v' : 'h.id = :v')
+);
+$_vt_stableStmt->execute([':v' => !empty($_GET['slug'])
+    ? preg_replace('/[^a-z0-9\-]/', '', strtolower(trim($_GET['slug'])))
+    : (int)($_GET['id'] ?? 0)]);
+setStableContext($_vt_stableStmt->fetch() ?: null);
+
 require_once __DIR__ . '/../src/includes/theme.php';
 
 // Jos aktiivisella teemalla on oma hevosen profiilisivu, käytetään sitä
@@ -28,11 +39,12 @@ if (!empty($_GET['slug'])) {
                  FROM horse_disciplines hd
                  JOIN disciplines d ON d.id = hd.discipline_id
                  WHERE hd.horse_id = h.id) AS discipline_names,
-                b.name AS breed_name, c.name AS color_name,
+                b.name AS breed_name, c.name AS color_name, st.name AS stable_name, st.slug AS stable_slug,
                 $contactCols
          FROM horses h
          LEFT JOIN breeds b ON b.id = h.breed_id
          LEFT JOIN colors c ON c.id = h.color_id
+         LEFT JOIN stables st ON st.id = h.stable_id
          $contactJoins
          WHERE h.slug = :slug AND h.is_deleted = 0"
     );
@@ -46,11 +58,12 @@ if (!empty($_GET['slug'])) {
                  FROM horse_disciplines hd
                  JOIN disciplines d ON d.id = hd.discipline_id
                  WHERE hd.horse_id = h.id) AS discipline_names,
-                b.name AS breed_name, c.name AS color_name,
+                b.name AS breed_name, c.name AS color_name, st.name AS stable_name, st.slug AS stable_slug,
                 $contactCols
          FROM horses h
          LEFT JOIN breeds b ON b.id = h.breed_id
          LEFT JOIN colors c ON c.id = h.color_id
+         LEFT JOIN stables st ON st.id = h.stable_id
          $contactJoins
          WHERE h.id = :id AND h.is_deleted = 0"
     );
