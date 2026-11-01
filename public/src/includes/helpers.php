@@ -38,6 +38,67 @@ function horseUrl(array $horse): string {
 }
 
 /**
+ * Päätalli (settings.main_stable_id): tarjoillaan sivuston juuresta (/, /hevoset, /{sivu}).
+ * Palauttaa stables-rivin tai null, jos päätallia ei ole valittu.
+ */
+function mainStable(): ?array {
+    static $main = false;
+    if ($main !== false) return $main;
+    try {
+        $stmt = getDB()->prepare(
+            'SELECT s.* FROM settings st JOIN stables s ON s.id = st.setting_value
+             WHERE st.setting_key = :k LIMIT 1'
+        );
+        $stmt->execute([':k' => 'main_stable_id']);
+        return $main = ($stmt->fetch() ?: null);
+    } catch (\Throwable $e) {
+        error_log('mainStable(): päätallin haku epäonnistui: ' . $e->getMessage());
+        return $main = null;
+    }
+}
+
+/**
+ * Onko talli sivuston päätalli
+ */
+function isMainStable(array $stable): bool {
+    $main = mainStable();
+    return $main !== null && $main['slug'] === ($stable['slug'] ?? null);
+}
+
+/**
+ * Tallin julkinen sivu: päätalli → /, muut tallit → /slug
+ */
+function stableUrl(array $stable): string {
+    return SITE_URL . '/' . (isMainStable($stable) ? '' : rawurlencode($stable['slug']));
+}
+
+/**
+ * Tallin alasivu: päätalli → /sivu, muut tallit → /slug/sivu
+ * (sivut määritellään teeman theme.json:n stable_pages-avaimessa)
+ */
+function stablePageUrl(array $stable, string $page): string {
+    return rtrim(stableUrl($stable), '/') . '/' . rawurlencode($page);
+}
+
+/**
+ * Asettaa pyynnön tallikontekstin julkisille sivuille (tallin sivu, tallin hevosen sivu).
+ * Kutsuttava ENNEN theme.php:n lataamista, jotta tallin ulkoasuteema tulee käyttöön.
+ * Header käyttää tallin väriteemaa, jos sellainen on valittu.
+ */
+function setStableContext(?array $stable): void {
+    if (!$stable) return;
+    $layouts = availableLayoutThemes();
+    $colors  = colorThemeDefs();
+    $GLOBALS['vt_stable'] = [
+        'id'           => (int)$stable['id'],
+        'name'         => $stable['name'],
+        'slug'         => $stable['slug'],
+        'layout_theme' => isset($layouts[$stable['layout_theme'] ?? '']) ? $stable['layout_theme'] : null,
+        'color_theme'  => isset($colors[$stable['color_theme'] ?? ''])   ? $stable['color_theme']  : null,
+    ];
+}
+
+/**
  * Ohjaa käyttäjä toiselle sivulle ja pysäyttää skriptin
  */
 function redirect(string $url): never {
@@ -94,7 +155,7 @@ function requireOwnResourceOrAdmin(int $resourceAuthorId): void {
  * Estää duplikaatit (DEL-05): tarkistaa ensin ettei samalle entiteetille
  * ole jo pending-tilassa olevaa pyyntöä (check-then-insert, PHP-tason guard).
  *
- * @param string $entityType Whitelistattu arvo: horse|foal|competition|showrecord|post
+ * @param string $entityType Whitelistattu arvo: horse|foal|competition|showrecord|qualityreview|post
  * @param int $entityId
  * @param int $requestedBy admin_users.id (aina $_SESSION['admin_id'], ei käyttäjän syötteestä)
  */
@@ -117,7 +178,7 @@ function insertPendingDeletion(string $entityType, int $entityId, int $requested
  * Ainoa sallittu tapa johtaa taulunimi entity_type-arvosta — EI dynaamista
  * taulunimen rakennusta käyttäjän syötteestä (SQL-injektioesto).
  *
- * @param string $entityType Whitelistattu arvo: horse|foal|competition|showrecord|post
+ * @param string $entityType Whitelistattu arvo: horse|foal|competition|showrecord|qualityreview|post
  * @return string Taulunimi
  * @throws InvalidArgumentException jos $entityType ei ole whitelistin arvo
  */
@@ -127,6 +188,7 @@ function entityTypeToTable(string $entityType): string {
         'foal'        => 'foals',
         'competition' => 'competitions',
         'showrecord'  => 'showrecords',
+        'qualityreview' => 'quality_reviews',
         'post'        => 'posts',
         default       => throw new InvalidArgumentException('Invalid entity_type'),
     };
@@ -256,6 +318,125 @@ function calculateAgeSHS(?string $birthDate): ?int {
     if ($months < 10) return 2;
     if ($months < 16) return 3;
     return (int) round($months / 8 + 2);
+}
+
+/**
+ * Hakee hevosen laatuarvostelut aikajärjestyksessä (päivämäärättömät, esim. varsapalkinnot, viimeisenä)
+ */
+function getQualityReviews(int $horseId): array {
+    $stmt = getDB()->prepare(
+        'SELECT q.review_date, q.country, q.organizer, q.organizer_url, q.placement, q.points, q.review, q.notes,
+                jc.nickname AS judge_nickname, jc.stable_name AS judge_stable_name, jc.email AS judge_email
+         FROM quality_reviews q LEFT JOIN contacts jc ON jc.id = q.judge_contact_id
+         WHERE q.horse_id = :id AND q.is_deleted = 0
+         ORDER BY q.review_date IS NULL, q.review_date, q.id'
+    );
+    $stmt->execute([':id' => $horseId]);
+    return $stmt->fetchAll();
+}
+
+/**
+ * Hakee hevosen koulutustasot lajeittain (koulu, este, kenttä, valjakko, askellaji ensin, sitten muut aakkosjärjestyksessä)
+ */
+function getHorseLevels(int $horseId): array {
+    $stmt = getDB()->prepare(
+        'SELECT l.discipline_id, d.name, d.abbreviation, l.level
+         FROM horse_levels l JOIN disciplines d ON d.id = l.discipline_id
+         WHERE l.horse_id = :id
+         ORDER BY FIELD(l.discipline_id, 7, 6, 3, 1, 2) DESC, d.name'
+    );
+    $stmt->execute([':id' => $horseId]);
+    return $stmt->fetchAll();
+}
+
+/**
+ * Laskee meriitti- ja varsapalkintorivit laatuarvosteluista legacy-muodossa:
+ *   merits      "VIR MVA Ch KTK-II, VSN HCh PSB-II, ERJ-I, YLA1"
+ *   foal_awards "EV-II, KV-I, KEV-III"
+ * Jaoksesta otetaan paras tulos (I > II > III, YLA1 > YLA2). Jälkeläisarvostelut ja NWA eivät ole meriittejä.
+ *
+ * @param array $reviews getQualityReviews()-rivit
+ * @return array{merits: string, foal_awards: string}
+ */
+function computeMerits(array $reviews): array {
+    $foalOrder  = ['EV', 'KV', 'KEV', 'VV', 'VAR', 'SV', 'AV', 'VRKK', 'SHEV'];
+    $jaosOrder  = ['KTK', 'PSB', 'ERJ', 'KRJ', 'KERJ', 'VVJ', 'SLA', 'SHLA', 'HANN', 'VWY', 'YLA'];
+    $titleOrder = ['VIR', 'Champion', 'VSN'];
+    $rank = function (string $p): int {
+        if (preg_match('/-(I{1,3}|IV)\*?$/', $p, $m)) return ['I' => 1, 'II' => 2, 'III' => 3, 'IV' => 4][$m[1]];
+        return preg_match('/(\d+)$/', $p, $m) ? (int)$m[1] : 99;
+    };
+    // "VSN Halter Champion" → "VSN HCh", "VSN World Ch sis. VSN Ch & VSN NCh" → "VSN WCh"
+    $shortTitle = function (string $t): string {
+        $t = preg_replace('/\s+sis\..*$/', '', $t);
+        if ($t === 'Champion') return 'Ch';
+        if (preg_match('/^VSN (Halter|Ridden|Overall|World|National) Ch(ampion)?$/', $t, $m)) {
+            return 'VSN ' . ['Halter' => 'H', 'Ridden' => 'R', 'Overall' => 'O', 'World' => 'W', 'National' => 'N'][$m[1]] . 'Ch';
+        }
+        return $t === 'VSN Champion' ? 'VSN Ch' : $t;
+    };
+    $sortBy = fn(array $order) => fn($a, $b) => [array_search($a, $order) === false ? 99 : array_search($a, $order), $a]
+                                               <=> [array_search($b, $order) === false ? 99 : array_search($b, $order), $b];
+
+    $titles = $vsnBeforePsb = $best = $foal = [];
+    foreach ($reviews as $r) {
+        $org = (string)$r['organizer'];
+        $pl  = trim((string)$r['placement']);
+        if ($pl === '' || $org === 'NWA' || str_contains($pl, 'Jälk')) continue;
+        if (in_array($org, $titleOrder, true)) {
+            $t = $shortTitle($pl);
+            // Näyttelyluokan arvonimi (Halter/Ridden/Overall) kirjoitetaan PSB-tuloksen eteen
+            if (preg_match('/^VSN [HRO]Ch$/', $t)) $vsnBeforePsb[$t] = true;
+            else $titles[$org][$t] = true;
+        } elseif (in_array($org, $foalOrder, true)) {
+            if (!isset($foal[$org]) || $rank($pl) < $rank($foal[$org])) $foal[$org] = $pl;
+        } elseif (!isset($best[$org]) || $rank($pl) < $rank($best[$org])) {
+            $best[$org] = $pl;
+        }
+    }
+
+    uksort($titles, $sortBy($titleOrder));
+    uksort($best, $sortBy($jaosOrder));
+    uksort($foal, $sortBy($foalOrder));
+    if ($vsnBeforePsb && isset($best['PSB'])) {
+        $best['PSB'] = implode(' ', array_keys($vsnBeforePsb)) . ' ' . $best['PSB'];
+    } elseif ($vsnBeforePsb) {
+        $titles['VSN'] = ($titles['VSN'] ?? []) + $vsnBeforePsb;
+    }
+
+    $titleText = implode(' ', array_merge(...array_map('array_keys', array_values($titles))));
+    return [
+        'merits'      => trim($titleText . ' ' . implode(', ', $best)),
+        'foal_awards' => implode(', ', $foal),
+    ];
+}
+
+/**
+ * Hevosen meriitit näytettäväksi: käsin syötetty arvo, muuten laskettu laatuarvosteluista
+ *
+ * @return array{merits: string, foal_awards: string}
+ */
+function horseMerits(array $horse, array $reviews): array {
+    $computed = computeMerits($reviews);
+    return [
+        'merits'      => ($horse['merits'] ?? '') ?: $computed['merits'],
+        'foal_awards' => ($horse['foal_awards'] ?? '') ?: $computed['foal_awards'],
+    ];
+}
+
+/**
+ * Laatuarvostelun päivämäärä muodossa "05/2026" (tuoduista tiedetään vain kuukausi)
+ */
+function formatReviewMonth(?string $date): string {
+    return $date ? date('m/Y', strtotime($date)) : '';
+}
+
+/**
+ * Laatuarvostelun pisteet muodossa "104,5p." (tyhjä jos pisteitä ei ole)
+ */
+function formatReviewPoints(?string $points): string {
+    if ($points === null || $points === '') return '';
+    return str_replace('.', ',', rtrim(rtrim($points, '0'), '.')) . 'p.';
 }
 
 /**
@@ -577,4 +758,63 @@ function validate_image_upload(array $file_array, int $max_size_bytes = 5242880)
         'valid' => true,
         'error' => null
     ];
+}
+
+/**
+ * Väriteemat (data-theme) — avain => nimi + esikatseluvärit.
+ * Käytetään asetuksissa (sivuston teema) ja talleilla (tallikohtainen teema).
+ */
+function colorThemeDefs(): array {
+    return [
+        'savi'      => ['nimi' => 'Savi',       'p' => '#3d2b1f', 'a' => '#a0633a', 'g' => '#c9a84c', 'bg' => '#f9f7f4'],
+        'metsa'     => ['nimi' => 'Metsä',      'p' => '#1a3d2b', 'a' => '#5a8a3a', 'g' => '#8db44a', 'bg' => '#f4f7f4'],
+        'yo'        => ['nimi' => 'Yö',         'p' => '#1a1f3d', 'a' => '#4a6fa0', 'g' => '#7090c8', 'bg' => '#f4f5f9'],
+        'ruusu'     => ['nimi' => 'Ruusu',      'p' => '#4a1f30', 'a' => '#c06080', 'g' => '#d8a0b8', 'bg' => '#fdf5f7'],
+        'kivikko'   => ['nimi' => 'Kivikko',    'p' => '#2c3030', 'a' => '#5a7070', 'g' => '#b0a860', 'bg' => '#f5f5f5'],
+        'arktinen'  => ['nimi' => 'Arktinen',   'p' => '#1a3a4d', 'a' => '#3d9abf', 'g' => '#70c0e0', 'bg' => '#f4f8fc'],
+        'aurinko'   => ['nimi' => 'Aurinko',    'p' => '#4d2c1a', 'a' => '#c06030', 'g' => '#e0a040', 'bg' => '#fdf8f4'],
+        'laventeli' => ['nimi' => 'Laventeli',  'p' => '#3a2060', 'a' => '#8060c0', 'g' => '#c0a8e0', 'bg' => '#f8f5fd'],
+        'talvi'     => ['nimi' => 'Talvi',      'p' => '#2c3840', 'a' => '#4a7888', 'g' => '#9ab8c8', 'bg' => '#f5f7f8'],
+        'kulta'     => ['nimi' => 'Kultainen',  'p' => '#3d3010', 'a' => '#b88c20', 'g' => '#e8c840', 'bg' => '#fdf9f0'],
+    ];
+}
+
+/**
+ * Saatavilla olevat ulkoasuteemat: public/themes/<kansio>/theme.json → [kansio => nimi].
+ */
+function availableLayoutThemes(): array {
+    $themes = [];
+    foreach (glob(__DIR__ . '/../../themes/*/theme.json') ?: [] as $jsonPath) {
+        $key  = basename(dirname($jsonPath));
+        $meta = json_decode(file_get_contents($jsonPath), true);
+        $themes[$key] = $meta['name'] ?? $key;
+    }
+    return $themes ?: ['default' => 'Default'];
+}
+
+/**
+ * Kevyt markdown → HTML (luonne, sukuselvitys).
+ * Tuetut: **lihavointi**, *kursiivi* / _kursiivi_, [linkki](https://...),
+ * tyhjä rivi = uusi kappale, rivinvaihto = <br>. Muu HTML escapetaan.
+ */
+function renderMarkdown(string $text): string {
+    $out = '';
+    foreach (preg_split('/\R{2,}/', trim($text)) as $para) {
+        $html = e($para);
+
+        // Linkit paikkamerkeiksi, ettei URL:n * tai _ muutu muotoiluksi
+        $links = [];
+        $html = preg_replace_callback('/\[([^\]\n]+)\]\((https?:\/\/[^\s)]+)\)/', function ($m) use (&$links) {
+            $links[] = '<a href="' . $m[2] . '" target="_blank" rel="noopener">' . $m[1] . '</a>';
+            return "\x00" . (count($links) - 1) . "\x00";
+        }, $html);
+
+        $html = preg_replace('/\*\*(?=\S)(.+?)(?<=\S)\*\*/s', '<strong>$1</strong>', $html);
+        $html = preg_replace('/(?<![*\w])\*(?=[^\s*])(.+?)(?<=[^\s*])\*(?![*\w])/su', '<em>$1</em>', $html);
+        $html = preg_replace('/(?<![_\w])_(?=[^\s_])(.+?)(?<=[^\s_])_(?![_\w])/su', '<em>$1</em>', $html);
+
+        $html = preg_replace_callback('/\x00(\d+)\x00/', fn($m) => $links[(int)$m[1]], $html);
+        $out .= '<p>' . nl2br($html) . '</p>';
+    }
+    return $out;
 }

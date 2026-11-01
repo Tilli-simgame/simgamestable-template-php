@@ -2,13 +2,51 @@
 require_once __DIR__ . '/../src/includes/db.php';
 
 $db = getDB();
-$slug = preg_replace('/[^a-z0-9\-]/', '', strtolower(trim($_GET['slug'] ?? '')));
-$stmt = $db->prepare('SELECT * FROM stables WHERE slug = :slug');
-$stmt->execute([':slug' => $slug]);
-$stable = $stmt->fetch();
+$_vt_clean = fn($v) => preg_replace('/[^a-z0-9\-]/', '', strtolower(trim((string)$v)));
+$_vt_findStable = function (string $slug) use ($db) {
+    $stmt = $db->prepare('SELECT * FROM stables WHERE slug = :slug');
+    $stmt->execute([':slug' => $slug]);
+    return $stmt->fetch() ?: null;
+};
+$_vt_main = mainStable();
+
+// Reitti: sisäinen kutsu (index.php, hevoset.php …) asettaa $_vt_route, muuten .htaccess:
+//   /{talli}          → ?p=talli     (muu kuin päätalli)
+//   /{sivu}           → ?p=sivu      (päätallin alasivu)
+//   /{talli}/{sivu}   → ?slug=talli&sivu=sivu
+//   /talli/{talli}... → ?slug=…&legacy=1 (vanha osoite → ohjataan uuteen)
+$_vt_internal = isset($_vt_route);
+if ($_vt_internal) {
+    $stable = $_vt_findStable($_vt_route['slug']);
+    $_GET['sivu'] = $_vt_route['sivu'];
+} elseif (isset($_GET['p'])) {
+    $_vt_p  = $_vt_clean($_GET['p']);
+    $stable = $_vt_findStable($_vt_p);
+    if (!$stable || isMainStable($stable)) {
+        // Ei tallin slug (tai päätallin oma slug) → päätallin alasivu / etusivu
+        $_GET['sivu'] = $stable ? '' : $_vt_p;
+        $stable = $_vt_main;
+    } else {
+        $_GET['sivu'] = '';
+    }
+} else {
+    $stable = $_vt_findStable($_vt_clean($_GET['slug'] ?? ''));
+}
 if (!$stable) {
     http_response_code(404);
     exit;
+}
+
+// Kanoninen osoite: vanhat /talli/…-osoitteet ja päätallin /slug/… → uusi osoite
+$_vt_sivuParam = $_vt_clean($_GET['sivu'] ?? '');
+if (!$_vt_internal && (!empty($_GET['legacy']) || isset($_GET['p']) || isMainStable($stable))) {
+    $_vt_canonical = $_vt_sivuParam !== '' ? stablePageUrl($stable, $_vt_sivuParam) : stableUrl($stable);
+    $_vt_reqPath   = rtrim(strtok($_SERVER['REQUEST_URI'], '?'), '/');
+    if (rtrim(parse_url($_vt_canonical, PHP_URL_PATH) ?? '', '/') !== $_vt_reqPath) {
+        $_vt_qs = array_diff_key($_GET, array_flip(['p', 'slug', 'sivu', 'legacy']));
+        header('Location: ' . $_vt_canonical . ($_vt_qs ? '?' . http_build_query($_vt_qs) : ''), true, 302);
+        exit;
+    }
 }
 
 // Tallin ulkoasu- ja väriteema → asetettava ennen theme.php:tä
@@ -48,9 +86,20 @@ $horses = $stmt->fetchAll();
 // Alasivupohja saa käyttöönsä $stable, $horses, $db ja $stablePage (sivun avain + asetukset).
 $_vt_stablePages = getThemeManifest()['stable_pages'] ?? [];
 $_vt_sivu = preg_replace('/[^a-z0-9\-]/', '', strtolower(trim($_GET['sivu'] ?? '')));
+// Sivuston vakiosivut tallin rajaamana, jos teema ei määrittele samannimistä alasivua
+$_vt_builtinPages = [
+    'hevoset'       => 'hevoset.php',
+    'kasvatus'      => 'kasvatus.php',
+    'ajankohtaista' => 'ajankohtaista.php',
+    'yhteystiedot'  => 'yhteystiedot.php',
+];
 if ($_vt_sivu === '') {
     $_vt_sivu = getThemeManifest()['stable_home'] ?? '';
 } elseif (!isset($_vt_stablePages[$_vt_sivu])) {
+    if (isset($_vt_builtinPages[$_vt_sivu])) {
+        require __DIR__ . '/' . $_vt_builtinPages[$_vt_sivu];
+        exit;
+    }
     http_response_code(404);
     exit;
 }

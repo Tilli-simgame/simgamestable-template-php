@@ -8,7 +8,7 @@
 define('SITE_NAME', 'Virtuaalitalli Demotesti');
 // Docker-kehitys: aseta SITE_URL ympäristömuuttujana (docker-compose.yml)
 // Altervista: päivitä osoite tähän suoraan
-define('SITE_URL', rtrim(getenv('SITE_URL') ?: 'https://tilli.altervista.org/demotalli-02', '/'));
+define('SITE_URL', rtrim(getenv('SITE_URL') ?: 'https://tiikeriluola.fi/demotalli', '/'));
 
 // Uploads-polku
 define('UPLOADS_DIR', __DIR__ . '/../../uploads/');

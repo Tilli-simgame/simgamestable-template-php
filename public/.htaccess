@@ -1,52 +1,48 @@
-# Altervista virtuaalitalli — pääkonfiguraatio
+# Virtuaalitalli — pääkonfiguraatio
 Options -Indexes
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /
+
+    # Kaikki rewrite-kohteet ovat suhteellisia (ei alkukauttaviivaa), joten
+    # Apache liittää ne tämän .htaccess-tiedoston kansioon. Sama tiedosto
+    # toimii siis sekä juuressa (Docker) että alikansiossa (esim. /demotalli/)
+    # ilman muutoksia. Älä lisää RewriteBase-riviä.
 
     # Estä suora pääsy src/-kansioon
     RewriteRule ^src/ - [F,L]
 
     # Sivut ilman .php-päätettä
-    # Altervistalla sovellus on /demotalli-02/-alihakemistossa joten absoluuttiset
-    # rewrite-kohteet vaativat /demotalli-02/-etuliitteen. Paikallisella Dockerilla
-    # DocRoot on public/ suoraan, joten /pages/... riittää.
-    RewriteCond %{HTTP_HOST} altervista\.org$ [NC]
-    RewriteRule ^hevoset/?$ /demotalli-02/pages/hevoset.php [L,QSA]
-    RewriteRule ^hevoset/?$ /pages/hevoset.php [L,QSA]
-
-    RewriteCond %{HTTP_HOST} altervista\.org$ [NC]
-    RewriteRule ^kasvatus/?$ /demotalli-02/pages/kasvatus.php [L,QSA]
-    RewriteRule ^kasvatus/?$ /pages/kasvatus.php [L,QSA]
-
-    RewriteCond %{HTTP_HOST} altervista\.org$ [NC]
-    RewriteRule ^yhteystiedot/?$ /demotalli-02/pages/yhteystiedot.php [L,QSA]
-    RewriteRule ^yhteystiedot/?$ /pages/yhteystiedot.php [L,QSA]
-
-    RewriteCond %{HTTP_HOST} altervista\.org$ [NC]
-    RewriteRule ^ajankohtaista/?$ /demotalli-02/pages/ajankohtaista.php [L,QSA]
-    RewriteRule ^ajankohtaista/?$ /pages/ajankohtaista.php [L,QSA]
+    RewriteRule ^hevoset/?$ pages/hevoset.php [L,QSA]
+    RewriteRule ^kasvatus/?$ pages/kasvatus.php [L,QSA]
+    RewriteRule ^yhteystiedot/?$ pages/yhteystiedot.php [L,QSA]
+    RewriteRule ^ajankohtaista/?$ pages/ajankohtaista.php [L,QSA]
 
     # Hevosen profiilisivu: /pages/hevonen/slug
-    RewriteCond %{HTTP_HOST} altervista\.org$ [NC]
-    RewriteRule ^pages/hevonen/([^/]+)/?$ /demotalli-02/pages/hevonen.php?slug=$1 [L,QSA]
-    RewriteRule ^pages/hevonen/([^/]+)/?$ /pages/hevonen.php?slug=$1 [L,QSA]
+    RewriteRule ^pages/hevonen/([^/]+)/?$ pages/hevonen.php?slug=$1 [L,QSA]
+
+    # Vanhat talliosoitteet /talli/slug(/sivu) → talli.php ohjaa uuteen osoitteeseen
+    RewriteRule ^talli/([^/]+)/([a-z0-9\-]+)/?$ pages/talli.php?slug=$1&sivu=$2&legacy=1 [L,QSA]
+    RewriteRule ^talli/([^/]+)/?$ pages/talli.php?slug=$1&legacy=1 [L,QSA]
 
     # Blogijuttu: /pages/ajankohtaista/slug
-    RewriteCond %{HTTP_HOST} altervista\.org$ [NC]
-    RewriteRule ^pages/ajankohtaista/([^/]+)/?$ /demotalli-02/pages/postaus.php?slug=$1 [L,QSA]
-    RewriteRule ^pages/ajankohtaista/([^/]+)/?$ /pages/postaus.php?slug=$1 [L,QSA]
+    RewriteRule ^pages/ajankohtaista/([^/]+)/?$ pages/postaus.php?slug=$1 [L,QSA]
 
     # Teeman sivut: /pages/{slug} → theme-page.php (catch-all, vain jos tiedostoa ei ole)
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{HTTP_HOST} altervista\.org$ [NC]
-    RewriteRule ^pages/([a-z0-9\-]+)/?$ /demotalli-02/pages/theme-page.php?page=$1 [L,QSA]
+    RewriteRule ^pages/([a-z0-9\-]+)/?$ pages/theme-page.php?page=$1 [L,QSA]
+
+    # Tallit (catch-all, vain jos tiedostoa/hakemistoa ei ole):
+    #   /talli/sivu → muun kuin päätallin alasivu
+    #   /x          → muun kuin päätallin etusivu, tai päätallin alasivu (päätalli = juuri /)
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^([a-z0-9\-]+)/([a-z0-9\-]+)/?$ pages/talli.php?slug=$1&sivu=$2 [L,QSA]
 
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^pages/([a-z0-9\-]+)/?$ /pages/theme-page.php?page=$1 [L,QSA]
+    RewriteRule ^([a-z0-9\-]+)/?$ pages/talli.php?p=$1 [L,QSA]
 </IfModule>
 
 # Tietoturva: Estä suora pääsy arkaluonteisiin tiedostoihin

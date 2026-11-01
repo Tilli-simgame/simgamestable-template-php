@@ -541,6 +541,10 @@ tr:hover td { background: var(--color-parchment); }
 }
 .comp-row:hover { background: var(--color-parchment); }
 .comp-cell { padding: 0.5rem 0.75rem; }
+@media (min-width: 601px) {
+  .comp-list--quality .comp-header,
+  .comp-list--quality .comp-row { grid-template-columns: 6rem 1fr 4.5rem 1fr 5rem 1fr 1.5fr; }
+}
 @media (max-width: 600px) {
   .comp-header { display: none; }
   .comp-row { grid-template-columns: 1fr; }

@@ -85,8 +85,8 @@ $page_title = $horse['name'];
 
 // Hae kilpailut
 $stmtComp = $db->prepare(
-    'SELECT competition_date, discipline, country, organizer, organizer_url, class, placement, points, notes
-     FROM competitions WHERE horse_id = :id AND is_deleted = 0 ORDER BY competition_date DESC'
+    'SELECT competition_date, discipline, country, organizer, organizer_url, class, placement, points, notes, is_championship
+     FROM competitions WHERE horse_id = :id AND is_deleted = 0 ORDER BY competition_date DESC, id DESC'
 );
 $stmtComp->execute([':id' => $id]);
 $competitions = $stmtComp->fetchAll();
@@ -99,10 +99,18 @@ $stmtShow = $db->prepare(
             p.filename AS photo_filename, p.title AS photo_title, p.original_name AS photo_original_name
      FROM showrecords s LEFT JOIN contacts jc ON jc.id = s.judge_contact_id
      LEFT JOIN horse_photos p ON p.id = s.photo_id
-     WHERE s.horse_id = :id AND s.is_deleted = 0 ORDER BY s.show_date DESC'
+     WHERE s.horse_id = :id AND s.is_deleted = 0 ORDER BY s.show_date DESC, s.id ASC'
 );
 $stmtShow->execute([':id' => $id]);
 $showrecords = $stmtShow->fetchAll();
+
+// Laatuarvostelut
+$qualityReviews = getQualityReviews($id);
+// Meriitit: käsin syötetty tai laskettu laatuarvosteluista
+$horseMerits = horseMerits($horse, $qualityReviews);
+
+// Koulutustasot lajeittain
+$horseLevels = getHorseLevels($id);
 
 // Hae kuvat
 $stmtPhotos = $db->prepare(

@@ -1,5 +1,12 @@
 <?php
 require_once __DIR__ . '/../src/includes/db.php';
+
+// Päätalli valittu → sivu näytetään päätallin teemalla
+if (empty($GLOBALS['vt_stable']) && mainStable()) {
+    $_vt_route = ['slug' => mainStable()['slug'], 'sivu' => 'ajankohtaista'];
+    require __DIR__ . '/talli.php';
+    exit;
+}
 require_once __DIR__ . '/../src/includes/theme.php';
 
 // Jos aktiivisella teemalla on oma ajankohtaista-sivu, käytetään sitä

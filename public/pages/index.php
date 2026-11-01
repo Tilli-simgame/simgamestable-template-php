@@ -1,5 +1,11 @@
 <?php
 require_once __DIR__ . '/../src/includes/db.php';
+
+// Päätalli valittu → etusivu on päätallin etusivu juuressa
+if (mainStable()) {
+    header('Location: ' . SITE_URL . '/', true, 302);
+    exit;
+}
 require_once __DIR__ . '/../src/includes/theme.php';
 
 // Jos aktiivisella teemalla on oma etusivu, käytetään sitä

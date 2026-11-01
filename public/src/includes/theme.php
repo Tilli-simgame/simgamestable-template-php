@@ -6,6 +6,10 @@
  * ÄLÄ lisää tätä db.php:hen — admin-sivut eivät saa ladata shimmiä (D-09).
  *
  * Riippuvuudet: getDB() (db.php), SITE_URL (config.php)
+ *
+ * Tallikohtainen teema: jos controller on kutsunut setStableContext() ennen tämän
+ * tiedoston lataamista ja tallille on valittu ulkoasuteema, se ohittaa sivuston
+ * oletuksen (settings.active_theme).
  */
 
 if (!defined('THEME_PATH')) {
@@ -14,7 +18,10 @@ if (!defined('THEME_PATH')) {
     // PDOException. Because theme.php loads before any application error handler,
     // an uncaught exception here would expose a raw stack trace to the user.
     // Fall back to 'default' theme on any database failure (CR-01).
-    try {
+    $stableTheme = $GLOBALS['vt_stable']['layout_theme'] ?? null;
+    if ($stableTheme) {
+        $rawTheme = $stableTheme;
+    } else try {
         $db = getDB();
         $stmt = $db->prepare(
             'SELECT setting_value FROM settings WHERE setting_key = :k LIMIT 1'
