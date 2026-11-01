@@ -9,6 +9,7 @@ $pending = $db->query(
             COALESCE(h.name, f.foal_name,
                      CONCAT(c.discipline, ' ', c.competition_date),
                      CONCAT(s.discipline, ' ', s.show_date),
+                     CONCAT(q.organizer, ' ', q.review_date),
                      p.title,
                      CONCAT(pd.entity_type, ' #', pd.entity_id)) AS entity_label
      FROM pending_deletions pd
@@ -17,6 +18,7 @@ $pending = $db->query(
      LEFT JOIN foals f ON pd.entity_type = 'foal' AND f.id = pd.entity_id
      LEFT JOIN competitions c ON pd.entity_type = 'competition' AND c.id = pd.entity_id
      LEFT JOIN showrecords s ON pd.entity_type = 'showrecord' AND s.id = pd.entity_id
+     LEFT JOIN quality_reviews q ON pd.entity_type = 'qualityreview' AND q.id = pd.entity_id
      LEFT JOIN posts p ON pd.entity_type = 'post' AND p.id = pd.entity_id
      WHERE pd.status = 'pending'
      ORDER BY pd.requested_at DESC"
@@ -27,6 +29,7 @@ $entityTypeLabels = [
     'foal'        => 'Varsa',
     'competition' => 'Kilpailu',
     'showrecord'  => 'Näyttelytulos',
+    'qualityreview' => 'Laatuarvostelu',
     'post'        => 'Postaus',
 ];
 

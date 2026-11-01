@@ -203,7 +203,7 @@ $_adminTheme = $GLOBALS['color_theme'];
     /* ── SLIDE-IN PANEL (008-B) ────────────────── */
     .admin-slide-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.3); z-index: 500; display: none; }
     .admin-slide-overlay.open { display: block; }
-    .admin-slide-panel { position: fixed; top: 0; right: -440px; width: 420px; height: 100vh; background: var(--color-surface, #fff); box-shadow: 0 10px 24px rgba(61,43,31,0.18); z-index: 501; display: flex; flex-direction: column; transition: right 0.25s ease; border-left: 1px solid var(--color-border, #e0d5c5); }
+    .admin-slide-panel { position: fixed; top: 0; right: -440px; width: 420px; max-width: 100vw; height: 100vh; background: var(--color-surface, #fff); box-shadow: 0 10px 24px rgba(61,43,31,0.18); z-index: 501; display: flex; flex-direction: column; transition: right 0.25s ease; border-left: 1px solid var(--color-border, #e0d5c5); }
     .admin-slide-panel.open { right: 0; }
     .admin-slide-header { background: var(--color-primary, #3d2b1f); padding: 1.25rem 1.5rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 3px solid var(--color-gold, #c9a84c); }
     .admin-slide-header h2 { font-family: var(--font-serif, Georgia, serif); font-size: 1.15rem; color: var(--color-cream, #e8d5b7); font-weight: normal; margin: 0; }
@@ -325,16 +325,49 @@ $_adminTheme = $GLOBALS['color_theme'];
     [data-hf-list] [hidden] { display: none !important; }
     .hl-empty { display: none; padding: 1.25rem; text-align: center; color: var(--color-text-muted, #6b5e52); }
 
+    /* ── MOBIILIN YLÄPALKKI + LAATIKKO ────────── */
+    .admin-mobile-bar { display: none; }
+    .admin-sidebar-backdrop { display: none; }
+
     @media (max-width: 768px) {
-      .admin-sidebar { display: none; }
+      .admin-mobile-bar {
+        display: flex; align-items: center; gap: 0.75rem;
+        position: sticky; top: 0; z-index: 30;
+        background: var(--color-primary, #3d2b1f);
+        padding: 0.6rem 1rem;
+      }
+      .admin-mobile-bar .amb-title {
+        font-family: var(--font-serif, Georgia, serif);
+        font-size: 1rem; color: var(--color-cream, #e8d5b7);
+      }
+      .admin-menu-toggle {
+        background: none; border: 1px solid rgba(201,168,76,0.4); border-radius: 6px;
+        color: var(--color-cream, #e8d5b7); font-size: 1.25rem; line-height: 1;
+        width: 40px; height: 40px; cursor: pointer; padding: 0;
+        display: flex; align-items: center; justify-content: center;
+      }
+      .admin-sidebar {
+        position: fixed; top: 0; left: 0; z-index: 600;
+        width: 260px; max-width: 85vw; height: 100vh; height: 100dvh;
+        transform: translateX(-100%); transition: transform 0.25s ease;
+      }
+      .admin-shell.nav-open .admin-sidebar { transform: translateX(0); box-shadow: 0 0 24px rgba(0,0,0,0.35); }
+      .admin-shell.nav-open .admin-sidebar-backdrop {
+        display: block; position: fixed; inset: 0; z-index: 599; background: rgba(0,0,0,0.4);
+      }
+      .admin-nav-item { padding: 0.7rem 1.5rem; }
+      .admin-page-header { position: static; padding: 0.75rem 1rem; flex-wrap: wrap; }
+      .admin-body { padding: 1rem; }
+      .horse-ctx-banner { padding: 0.6rem 1rem; flex-wrap: wrap; }
       .form-row, .form-row-3 { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
-<div class="admin-shell">
+<div class="admin-shell" id="adminShell">
+  <div class="admin-sidebar-backdrop" data-nav-close></div>
   <!-- ── SIDEBAR ───────────────────────────── -->
-  <aside class="admin-sidebar">
+  <aside class="admin-sidebar" id="adminSidebar">
     <div class="admin-sidebar-logo">
       <div class="logo-text">🐴 Virtuaalitalli</div>
       <div class="logo-sub">Hallintapaneeli</div>
@@ -378,6 +411,10 @@ $_adminTheme = $GLOBALS['color_theme'];
       <a class="admin-nav-item <?= in_array($_activePage, ['showrecords_all','showrecords']) ? 'active' : '' ?>"
          href="<?= e(SITE_URL) ?>/admin/showrecords_all.php">🎀 Näyttelyt</a>
       <?php endif; ?>
+      <?php if (in_array($role, ['admin','mod'], true)): ?>
+      <a class="admin-nav-item <?= in_array($_activePage, ['quality_reviews_all','quality_reviews']) ? 'active' : '' ?>"
+         href="<?= e(SITE_URL) ?>/admin/quality_reviews_all.php">⭐ Laatuarvostelut</a>
+      <?php endif; ?>
       <div class="admin-nav-section">Media</div>
       <?php if (in_array($role, ['admin','mod'], true)): ?>
       <a class="admin-nav-item <?= in_array($_activePage, ['kuvat_all','photos','photo_delete']) ? 'active' : '' ?>"
@@ -413,3 +450,21 @@ $_adminTheme = $GLOBALS['color_theme'];
   </aside>
   <!-- ── MAIN ──────────────────────────────── -->
   <div class="admin-main">
+  <div class="admin-mobile-bar">
+    <button type="button" class="admin-menu-toggle" aria-controls="adminSidebar" aria-expanded="false" aria-label="Avaa valikko">☰</button>
+    <span class="amb-title">Hallintapaneeli</span>
+  </div>
+  <script>
+  (function () {
+    var shell = document.getElementById('adminShell');
+    var btn = shell.querySelector('.admin-menu-toggle');
+    function setOpen(open) {
+      shell.classList.toggle('nav-open', open);
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      btn.setAttribute('aria-label', open ? 'Sulje valikko' : 'Avaa valikko');
+    }
+    btn.addEventListener('click', function () { setOpen(!shell.classList.contains('nav-open')); });
+    shell.querySelector('[data-nav-close]').addEventListener('click', function () { setOpen(false); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setOpen(false); });
+  })();
+  </script>

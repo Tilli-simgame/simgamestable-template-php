@@ -31,12 +31,16 @@ $hdStmt->execute([':id' => $id]);
 $horseDisciplineIds = array_column($hdStmt->fetchAll(), 'discipline_id');
 $selectedDisciplineIds = array_map('intval', $horseDisciplineIds);
 
+// Koulutustasot lajeittain: discipline_id => taso
+$hlStmt = $db->prepare('SELECT discipline_id, level FROM horse_levels WHERE horse_id = :id');
+$hlStmt->execute([':id' => $id]);
+$levelInputs = array_column($hlStmt->fetchAll(), 'level', 'discipline_id');
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!validate_csrf_token($_POST['csrf_token'] ?? '')) {
         $errors[] = 'Virheellinen pyyntö.';
     } else {
-        $fields = ['name','call_name','vh_id','pkk_id','breed_id','birth_date','aging_system','gender','color_id','genes','height_cm',
-                   'level_ko','level_re','level_ke',
+        $fields = ['name','call_name','vh_id','pkk_id','breed_id','birth_date','aging_system','birth_country','gender','color_id','genes','height_cm',
                    'owner_contact_id','breeder_contact_id','importer_contact_id',
                    'sire_id','dam_id','evm','profile_url',
                    'description','pedigree_notes','porrastetut_discipline_id','stable_id'];
@@ -47,6 +51,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $f['porrastetut'] = isset($_POST['porrastetut']) ? '1' : '0';
         $validDisciplineIds = array_column($disciplines, 'id');
+        $levelInputs = [];
+        foreach ($validDisciplineIds as $did) {
+            $levelInputs[(int)$did] = mb_substr(sanitize($_POST['levels'][$did] ?? ''), 0, 150);
+        }
         $selectedDisciplineIds = array_values(array_filter(
             array_map('intval', $_POST['discipline_ids'] ?? []),
             fn($did) => in_array($did, $validDisciplineIds)
@@ -110,8 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt = $db->prepare(
                 'UPDATE horses SET
                  name=:name, call_name=:call_name, vh_id=:vh_id, pkk_id=:pkk_id, breed_id=:breed_id, porrastetut=:porrastetut, porrastetut_discipline_id=:porrastetut_discipline_id, stable_id=:stable_id,
-                 birth_date=:birth_date, aging_system=:aging_system, gender=:gender, color_id=:color_id, genes=:genes, height_cm=:height_cm,
-                 level_ko=:level_ko, level_re=:level_re, level_ke=:level_ke,
+                 birth_date=:birth_date, aging_system=:aging_system, birth_country=:birth_country, gender=:gender, color_id=:color_id, genes=:genes, height_cm=:height_cm,
                  owner_contact_id=:owner_contact_id, breeder_contact_id=:breeder_contact_id, importer_contact_id=:importer_contact_id,
                  sire_id=:sire_id, dam_id=:dam_id, evm=:evm, profile_url=:profile_url,
                  description=:description, pedigree_notes=:pedigree_notes, slug=:slug
@@ -125,13 +132,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ':breed_id'            => $f['breed_id'] !== '' ? (int)$f['breed_id'] : null,
                 ':birth_date'          => $f['birth_date'] ?: null,
                 ':aging_system'        => in_array($f['aging_system'], $validAgingSystems, true) ? $f['aging_system'] : null,
+                ':birth_country'       => $f['birth_country'] ?: null,
                 ':gender'              => in_array($f['gender'], $validGenders, true) ? $f['gender'] : 'tamma',
                 ':color_id'            => $f['color_id'] !== '' ? (int)$f['color_id'] : null,
                 ':genes'               => $f['genes'] ?: null,
                 ':height_cm'           => $f['height_cm'] !== '' ? (int)$f['height_cm'] : null,
-                ':level_ko'            => $f['level_ko'] ?: null,
-                ':level_re'            => $f['level_re'] ?: null,
-                ':level_ke'            => $f['level_ke'] ?: null,
                 ':owner_contact_id'    => $newContactIds['owner'],
                 ':breeder_contact_id'  => $newContactIds['breeder'],
                 ':importer_contact_id' => $newContactIds['importer'],
@@ -154,6 +159,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 foreach ($selectedDisciplineIds as $did) {
                     $ins->execute([':h' => $id, ':d' => $did]);
                 }
+            }
+            $db->prepare('DELETE FROM horse_levels WHERE horse_id = :id')->execute([':id' => $id]);
+            $insLevel = $db->prepare('INSERT INTO horse_levels (horse_id, discipline_id, level) VALUES (:h, :d, :l)');
+            foreach (array_filter($levelInputs, 'strlen') as $did => $level) {
+                $insLevel->execute([':h' => $id, ':d' => $did, ':l' => $level]);
             }
             redirect(SITE_URL . '/admin/horses.php?updated=1');
         }
@@ -284,6 +294,13 @@ require __DIR__ . '/includes/admin_header.php';
 
   <div class="form-row">
     <div class="form-group" style="flex:0 0 calc(50% - 0.5rem)">
+      <label for="birth_country">Syntymämaa</label>
+      <input type="text" id="birth_country" name="birth_country" value="<?= e($f['birth_country'] ?? '') ?>">
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group" style="flex:0 0 calc(50% - 0.5rem)">
       <label for="gender">Sukupuoli</label>
       <select id="gender" name="gender">
         <option value="">— valitse —</option>
@@ -333,18 +350,17 @@ require __DIR__ . '/includes/admin_header.php';
     </div>
   </div>
 
-  <div class="form-row">
-    <div class="form-group">
-      <label for="level_ko">Taso — ko</label>
-      <input type="text" id="level_ko" name="level_ko" value="<?= e($f['level_ko'] ?? '') ?>" placeholder="esim. Vaativa A">
-    </div>
-    <div class="form-group">
-      <label for="level_re">Taso — re</label>
-      <input type="text" id="level_re" name="level_re" value="<?= e($f['level_re'] ?? '') ?>" placeholder="esim. 130cm, CIC5">
-    </div>
-    <div class="form-group">
-      <label for="level_ke">Taso — ke</label>
-      <input type="text" id="level_ke" name="level_ke" value="<?= e($f['level_ke'] ?? '') ?>" placeholder="esim. CCI2*-S">
+  <div class="form-group">
+    <label>Koulutustasot</label>
+    <?php $levelPlaceholders = [2 => 'esim. Vaativa A', 1 => 'esim. 130cm', 3 => 'esim. CCI2*-S', 6 => 'esim. Vaikea', 7 => 'esim. Show']; ?>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:0.5rem 1rem">
+      <?php foreach ($disciplines as $d): $did = (int)$d['id']; ?>
+        <div class="form-group" style="margin:0">
+          <label for="level_<?= $did ?>" style="font-weight:normal"><?= e(ucfirst($d['name'])) ?></label>
+          <input type="text" id="level_<?= $did ?>" name="levels[<?= $did ?>]" maxlength="150"
+                 value="<?= e($levelInputs[$did] ?? '') ?>" placeholder="<?= e($levelPlaceholders[$did] ?? '') ?>">
+        </div>
+      <?php endforeach; ?>
     </div>
   </div>
 
@@ -479,10 +495,12 @@ require __DIR__ . '/includes/admin_header.php';
   <div class="form-group">
     <label for="description">Kuvaus</label>
     <textarea id="description" name="description"><?= e($f['description'] ?? '') ?></textarea>
+    <div class="hl-hint">Muotoilu: **lihavointi**, *kursiivi*, [linkki](https://...). Tyhjä rivi aloittaa uuden kappaleen.</div>
   </div>
   <div class="form-group">
-    <label for="pedigree_notes">Sukutaulun lisätiedot</label>
+    <label for="pedigree_notes">Sukuselvitys</label>
     <textarea id="pedigree_notes" name="pedigree_notes"><?= e($f['pedigree_notes'] ?? '') ?></textarea>
+    <div class="hl-hint">Muotoilu: **lihavointi**, *kursiivi*, [linkki](https://...). Tyhjä rivi aloittaa uuden kappaleen.</div>
   </div>
 
   <div style="display:flex;gap:0.75rem;align-items:center;margin-top:1rem">

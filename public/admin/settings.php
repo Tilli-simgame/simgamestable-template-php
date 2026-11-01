@@ -17,6 +17,12 @@ $success = false;
 // Saatavilla olevat ulkoasuteemat (tarvitaan POST-validoinnissa)
 $available_themes = availableLayoutThemes();
 
+// Tallit päätallin valintaa varten
+$stables = array_map(
+    fn($r) => ['id' => (int)$r['id'], 'name' => $r['name'], 'slug' => $r['slug']],
+    $db->query('SELECT id, name, slug FROM stables ORDER BY sort_order, name')->fetchAll()
+);
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!validate_csrf_token($_POST['csrf_token'] ?? '')) {
         $errors[] = 'Virheellinen pyyntö.';
@@ -63,6 +69,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Aktiivinen ulkoasuteema
         $active_theme_post = $_POST['active_theme'] ?? 'default';
         $values['active_theme'] = array_key_exists($active_theme_post, $available_themes) ? $active_theme_post : 'default';
+
+        // Päätalli: tyhjä tai olemassa olevan tallin id
+        $main_post = (int)($_POST['main_stable_id'] ?? 0);
+        $values['main_stable_id'] = in_array($main_post, array_column($stables, 'id'), true) ? (string)$main_post : '';
 
         if (empty($errors)) {
             $stmt = $db->prepare(
@@ -152,6 +162,27 @@ require __DIR__ . '/includes/admin_header.php';
       <div class="form-group"></div>
     </div>
   </div>
+
+  <?php if ($stables): ?>
+  <div class="admin-card">
+    <h2>Päätalli</h2>
+    <p style="font-size:0.85rem; color:var(--color-text-muted); margin-bottom:0.75rem">
+      Päätalli näytetään sivuston juuresta (<code><?= e(SITE_URL) ?>/</code>), muut tallit omista
+      osoitteistaan (<code><?= e(SITE_URL) ?>/tallin-slug</code>).
+    </p>
+    <div class="form-group">
+      <label for="main_stable_id">Juuressa näytettävä talli</label>
+      <select id="main_stable_id" name="main_stable_id">
+        <option value="">— Ei päätallia (vakiosivut, kaikkien tallien tiedot) —</option>
+        <?php foreach ($stables as $st): ?>
+        <option value="<?= $st['id'] ?>"<?= (string)$st['id'] === ($s['main_stable_id'] ?? '') ? ' selected' : '' ?>>
+          <?= e($st['name']) ?>
+        </option>
+        <?php endforeach; ?>
+      </select>
+    </div>
+  </div>
+  <?php endif; ?>
 
   <div class="admin-card">
     <h2>Ulkoasuteema</h2>

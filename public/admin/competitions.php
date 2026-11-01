@@ -29,8 +29,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         if ($action === 'add') {
                 $stmt = $db->prepare(
-                    'INSERT INTO competitions (horse_id, competition_date, discipline, country, organizer, organizer_url, class, placement, points, notes)
-                     VALUES (:horse_id, :competition_date, :discipline, :country, :organizer, :organizer_url, :class, :placement, :points, :notes)'
+                    'INSERT INTO competitions (horse_id, competition_date, discipline, country, organizer, organizer_url, class, placement, points, notes, is_championship)
+                     VALUES (:horse_id, :competition_date, :discipline, :country, :organizer, :organizer_url, :class, :placement, :points, :notes, :is_championship)'
                 );
                 $stmt->execute([
                     ':horse_id'        => $horse_id,
@@ -43,6 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     ':placement'       => sanitize($_POST['placement'] ?? '') ?: null,
                     ':points'          => is_numeric($_POST['points'] ?? '') ? (float)$_POST['points'] : null,
                     ':notes'           => sanitize($_POST['notes'] ?? '') ?: null,
+                    ':is_championship' => isset($_POST['is_championship']) ? 1 : 0,
                 ]);
                 redirect(SITE_URL . '/admin/competitions.php?horse_id=' . $horse_id . '&added=1');
         } elseif ($action === 'edit' && $comp_id > 0) {
@@ -54,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         'UPDATE competitions SET competition_date=:competition_date,
                          discipline=:discipline, country=:country, organizer=:organizer,
                          organizer_url=:organizer_url, class=:class, placement=:placement,
-                         points=:points, notes=:notes WHERE id=:comp_id'
+                         points=:points, notes=:notes, is_championship=:is_championship WHERE id=:comp_id'
                     );
                     $stmt->execute([
                         ':competition_date'=> sanitize($_POST['competition_date'] ?? '') ?: null,
@@ -66,6 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         ':placement'       => sanitize($_POST['placement'] ?? '') ?: null,
                         ':points'          => is_numeric($_POST['points'] ?? '') ? (float)$_POST['points'] : null,
                         ':notes'           => sanitize($_POST['notes'] ?? '') ?: null,
+                        ':is_championship' => isset($_POST['is_championship']) ? 1 : 0,
                         ':comp_id'         => $comp_id,
                     ]);
                     redirect(SITE_URL . '/admin/competitions.php?horse_id=' . $horse_id . '&updated=1');
@@ -151,7 +153,7 @@ $wins = count(array_filter($competitions, fn($c) => $c['placement'] === '1.'));
   ?>
   <div class="compact-list-row" style="grid-template-columns:1fr 1fr 1fr 80px 60px 28px"
        onclick="adminToggleExpand('c<?= (int)$c['id'] ?>')">
-    <div class="cl-name"><?= e($c['organizer'] ?? '—') ?></div>
+    <div class="cl-name"><?= e($c['organizer'] ?? '—') ?><?php if ($c['is_championship']): ?> <span title="Arvokilpailu">🏅</span><?php endif; ?></div>
     <div class="cl-meta"><?= e($c['discipline'] ?? '—') ?></div>
     <div class="cl-meta"><?= e($c['class'] ?? '—') ?></div>
     <div class="cl-meta"><?= $c['competition_date'] ? formatDate($c['competition_date']) : '—' ?></div>
@@ -167,7 +169,7 @@ $wins = count(array_filter($competitions, fn($c) => $c['placement'] === '1.'));
         <?php if ($c['country']): ?><div><dt style="display:inline;font-weight:600">Maa:</dt> <dd style="display:inline"><?= e($c['country']) ?></dd></div><?php endif; ?>
         <?php if ($c['organizer_url']): ?><div><dt style="display:inline;font-weight:600">URL:</dt> <dd style="display:inline"><a href="<?= e($c['organizer_url']) ?>" target="_blank" rel="noopener"><?= e($c['organizer_url']) ?></a></dd></div><?php endif; ?>
         <?php if ($c['points'] !== null): ?><div><dt style="display:inline;font-weight:600">Pisteet:</dt> <dd style="display:inline"><?= e((string)$c['points']) ?></dd></div><?php endif; ?>
-        <?php if ($c['notes']): ?><div style="width:100%"><dt style="display:inline;font-weight:600">Huom:</dt> <dd style="display:inline"><?= e($c['notes']) ?></dd></div><?php endif; ?>
+        <?php if ($c['notes']): ?><div style="width:100%"><dt style="display:inline;font-weight:600"><?= $c['is_championship'] ? 'Arvokilpailu' : 'Huom' ?>:</dt> <dd style="display:inline"><?= e($c['notes']) ?></dd></div><?php endif; ?>
       </dl>
     <?php endif; ?>
     <div class="cl-expanded-actions">
@@ -240,8 +242,13 @@ $wins = count(array_filter($competitions, fn($c) => $c['placement'] === '1.'));
           </div>
         </div>
         <div class="form-group">
+          <label class="checkbox-label">
+            <input type="checkbox" id="is_championship" name="is_championship" value="1"> Arvokilpailu
+          </label>
+        </div>
+        <div class="form-group">
           <label for="notes">Huom</label>
-          <textarea id="notes" name="notes"></textarea>
+          <textarea id="notes" name="notes" placeholder="Arvokilpailulle sen nimi, esim. KRJ-Cup"></textarea>
         </div>
       </div>
       <div class="admin-modal-footer">
@@ -266,6 +273,7 @@ function openEditComp(id, data) {
   document.getElementById('placement').value               = data.placement         || '';
   document.getElementById('points').value                  = data.points            || '';
   document.getElementById('notes').value                   = data.notes             || '';
+  document.getElementById('is_championship').checked       = data.is_championship == 1;
   document.getElementById('modal-comp-btn').textContent    = 'Tallenna muutokset';
   adminOpenModal('comp');
 }

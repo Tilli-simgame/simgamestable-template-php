@@ -7,6 +7,7 @@ $horseCount = $db->query('SELECT COUNT(*) FROM horses WHERE is_deleted = 0')->fe
 $photoCount = $db->query('SELECT COUNT(*) FROM horse_photos')->fetchColumn();
 $compCount  = $db->query('SELECT COUNT(*) FROM competitions WHERE is_deleted = 0')->fetchColumn();
 $showCount  = $db->query('SELECT COUNT(*) FROM showrecords WHERE is_deleted = 0')->fetchColumn();
+$qualityCount = $db->query('SELECT COUNT(*) FROM quality_reviews WHERE is_deleted = 0')->fetchColumn();
 $pendingDeletionCount = $db->query("SELECT COUNT(*) FROM pending_deletions WHERE status = 'pending'")->fetchColumn();
 
 $pageTitle = 'Dashboard';
@@ -43,6 +44,11 @@ require __DIR__ . '/includes/admin_header.php';
       <div class="stat-icon">🎀</div>
       <div class="stat-num"><?= (int)$showCount ?></div>
       <div class="stat-label">Näyttelytulosta</div>
+    </div>
+    <div class="admin-stat-card">
+      <div class="stat-icon">⭐</div>
+      <div class="stat-num"><?= (int)$qualityCount ?></div>
+      <div class="stat-label">Laatuarvostelua</div>
     </div>
     <div class="admin-stat-card">
       <div class="stat-icon">🗑️</div>

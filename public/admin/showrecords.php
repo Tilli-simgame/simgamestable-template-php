@@ -119,7 +119,7 @@ $showsStmt = $db->prepare(
             p.filename AS photo_filename, p.title AS photo_title, p.original_name AS photo_original_name
      FROM showrecords s LEFT JOIN contacts jc ON jc.id = s.judge_contact_id
      LEFT JOIN horse_photos p ON p.id = s.photo_id
-     WHERE s.horse_id = :horse_id AND s.is_deleted = 0 ORDER BY s.show_date DESC'
+     WHERE s.horse_id = :horse_id AND s.is_deleted = 0 ORDER BY s.show_date DESC, s.id ASC'
 );
 $showsStmt->execute([':horse_id' => $horse_id]);
 $showrecords = $showsStmt->fetchAll();
